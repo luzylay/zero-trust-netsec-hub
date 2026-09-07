@@ -190,7 +190,7 @@ exit`
       {
         stepNumber: 2,
         title: "Verificación del Estado del Túnel IPSec",
-        instructions: "Enviar tráfico desde una PC en la LAN A (192.168.10.10) hacia una PC en la LAN B (192.168.20.10) mediante \`ping 192.168.20.10\` y ejecutar:",
+        instructions: "Enviar tráfico desde una PC en la LAN A (192.168.10.10) hacia una PC en la LAN B (192.168.20.10) mediante `ping 192.168.20.10` y ejecutar:",
         codeSnippet: `R1# show crypto ikev2 sa
 ! Debe mostrar el estado de la SA IKEv2 como 'READY' o 'ESTABLISHED'
 
@@ -200,5 +200,50 @@ R1# show crypto ipsec sa
 ! #pkts decaps: 100, #pkts decrypt: 100, #pkts verify: 100`
       }
     ]
+  },
+  {
+    id: "lab-port-security-lan",
+    title: "Lab 4: Mitigación de Ataques Capa 2 con Port Security, DHCP Snooping y DAI",
+    unit: "Unidad 3",
+    duration: "40 mins",
+    difficulty: "Avanzado",
+    topology: "PC1 (VLAN 10) --- Switch Catalyst 2960 (SW-Access) --- Router Core / DHCP Server (192.168.10.1)",
+    objectives: [
+      "Configurar Port Security con sticky MAC y acción de violación restrict/shutdown.",
+      "Habilitar DHCP Snooping globalmente y en VLAN 10 para mitigar Rogue DHCP Servers.",
+      "Configurar Dynamic ARP Inspection (DAI) para neutralizar ataques ARP Cache Poisoning (Man-in-the-Middle)."
+    ],
+    steps: [
+      {
+        stepNumber: 1,
+        title: "Endurecimiento de Puertos de Acceso con Port Security",
+        instructions: "Restringir el acceso a un máximo de 2 direcciones MAC por puerto y aplicar persistencia sticky:",
+        codeSnippet: `SW-Access(config)# interface range FastEthernet 0/1 - 10
+SW-Access(config-if-range)# switchport mode access
+SW-Access(config-if-range)# switchport access vlan 10
+SW-Access(config-if-range)# switchport port-security
+SW-Access(config-if-range)# switchport port-security maximum 2
+SW-Access(config-if-range)# switchport port-security mac-address sticky
+SW-Access(config-if-range)# switchport port-security violation restrict
+SW-Access(config-if-range)# exit`
+      },
+      {
+        stepNumber: 2,
+        title: "Configuración de DHCP Snooping e Inspección Dinámica de ARP (DAI)",
+        instructions: "Activar DHCP Snooping en el Switch y marcar el puerto troncal hacia el Router como confiable (trust):",
+        codeSnippet: `SW-Access(config)# ip dhcp snooping
+SW-Access(config)# ip dhcp snooping vlan 10
+SW-Access(config)# interface GigabitEthernet 0/1
+SW-Access(config-if)# ip dhcp snooping trust
+SW-Access(config-if)# exit
+
+! Habilitar Dynamic ARP Inspection (DAI)
+SW-Access(config)# ip arp inspection vlan 10
+SW-Access(config)# interface GigabitEthernet 0/1
+SW-Access(config-if)# ip arp inspection trust
+SW-Access(config-if)# exit`
+      }
+    ]
   }
 ];
+

@@ -68,6 +68,7 @@ body {
 .sidebar {
   width: 280px;
   background: rgba(15, 23, 42, 0.85);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-right: 1px solid var(--border-color);
   display: flex;
@@ -225,6 +226,7 @@ body {
 .topbar {
   height: 68px;
   background: rgba(15, 23, 42, 0.65);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -359,6 +361,7 @@ body {
 
 .unit-card {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -468,6 +471,7 @@ body {
 /* Lesson Markdown Content Display */
 .lesson-article {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -732,6 +736,7 @@ body {
 /* Packet Flow Visualizer Styling */
 .pv-wrapper {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -1004,6 +1009,7 @@ body {
 /* NIST Calculator Styles */
 .nist-calc-wrapper {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -1118,6 +1124,7 @@ body {
 /* SBS 504-2021 Styles */
 .sbs-wrapper {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -1227,6 +1234,7 @@ body {
 /* Attack Simulator Styles */
 .atk-sim-wrapper {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -1458,6 +1466,7 @@ body {
 /* Quiz Assessment View */
 .quiz-wrapper {
   background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -1542,6 +1551,7 @@ body {
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.75);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: flex-start;
@@ -1630,17 +1640,46 @@ body {
   50% { opacity: 0.4; }
 }
 
-/* Responsive Media Queries */
-@media (max-width: 992px) {
+/* Responsive Media Queries (Mobile, Tablet, Desktop) */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 240px;
+  }
+  .curriculum-grid, .standards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
   .sidebar {
     position: fixed;
     left: -280px;
-    transition: left 0.3s ease;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-cyber);
   }
   .sidebar.open {
     left: 0;
   }
-  .nist-calc-grid, .pv-details-grid {
+  .main-content {
+    margin-left: 0;
+    padding: 16px;
+  }
+  .nist-calc-grid, .pv-details-grid, .sim-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-banner {
+    padding: 24px 20px;
+  }
+  .hero-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0 12px;
+  }
+  .card-grid {
     grid-template-columns: 1fr;
   }
 }

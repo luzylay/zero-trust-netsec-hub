@@ -1,7 +1,50 @@
-/**
- * Main Application Coordinator & View Router
- * Network Security & Digital Identity Interactive Study Space
- */
+// Cross-Browser In-Memory Storage Fallback (Safari Private Browsing & Restricted Contexts)
+const _memoryStorage = {};
+const safeStorage = {
+  getItem(key) {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        return window.localStorage.getItem(key);
+      }
+    } catch (e) {}
+    return _memoryStorage[key] || null;
+  },
+  setItem(key, value) {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        window.localStorage.setItem(key, value);
+        return;
+      }
+    } catch (e) {}
+    _memoryStorage[key] = String(value);
+  }
+};
+
+// Cross-Browser Clipboard Helper with legacy execCommand fallback
+async function copyTextToClipboard(text) {
+  if (typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (err) {}
+  }
+  try {
+    if (typeof document !== "undefined") {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand("copy");
+      document.body.removeChild(textArea);
+      return successful;
+    }
+  } catch (err) {}
+  return false;
+}
 
 class StudySpaceApp {
   constructor() {
@@ -13,7 +56,7 @@ class StudySpaceApp {
     this.quizScore = 0;
     this.currentFcIdx = 0;
     
-    this.completedLessons = JSON.parse(localStorage.getItem("netsec_completed_lessons") || "[]");
+    this.completedLessons = JSON.parse(safeStorage.getItem("netsec_completed_lessons") || "[]");
     
     this.init();
   }
@@ -119,7 +162,7 @@ class StudySpaceApp {
   markLessonComplete(lessonId) {
     if (!this.completedLessons.includes(lessonId)) {
       this.completedLessons.push(lessonId);
-      localStorage.setItem("netsec_completed_lessons", JSON.stringify(this.completedLessons));
+      safeStorage.setItem("netsec_completed_lessons", JSON.stringify(this.completedLessons));
       this.updateProgressWidget();
     }
   }
@@ -673,9 +716,9 @@ class StudySpaceApp {
 
     const copyBtn = container.querySelector(".btn-copy-polyglot");
     if (copyBtn) {
-      copyBtn.addEventListener("click", () => {
+      copyBtn.addEventListener("click", async () => {
         const code = decodeURIComponent(copyBtn.getAttribute("data-code"));
-        navigator.clipboard.writeText(code);
+        await copyTextToClipboard(code);
         copyBtn.innerHTML = "<i class='fas fa-check text-emerald'></i> ¡Copiado!";
         setTimeout(() => {
           copyBtn.innerHTML = "<i class='fas fa-copy'></i> Copiar Código";
@@ -750,9 +793,9 @@ class StudySpaceApp {
     });
 
     container.querySelectorAll(".btn-copy-code").forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", async () => {
         const code = decodeURIComponent(btn.getAttribute("data-code"));
-        navigator.clipboard.writeText(code);
+        await copyTextToClipboard(code);
         btn.innerHTML = "<i class='fas fa-check text-emerald'></i> ¡Copiado!";
         setTimeout(() => {
           btn.innerHTML = "<i class='fas fa-copy'></i> Copiar";

@@ -59,6 +59,7 @@ network-security/
 │   ├── EXECUTIVE_SUMMARY_MBA.md         # Marco estratégico de riesgo, ROI y cumplimiento SBS
 │   ├── GOVERNANCE_FRAMEWORK.md          # Matriz RACI, SLAs de respuesta y DevSecOps Gates
 │   ├── ADR_001_CLEAN_ARCHITECTURE.md    # Architecture Decision Record
+│   ├── CROSS_BROWSER_COMPATIBILITY_REPORT.md # Auditoría de compatibilidad multi-navegador (Chromium/Gecko/WebKit)
 │   ├── DEPLOYMENT_GUIDE.md              # Guía paso a paso para GitHub y GitHub Pages
 │   ├── TROUBLESHOOTING_CI_CD.md         # Diagnóstico y resolución de errores de despliegue
 │   └── GUIA_DE_ESTUDIO_OFICIAL.md       # Compendio maestro teórico y práctico
@@ -82,7 +83,7 @@ La plataforma web interactiva se encuentra desplegada y disponible para la comun
 
 > 🔗 **Acceso en vivo**: [https://luzylay.github.io/zero-trust-netsec-hub/](https://luzylay.github.io/zero-trust-netsec-hub/)
 
-*(No requiere instalación previa ni dependencias pesadas: funciona directamente en cualquier navegador moderno con soporte JavaScript ES6+).*
+*(No requiere instalación previa ni dependencias pesadas: funciona directamente en cualquier navegador moderno Chrome, Firefox, Safari o Edge con soporte JavaScript ES6+).*
 
 ---
 
@@ -109,7 +110,7 @@ python -m http.server 8080
 ```
 
 ### 3. Ejecutar los Quality Gates Automatizados
-Para validar la suite de pruebas unitarias e integración polyglot (Python, TypeScript, Go):
+Para validar la suite completa de 5 pruebas unitarias, integración polyglot y auditoría cross-browser:
 ```bash
 python backend/python/run_all_tests.py
 ```
@@ -125,12 +126,14 @@ python backend/python/run_all_tests.py
 | **Matriz SBS Res. 504-2021** | Evaluación de madurez y cumplimiento de autenticación reforzada | SBS Perú / Res. SBS N° 504-2021 |
 | **SecOps Polyglot AAA** | Scripts de automatización y proxy de alta concurrencia | Python 3.12+, TypeScript 5.7+, Go 1.23+ |
 | **Compendio Científico** | Estado del arte con papers indexados | IEEE Xplore, Scopus, ACM Digital Library |
+| **Cross-Browser Certified** | Compatibilidad probada en Blink, Gecko y WebKit con fallbacks | Chrome, Edge, Safari, Firefox |
 
 ---
 
 ## 📖 Documentación y Guías
 
 - 📑 [Compendio de Investigación IEEE & Scopus](docs/IEEE_SCOPUS_RESEARCH_COMPENDIUM.md)
+- 🌐 [Informe Técnico de Compatibilidad Multi-Navegador](docs/CROSS_BROWSER_COMPATIBILITY_REPORT.md)
 - 📊 [Resumen Ejecutivo de Gestión y Riesgos MBA](docs/EXECUTIVE_SUMMARY_MBA.md)
 - ⚖️ [Marco de Gobernanza DevSecOps](docs/GOVERNANCE_FRAMEWORK.md)
 - 🏛️ [Registro de Decisiones Arquitectónicas (ADR-001)](docs/ADR_001_CLEAN_ARCHITECTURE.md)

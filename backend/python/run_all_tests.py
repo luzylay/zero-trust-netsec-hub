@@ -25,7 +25,7 @@ def run_command(title: str, cmd: list[str]) -> bool:
     print(f"{'='*70}")
 
     start_time = time.perf_counter()
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
     duration = time.perf_counter() - start_time
 
     if result.stdout:
@@ -56,7 +56,8 @@ def main() -> None:
             "frontend/js/simulators/cliTerminal.js", "frontend/js/simulators/packetVisualizer.js",
             "frontend/js/simulators/nistCalculator.js", "frontend/js/simulators/sbsAuditor.js",
             "frontend/js/simulators/attackSimulator.js", "frontend/js/app.js"
-        ])
+        ]),
+        ("Cross-Browser Engine Compatibility & CSS/DOM Audit", ["node", "--test", "tests/frontend/test_cross_browser.mjs"])
     ]
 
     all_passed = True
