@@ -175,6 +175,7 @@ describe('Cross-Browser Engine Compatibility & CSS/JS Feature Matrix', () => {
       'frontend/js/simulators/nistCalculator.js',
       'frontend/js/simulators/sbsAuditor.js',
       'frontend/js/simulators/attackSimulator.js',
+      'frontend/js/audioBot.js',
     ];
 
     dataFiles.forEach(relPath => {
@@ -190,6 +191,16 @@ describe('Cross-Browser Engine Compatibility & CSS/JS Feature Matrix', () => {
     assert.ok(context.window.QUIZZES_DATA.length >= 8, 'QUIZZES_DATA loaded');
     assert.ok(context.window.FLASHCARDS_DATA.length >= 8, 'FLASHCARDS_DATA loaded');
     assert.ok(context.window.ENTERPRISE_CODE_DATA.length > 0, 'ENTERPRISE_CODE_DATA loaded');
+    assert.ok(context.window.AudioBot, 'AudioBot class is loaded');
+
+    // Test AudioBot Markdown Text Sanitizer
+    const AudioBot = context.window.AudioBot;
+    const bot = new AudioBot();
+    const rawMd = '### Titulo de Prueba\nTexto con **negrita** y [enlace](http://test.com)\n```bash\nshow ip route\n```\nFin.';
+    const cleanSpeech = bot.cleanTextForSpeech(rawMd);
+    assert.strictEqual(cleanSpeech.includes('###'), false, 'AudioBot cleans markdown hashes');
+    assert.strictEqual(cleanSpeech.includes('**'), false, 'AudioBot cleans markdown bold stars');
+    assert.strictEqual(cleanSpeech.includes('http'), false, 'AudioBot cleans raw URLs');
 
     // Test NIST Calculator Logic in Engine Context
     const NISTCalculator = context.window.NISTCalculator;

@@ -30,6 +30,7 @@ network-security/
 │       │   ├── labs.js                  # Guias de laboratorio paso a paso
 │       │   ├── quizzes.js               # Banco de autoevaluacion con feedback
 │       │   └── standards.js             # Desglose oficial NIST SP 800-63 y SBS 504-2021
+│       ├── audioBot.js                  # Motor accesible de sintesis de voz (Text-to-Speech Web API)
 │       └── simulators/                  # 5 Motores de simulacion interactiva
 │           ├── attackSimulator.js       # Simulador de ataques LAN y contramedidas
 │           ├── cliTerminal.js           # Emulador Cisco IOS CLI AAA
@@ -127,6 +128,7 @@ python backend/python/run_all_tests.py
 | **Calculadora NIST Digital ID** | Determinacion determinista de niveles IAL, AAL y FAL | NIST SP 800-63-3 / 800-63A / 800-63B |
 | **Matriz SBS Res. 504-2021** | Evaluacion de madurez y cumplimiento de autenticacion reforzada | SBS Peru / Res. SBS N 504-2021 |
 | **SecOps Polyglot AAA** | Scripts de automatizacion y proxy de alta concurrencia | Python 3.12+, TypeScript 5.7+, Go 1.23+ |
+| **AudioBot TTS de Accesibilidad** | Lector de voz nativo en tiempo real con control de velocidad y selector de voces | W3C Web Speech API (Client-Side TTS) |
 | **Compendio Cientifico** | Estado del arte con papers indexados | IEEE Xplore, Scopus, ACM Digital Library |
 | **Cross-Browser Certified** | Compatibilidad probada en Blink, Gecko y WebKit con fallbacks | Chrome, Edge, Safari, Firefox |
 

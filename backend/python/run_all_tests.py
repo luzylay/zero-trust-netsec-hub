@@ -55,7 +55,7 @@ def main() -> None:
             "frontend/js/data/quizzes.js", "frontend/js/data/flashcards.js", "frontend/js/data/enterpriseCode.js",
             "frontend/js/simulators/cliTerminal.js", "frontend/js/simulators/packetVisualizer.js",
             "frontend/js/simulators/nistCalculator.js", "frontend/js/simulators/sbsAuditor.js",
-            "frontend/js/simulators/attackSimulator.js", "frontend/js/app.js"
+            "frontend/js/simulators/attackSimulator.js", "frontend/js/audioBot.js", "frontend/js/app.js"
         ]),
         ("Cross-Browser Engine Compatibility & CSS/DOM Audit", ["node", "--test", "tests/frontend/test_cross_browser.mjs"])
     ]

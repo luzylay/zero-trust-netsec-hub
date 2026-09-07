@@ -57,6 +57,7 @@ class StudySpaceApp {
     this.currentFcIdx = 0;
     
     this.completedLessons = JSON.parse(safeStorage.getItem("netsec_completed_lessons") || "[]");
+    this.audioBot = typeof window !== "undefined" && typeof window.AudioBot !== "undefined" ? new window.AudioBot() : null;
     
     this.init();
   }
@@ -157,9 +158,21 @@ class StudySpaceApp {
         this.exportStudyGuide();
       });
     }
+
+    // Accessible Alt + P shortcut to toggle AudioBot reading
+    document.addEventListener("keydown", (e) => {
+      if (e.altKey && (e.key === "p" || e.key === "P")) {
+        e.preventDefault();
+        const playBtn = document.getElementById("btn-audiobot-toggle");
+        if (playBtn) playBtn.click();
+      }
+    });
   }
 
   navigateTo(viewId, params = {}) {
+    if (this.audioBot) {
+      this.audioBot.stop();
+    }
     this.currentView = viewId;
     if (params.unitId) this.currentUnitId = params.unitId;
     if (params.lessonId) this.currentLessonId = params.lessonId;
@@ -389,9 +402,9 @@ class StudySpaceApp {
         </div>
 
         <!-- Contenido de la lección -->
-        <div style="flex: 1; min-width: 320px;">
+        <div style="flex: 1; min-width: 0; width: 100%;">
           <div class="lesson-article">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
               <div>
                 <span class="hero-badge">${unit.weeks}</span>
                 <h2>${lesson.title}</h2>
@@ -401,6 +414,9 @@ class StudySpaceApp {
               </button>
             </div>
 
+            <!-- AudioBot Voice Reader Toolbar Mount -->
+            <div id="audiobot-mount-slot"></div>
+
             <div class="lesson-markdown-body">
               ${this.parseMarkdown(lesson.content)}
             </div>
@@ -408,6 +424,12 @@ class StudySpaceApp {
         </div>
       </div>
     `;
+
+    if (this.audioBot) {
+      this.audioBot.renderControlBar("audiobot-mount-slot", () => {
+        return `${lesson.title}. ${lesson.content}`;
+      });
+    }
 
     container.querySelectorAll("[data-unit-tab]").forEach(tab => {
       tab.addEventListener("click", () => {
