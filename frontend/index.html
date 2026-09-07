@@ -109,16 +109,21 @@
     <div class="main-wrapper">
       <!-- Top Navigation Bar -->
       <header class="topbar">
-        <div class="search-trigger" id="search-trigger-btn">
-          <i class="fas fa-search"></i>
-          <span>Buscar tema, protocolo o RFC...</span>
-          <kbd>Ctrl + K</kbd>
+        <div class="topbar-left">
+          <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" aria-label="Abrir Menú de Navegación">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-trigger" id="search-trigger-btn">
+            <i class="fas fa-search"></i>
+            <span class="search-trigger-text">Buscar tema, protocolo o RFC...</span>
+            <kbd>Ctrl + K</kbd>
+          </div>
         </div>
 
         <div class="topbar-actions">
           <button class="btn-cyber-primary" id="btn-export-notes" title="Descargar guía de estudio completa en Markdown">
             <i class="fas fa-download"></i>
-            <span>Exportar Guía</span>
+            <span class="btn-text">Exportar Guía</span>
           </button>
         </div>
       </header>
@@ -128,6 +133,9 @@
         <!-- Rendered dynamically by app.js -->
       </main>
     </div>
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
   </div>
 
   <!-- Search Modal Overlay (Ctrl + K) -->

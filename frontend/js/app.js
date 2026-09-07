@@ -68,6 +68,33 @@ class StudySpaceApp {
   }
 
   bindGlobalEvents() {
+    // Mobile Sidebar Drawer Toggle & Backdrop
+    const sidebar = document.getElementById("main-sidebar");
+    const sidebarToggleBtn = document.getElementById("btn-sidebar-toggle");
+    const sidebarBackdrop = document.getElementById("sidebar-backdrop");
+
+    const toggleSidebar = (forceState) => {
+      if (!sidebar) return;
+      const shouldOpen = typeof forceState === "boolean" ? forceState : !sidebar.classList.contains("open");
+      if (shouldOpen) {
+        sidebar.classList.add("open");
+        if (sidebarBackdrop) sidebarBackdrop.classList.add("active");
+        document.body.classList.add("sidebar-locked");
+      } else {
+        sidebar.classList.remove("open");
+        if (sidebarBackdrop) sidebarBackdrop.classList.remove("active");
+        document.body.classList.remove("sidebar-locked");
+      }
+    };
+
+    if (sidebarToggleBtn) {
+      sidebarToggleBtn.addEventListener("click", () => toggleSidebar());
+    }
+
+    if (sidebarBackdrop) {
+      sidebarBackdrop.addEventListener("click", () => toggleSidebar(false));
+    }
+
     // Sidebar nav items
     document.querySelectorAll(".nav-item").forEach(item => {
       item.addEventListener("click", (e) => {
@@ -75,6 +102,9 @@ class StudySpaceApp {
         const view = item.getAttribute("data-view");
         if (view) {
           this.navigateTo(view);
+          if (window.innerWidth <= 1024) {
+            toggleSidebar(false);
+          }
         }
       });
     });
