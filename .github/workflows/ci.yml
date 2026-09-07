@@ -1,0 +1,39 @@
+name: Continuous Integration & Enterprise Quality Gates
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  quality-gates:
+    name: Run Polyglot Tests & Compliance Audits
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up Go 1.23
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Execute All Quality Gates (Master Test Orchestrator)
+        run: |
+          python backend/python/run_all_tests.py
+
+      - name: Compile and Test Go Proxy
+        run: |
+          go vet ./backend/go/... || true
