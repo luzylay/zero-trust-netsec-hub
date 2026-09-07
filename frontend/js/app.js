@@ -448,53 +448,130 @@ class StudySpaceApp {
     const unit = window.CURRICULUM_DATA.find(u => u.id === this.currentUnitId) || window.CURRICULUM_DATA[0];
     const lesson = unit.sessions.find(s => s.id === this.currentLessonId) || unit.sessions[0];
 
+    const currentSessionIdx = unit.sessions.findIndex(s => s.id === lesson.id);
+    const prevLesson = currentSessionIdx > 0 ? unit.sessions[currentSessionIdx - 1] : null;
+    const nextLesson = currentSessionIdx < unit.sessions.length - 1 ? unit.sessions[currentSessionIdx + 1] : null;
+
+    const currentUnitIdx = window.CURRICULUM_DATA.findIndex(u => u.id === unit.id);
+    const nextUnit = !nextLesson && currentUnitIdx < window.CURRICULUM_DATA.length - 1 ? window.CURRICULUM_DATA[currentUnitIdx + 1] : null;
+    const prevUnit = !prevLesson && currentUnitIdx > 0 ? window.CURRICULUM_DATA[currentUnitIdx - 1] : null;
+
     container.innerHTML = `
       <div class="section-nav-tabs">
         ${window.CURRICULUM_DATA.map(u => `
           <button class="sec-tab ${u.id === unit.id ? "active" : ""}" data-unit-tab="${u.id}">
-            Unidad ${u.unitNumber}
+            <i class="fas fa-layer-group"></i> Unidad ${u.unitNumber}
           </button>
         `).join("")}
       </div>
 
-      <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+      <div class="curriculum-layout">
         <!-- Sidebar de sesiones de la unidad -->
-        <div style="width: 280px; flex-shrink: 0;">
-          <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 18px;">
-            <h4 style="font-size: 13px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 14px;">
-              Sesiones de la Unidad
-            </h4>
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-              ${unit.sessions.map(s => `
-                <button class="nav-item ${s.id === lesson.id ? "active" : ""}" data-lesson-btn="${s.id}" style="text-align: left; width: 100%;">
-                  <i class="fas fa-book-open"></i>
-                  <span style="font-size: 13px;">${s.title.split(": ")[0]}</span>
-                </button>
-              `).join("")}
+        <div class="curriculum-sidebar-wrap">
+          <div class="curriculum-sidebar-card">
+            <div class="curriculum-sidebar-header">
+              <h4 class="curriculum-sidebar-title">
+                <i class="fas fa-list-check text-cyan"></i> Sesiones Unidad ${unit.unitNumber}
+              </h4>
+              <span class="curriculum-sidebar-badge">${unit.sessions.length} Temas</span>
+            </div>
+            <div class="curriculum-session-list">
+              ${unit.sessions.map((s, idx) => {
+                const isCompleted = this.completedLessons.includes(s.id);
+                const isActive = s.id === lesson.id;
+                return `
+                  <button class="curriculum-session-btn ${isActive ? "active" : ""}" data-lesson-btn="${s.id}">
+                    <div class="session-btn-icon">
+                      <i class="fas ${isCompleted ? "fa-check-circle text-emerald" : (isActive ? "fa-play text-cyan" : "fa-book-open")}"></i>
+                    </div>
+                    <div class="session-btn-text">
+                      <span class="session-btn-num">Sesión ${unit.unitNumber}.${idx + 1}</span>
+                      <span class="session-btn-label">${s.title.split(": ")[1] || s.title}</span>
+                    </div>
+                  </button>
+                `;
+              }).join("")}
             </div>
           </div>
         </div>
 
         <!-- Contenido de la lección -->
-        <div style="flex: 1; min-width: 0; width: 100%;">
-          <div class="lesson-article">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
-              <div>
-                <span class="hero-badge">${unit.weeks}</span>
-                <h2>${lesson.title}</h2>
+        <div class="curriculum-main-content">
+          <article class="lesson-article">
+            <!-- Header con metadatos de sesión -->
+            <div class="session-header-block">
+              <div class="session-header-top">
+                <div class="session-breadcrumbs">
+                  <span>Temario</span>
+                  <i class="fas fa-chevron-right"></i>
+                  <span>Unidad ${unit.unitNumber} (${unit.weeks})</span>
+                  <i class="fas fa-chevron-right"></i>
+                  <span class="breadcrumb-active">${lesson.title.split(": ")[0]}</span>
+                </div>
+                <button class="btn-cyber-primary btn-mark-done" id="btn-mark-lesson-done">
+                  <i class="fas ${this.completedLessons.includes(lesson.id) ? "fa-check-circle text-emerald" : "fa-check"}"></i>
+                  <span>${this.completedLessons.includes(lesson.id) ? "Sesión Completada" : "Marcar como Aprendida"}</span>
+                </button>
               </div>
-              <button class="btn-cyber-primary" id="btn-mark-lesson-done">
-                <i class="fas fa-check"></i> ${this.completedLessons.includes(lesson.id) ? "Completada" : "Marcar como Aprendida"}
-              </button>
+
+              <h1 class="session-main-heading">${lesson.title}</h1>
+
+              ${lesson.topics && lesson.topics.length > 0 ? `
+                <div class="session-topics-wrap">
+                  ${lesson.topics.map(t => `
+                    <span class="session-topic-tag"><i class="fas fa-tag"></i> ${t}</span>
+                  `).join("")}
+                </div>
+              ` : ""}
             </div>
 
             <!-- AudioBot Voice Reader Toolbar Mount -->
             <div id="audiobot-mount-slot"></div>
 
+            <!-- Cuerpo formateado de la lección -->
             <div class="lesson-markdown-body">
               ${this.parseMarkdown(lesson.content)}
             </div>
-          </div>
+
+            <!-- Footer con navegación secuencial -->
+            <div class="session-footer-nav">
+              ${prevLesson ? `
+                <button class="btn-session-nav prev" onclick="app.navigateTo('curriculum', { unitId: '${unit.id}', lessonId: '${prevLesson.id}' })">
+                  <i class="fas fa-arrow-left"></i>
+                  <div class="nav-btn-text">
+                    <span class="nav-sub">Sesión Anterior</span>
+                    <span class="nav-title">${prevLesson.title.split(":")[0]}</span>
+                  </div>
+                </button>
+              ` : (prevUnit ? `
+                <button class="btn-session-nav prev" onclick="app.navigateTo('curriculum', { unitId: '${prevUnit.id}', lessonId: '${prevUnit.sessions[prevUnit.sessions.length - 1].id}' })">
+                  <i class="fas fa-arrow-left"></i>
+                  <div class="nav-btn-text">
+                    <span class="nav-sub">Unidad Anterior</span>
+                    <span class="nav-title">Unidad ${prevUnit.unitNumber}</span>
+                  </div>
+                </button>
+              ` : `<div></div>`)}
+
+              ${nextLesson ? `
+                <button class="btn-session-nav next" onclick="app.navigateTo('curriculum', { unitId: '${unit.id}', lessonId: '${nextLesson.id}' })">
+                  <div class="nav-btn-text text-right">
+                    <span class="nav-sub">Siguiente Sesión</span>
+                    <span class="nav-title">${nextLesson.title.split(":")[0]}</span>
+                  </div>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              ` : (nextUnit ? `
+                <button class="btn-session-nav next" onclick="app.navigateTo('curriculum', { unitId: '${nextUnit.id}', lessonId: '${nextUnit.sessions[0].id}' })">
+                  <div class="nav-btn-text text-right">
+                    <span class="nav-sub">Siguiente Unidad</span>
+                    <span class="nav-title">Unidad ${nextUnit.unitNumber}</span>
+                  </div>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              ` : `<div></div>`)}
+            </div>
+          </article>
         </div>
       </div>
     `;
@@ -524,7 +601,7 @@ class StudySpaceApp {
     if (markBtn) {
       markBtn.addEventListener("click", () => {
         this.markLessonComplete(lesson.id);
-        markBtn.innerHTML = "<i class='fas fa-check'></i> Completada";
+        markBtn.innerHTML = "<i class='fas fa-check-circle text-emerald'></i> <span>Sesión Completada</span>";
       });
     }
   }
@@ -1241,71 +1318,182 @@ class StudySpaceApp {
     URL.revokeObjectURL(url);
   }
 
-  parseMarkdown(text) {
-    if (!text) return "";
-    let html = text
-      // Headers
-      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-      .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
-      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-      // Code blocks with syntax highlighting container
-      .replace(/```(bash|snort|mermaid|)\n([\s\S]*?)```/gim, (match, lang, code) => {
-        if (lang === "mermaid") {
-          return `<div class="mermaid-block">${this.escapeHtml(code)}</div>`;
-        }
-        return `<pre><code>${this.escapeHtml(code)}</code></pre>`;
-      })
-      // Bold / Italic
-      .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-      .replace(/`([^`]+)`/gim, '<code>$1</code>')
-      // Lists
-      .replace(/^\s*-\s+(.*$)/gim, '<li>$1</li>')
-      // Paragraph line breaks
-      .replace(/\n\n/gim, '</p><p>');
+  parseMarkdown(markdown) {
+    if (!markdown) return "";
 
-    // Wrap in table if table markup is present
-    if (html.includes('|')) {
-      html = this.formatMarkdownTables(html);
-    }
+    let text = markdown.trim();
 
-    return `<p>${html}</p>`;
+    // 1. Extract and protect code blocks & mermaid blocks first
+    const codeBlocks = [];
+    text = text.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+      const idx = codeBlocks.length;
+      if (lang === "mermaid") {
+        codeBlocks.push(`
+          <div class="mermaid-diagram-box">
+            <div class="mermaid-badge"><i class="fas fa-project-diagram"></i> Diagrama de Arquitectura / Flujo</div>
+            <pre class="mermaid-code"><code>${this.escapeHtml(code.trim())}</code></pre>
+          </div>
+        `);
+      } else {
+        const langLabel = lang ? lang.toUpperCase() : "SHELL";
+        codeBlocks.push(`
+          <div class="code-block-container">
+            <div class="code-block-header">
+              <span class="code-lang-tag"><i class="fas fa-terminal"></i> ${langLabel}</span>
+              <button class="btn-copy-snippet" onclick="copySnippetFromBlock(this)" title="Copiar bloque al portapapeles">
+                <i class="fas fa-copy"></i> Copiar
+              </button>
+            </div>
+            <pre class="code-pre"><code class="language-${lang || 'text'}">${this.escapeHtml(code.trim())}</code></pre>
+          </div>
+        `);
+      }
+      return `\n\n__CODE_BLOCK_${idx}__\n\n`;
+    });
+
+    // 2. Extract and format LaTeX / Math blocks ($$...$$)
+    text = text.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
+      const idx = codeBlocks.length;
+      codeBlocks.push(`
+        <div class="formula-box">
+          <div class="formula-header"><i class="fas fa-square-root-variable text-cyan"></i> Modelo Matemático / Fórmula Formal:</div>
+          <div class="formula-content">${this.escapeHtml(formula.trim())}</div>
+        </div>
+      `);
+      return `\n\n__CODE_BLOCK_${idx}__\n\n`;
+    });
+
+    // 3. Horizontal rules
+    text = text.replace(/^---$/gm, '<hr class="lesson-divider">');
+
+    // 4. Headers with visual styling
+    text = text.replace(/^#### (.*$)/gm, '<h4 class="lesson-h4"><i class="fas fa-angle-right text-cyan"></i> $1</h4>');
+    text = text.replace(/^### (.*$)/gm, '<h3 class="lesson-h3">$1</h3>');
+    text = text.replace(/^## (.*$)/gm, '<h2 class="lesson-h2">$1</h2>');
+
+    // 5. Blockquotes / Alerts (> ...)
+    text = text.replace(/^\s*>\s+(.*$)/gm, '<div class="lesson-callout"><i class="fas fa-info-circle text-cyan"></i> <div>$1</div></div>');
+
+    // 6. Tables formatting (convert markdown tables to responsive tables)
+    text = this.formatMarkdownTables(text);
+
+    // 7. Lists formatting (Ordered and Unordered with nesting)
+    text = this.formatMarkdownLists(text);
+
+    // 8. Inline formatting: bold, italic, inline code
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+
+    // 9. Links: [text](url)
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="lesson-link">$1 <i class="fas fa-external-link-alt" style="font-size: 10px;"></i></a>');
+
+    // 10. Paragraphs: split by double newlines and wrap loose text
+    const paragraphs = text.split(/\n\s*\n/);
+    text = paragraphs.map(p => {
+      const trimmed = p.trim();
+      if (!trimmed) return '';
+      if (trimmed.startsWith('<h2') || trimmed.startsWith('<h3') || trimmed.startsWith('<h4') ||
+          trimmed.startsWith('<div') || trimmed.startsWith('<hr') || trimmed.startsWith('<ul') ||
+          trimmed.startsWith('<ol') || trimmed.startsWith('<table') || trimmed.startsWith('__CODE_BLOCK_')) {
+        return trimmed;
+      }
+      return `<p class="lesson-p">${trimmed.replace(/\n/g, '<br>')}</p>`;
+    }).join('\n\n');
+
+    // 11. Restore protected code blocks
+    text = text.replace(/__CODE_BLOCK_(\d+)__/g, (match, idx) => {
+      return codeBlocks[parseInt(idx)] || '';
+    });
+
+    return text;
   }
 
   formatMarkdownTables(str) {
     const lines = str.split('\n');
     let inTable = false;
-    let tableHtml = "";
+    let tableLines = [];
     let result = [];
+
+    const flushTable = () => {
+      if (tableLines.length === 0) return;
+      let html = '<div class="table-responsive"><table class="lesson-table">';
+      let isFirst = true;
+
+      for (let line of tableLines) {
+        if (line.includes('---')) continue;
+        const rawCells = line.split('|');
+        const cells = rawCells.slice(1, rawCells.length - 1).map(c => c.trim());
+        if (cells.length === 0) continue;
+
+        if (isFirst) {
+          html += '<thead><tr>' + cells.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+          isFirst = false;
+        } else {
+          html += '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
+        }
+      }
+
+      html += '</tbody></table></div>';
+      result.push(html);
+      tableLines = [];
+      inTable = false;
+    };
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
       if (line.startsWith('|') && line.endsWith('|')) {
-        if (!inTable) {
-          inTable = true;
-          tableHtml = "<table>";
-          const headers = line.split('|').filter(c => c.trim().length > 0);
-          tableHtml += "<thead><tr>" + headers.map(h => `<th>${h.trim()}</th>`).join("") + "</tr></thead><tbody>";
-        } else if (line.includes('---')) {
-          // separator line, ignore
-        } else {
-          const cells = line.split('|').filter((c, idx, arr) => idx > 0 && idx < arr.length - 1);
-          tableHtml += "<tr>" + cells.map(c => `<td>${c.trim()}</td>`).join("") + "</tr>";
-        }
+        inTable = true;
+        tableLines.push(line);
       } else {
         if (inTable) {
-          inTable = false;
-          tableHtml += "</tbody></table>";
-          result.push(tableHtml);
-          tableHtml = "";
+          flushTable();
         }
         result.push(lines[i]);
       }
     }
     if (inTable) {
-      tableHtml += "</tbody></table>";
-      result.push(tableHtml);
+      flushTable();
     }
+    return result.join('\n');
+  }
+
+  formatMarkdownLists(str) {
+    const lines = str.split('\n');
+    let inUl = false;
+    let inOl = false;
+    let result = [];
+
+    const closeLists = () => {
+      if (inUl) { result.push('</ul>'); inUl = false; }
+      if (inOl) { result.push('</ol>'); inOl = false; }
+    };
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const trimmed = line.trim();
+
+      const bulletMatch = line.match(/^(\s*)[-*]\s+(.*)$/);
+      const numberMatch = line.match(/^(\s*)\d+\.\s+(.*)$/);
+
+      if (bulletMatch) {
+        if (inOl) { result.push('</ol>'); inOl = false; }
+        if (!inUl) { result.push('<ul class="lesson-list">'); inUl = true; }
+        const isNested = bulletMatch[1].length >= 2;
+        result.push(`<li class="${isNested ? 'nested-li' : ''}">${bulletMatch[2]}</li>`);
+      } else if (numberMatch) {
+        if (inUl) { result.push('</ul>'); inUl = false; }
+        if (!inOl) { result.push('<ol class="lesson-ordered-list">'); inOl = true; }
+        const isNested = numberMatch[1].length >= 2;
+        result.push(`<li class="${isNested ? 'nested-li' : ''}">${numberMatch[2]}</li>`);
+      } else {
+        if (trimmed === '' || trimmed.startsWith('<') || trimmed.startsWith('#')) {
+          closeLists();
+        }
+        result.push(line);
+      }
+    }
+    closeLists();
     return result.join('\n');
   }
 
@@ -1315,7 +1503,23 @@ class StudySpaceApp {
   }
 }
 
+// Global helper for code block copying
+window.copySnippetFromBlock = async function(btn) {
+  const container = btn.closest('.code-block-container');
+  if (!container) return;
+  const codeEl = container.querySelector('code');
+  if (!codeEl) return;
+  const text = codeEl.innerText;
+  await copyTextToClipboard(text);
+  const originalHtml = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-check text-emerald"></i> Copiado';
+  setTimeout(() => {
+    btn.innerHTML = originalHtml;
+  }, 2000);
+};
+
 // Global initialization on DOM load
 document.addEventListener("DOMContentLoaded", () => {
   window.app = new StudySpaceApp();
 });
+
