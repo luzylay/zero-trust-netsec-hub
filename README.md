@@ -76,16 +76,70 @@ network-security/
 
 ---
 
-## 🚀 Despliegue en GitHub & GitHub Pages
+## 🌐 Demo en Vivo & Acceso Web
 
-Para publicar este proyecto en tu GitHub y visualizarlo en vivo en GitHub Pages:
-1. Revisa la guía paso a paso en [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md).
-2. Ejecuta los Quality Gates locales:
-   ```bash
-   python backend/python/run_all_tests.py
-   ```
-3. Sube a tu repositorio remoto:
-   ```bash
-   git remote add origin https://github.com/luzylay/zero-trust-netsec-hub.git
-   git push -u origin main
-   ```
+La plataforma web interactiva se encuentra desplegada y disponible para la comunidad académica y profesional:
+
+> 🔗 **Acceso en vivo**: [https://luzylay.github.io/zero-trust-netsec-hub/](https://luzylay.github.io/zero-trust-netsec-hub/)
+
+*(No requiere instalación previa ni dependencias pesadas: funciona directamente en cualquier navegador moderno con soporte JavaScript ES6+).*
+
+---
+
+## ⚡ Inicio Rápido (Quickstart Local)
+
+Si deseas clonar y ejecutar el laboratorio en tu entorno local:
+
+### 1. Clonar el Repositorio
+```bash
+git clone https://github.com/luzylay/zero-trust-netsec-hub.git
+cd zero-trust-netsec-hub
+```
+
+### 2. Abrir la Plataforma Interactiva
+Abre directamente el archivo `index.html` en tu navegador favorito o inicia un servidor HTTP liviano:
+```bash
+# Opción A: Abrir directamente el lanzador
+start index.html       # En Windows
+open index.html        # En macOS
+xdg-open index.html    # En Linux
+
+# Opción B: Servidor local ligero (opcional)
+python -m http.server 8080
+```
+
+### 3. Ejecutar los Quality Gates Automatizados
+Para validar la suite de pruebas unitarias e integración polyglot (Python, TypeScript, Go):
+```bash
+python backend/python/run_all_tests.py
+```
+
+---
+
+## 🛠️ Capacidades Principales del Laboratorio
+
+| Componente | Descripción | Estándar / Tecnología |
+| :--- | :--- | :--- |
+| **5 Simuladores Interactivos** | Laboratorios de ataques LAN, emulador Cisco CLI, visor de paquetes UDP y auditorías normativas | JavaScript ES6+ / Cyber Glassmorphism |
+| **Calculadora NIST Digital ID** | Determinación determinista de niveles IAL, AAL y FAL | NIST SP 800-63-3 / 800-63A / 800-63B |
+| **Matriz SBS Res. 504-2021** | Evaluación de madurez y cumplimiento de autenticación reforzada | SBS Perú / Res. SBS N° 504-2021 |
+| **SecOps Polyglot AAA** | Scripts de automatización y proxy de alta concurrencia | Python 3.12+, TypeScript 5.7+, Go 1.23+ |
+| **Compendio Científico** | Estado del arte con papers indexados | IEEE Xplore, Scopus, ACM Digital Library |
+
+---
+
+## 📖 Documentación y Guías
+
+- 📑 [Compendio de Investigación IEEE & Scopus](docs/IEEE_SCOPUS_RESEARCH_COMPENDIUM.md)
+- 📊 [Resumen Ejecutivo de Gestión y Riesgos MBA](docs/EXECUTIVE_SUMMARY_MBA.md)
+- ⚖️ [Marco de Gobernanza DevSecOps](docs/GOVERNANCE_FRAMEWORK.md)
+- 🏛️ [Registro de Decisiones Arquitectónicas (ADR-001)](docs/ADR_001_CLEAN_ARCHITECTURE.md)
+- 📘 [Guía de Estudio Teórico-Práctica](docs/GUIA_DE_ESTUDIO_OFICIAL.md)
+
+---
+
+## 📜 Licencia y Seguridad
+
+- **Licencia**: Distribuido bajo la Licencia [MIT](LICENSE).
+- **Seguridad**: Para reportar vulnerabilidades o sugerir mejoras de seguridad, consulta [SECURITY.md](SECURITY.md).
+- **Contribuciones**: Lee [CONTRIBUTING.md](CONTRIBUTING.md) para pautas de colaboración comunitaria.
