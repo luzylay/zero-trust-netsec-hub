@@ -60,6 +60,7 @@ network-security/
 │   ├── GOVERNANCE_FRAMEWORK.md          # Matriz RACI, SLAs de respuesta y DevSecOps Gates
 │   ├── ADR_001_CLEAN_ARCHITECTURE.md    # Architecture Decision Record
 │   ├── DEPLOYMENT_GUIDE.md              # Guía paso a paso para GitHub y GitHub Pages
+│   ├── TROUBLESHOOTING_CI_CD.md         # Diagnóstico y resolución de errores de despliegue
 │   └── GUIA_DE_ESTUDIO_OFICIAL.md       # Compendio maestro teórico y práctico
 │
 ├── references/                          # 📚 [ESTÁNDARES OFICIALES PÚBLICOS]

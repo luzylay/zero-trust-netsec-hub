@@ -63,6 +63,8 @@ El repositorio incluye un flujo de trabajo automatizado en `.github/workflows/de
    - En el desplegable **Source**, selecciona: **GitHub Actions**.
 4. ¡Listo! El workflow `.github/workflows/deploy-pages.yml` se ejecutará automáticamente en cada push a la rama `main`.
 
+> 💡 **¿Problemas con el despliegue?** Consulta la [Guía de Diagnóstico y Resolución de Errores CI/CD (TROUBLESHOOTING)](TROUBLESHOOTING_CI_CD.md) para ver la explicación detallada de errores comunes de permisos de API (404/403) y advertencias de Node.js.
+
 ---
 
 ## 🔗 PASO 5: Acceder a tu Sitio Web en Vivo
