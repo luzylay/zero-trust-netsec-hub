@@ -1318,6 +1318,25 @@ class StudySpaceApp {
     URL.revokeObjectURL(url);
   }
 
+  cleanLatexFormula(raw) {
+    if (!raw) return "";
+    return raw
+      .replace(/\\text\{([^}]+)\}/g, '$1')
+      .replace(/\\times/g, '×')
+      .replace(/\\cdot/g, '·')
+      .replace(/\\approx/g, '≈')
+      .replace(/\\ge/g, '≥')
+      .replace(/\\le/g, '≤')
+      .replace(/\\neq/g, '≠')
+      .replace(/\\pm/g, '±')
+      .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1 / $2)')
+      .replace(/\\quad/g, '   ')
+      .replace(/\\,/g, ' ')
+      .replace(/\\\\/g, '\n')
+      .replace(/\\/g, '')
+      .trim();
+  }
+
   parseMarkdown(markdown) {
     if (!markdown) return "";
 
@@ -1354,10 +1373,11 @@ class StudySpaceApp {
     // 2. Extract and format LaTeX / Math blocks ($$...$$)
     text = text.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
       const idx = codeBlocks.length;
+      const cleanFormula = this.cleanLatexFormula(formula);
       codeBlocks.push(`
         <div class="formula-box">
           <div class="formula-header"><i class="fas fa-square-root-variable text-cyan"></i> Modelo Matemático / Fórmula Formal:</div>
-          <div class="formula-content">${this.escapeHtml(formula.trim())}</div>
+          <div class="formula-content">${this.escapeHtml(cleanFormula)}</div>
         </div>
       `);
       return `\n\n__CODE_BLOCK_${idx}__\n\n`;
@@ -1380,7 +1400,8 @@ class StudySpaceApp {
     // 7. Lists formatting (Ordered and Unordered with nesting)
     text = this.formatMarkdownLists(text);
 
-    // 8. Inline formatting: bold, italic, inline code
+    // 8. Key-Term Highlighting: **Term (Category):** or **Term:**
+    text = text.replace(/\*\*([^*]+?):\*\*/g, '<strong class="concept-term">$1:</strong>');
     text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
     text = text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
@@ -1458,43 +1479,77 @@ class StudySpaceApp {
     return result.join('\n');
   }
 
-  formatMarkdownLists(str) {
-    const lines = str.split('\n');
-    let inUl = false;
-    let inOl = false;
-    let result = [];
-
-    const closeLists = () => {
-      if (inUl) { result.push('</ul>'); inUl = false; }
-      if (inOl) { result.push('</ol>'); inOl = false; }
-    };
+  formatMarkdownLists(text) {
+    const lines = text.split('\n');
+    let output = [];
+    let inList = false;
+    let listType = null;
+    let inSubList = false;
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
       const trimmed = line.trim();
 
-      const bulletMatch = line.match(/^(\s*)[-*]\s+(.*)$/);
-      const numberMatch = line.match(/^(\s*)\d+\.\s+(.*)$/);
+      const olMatch = line.match(/^(\d+)\.\s+(.*)$/);
+      const ulMatch = line.match(/^(\s*)[-*+]\s+(.*)$/);
 
-      if (bulletMatch) {
-        if (inOl) { result.push('</ol>'); inOl = false; }
-        if (!inUl) { result.push('<ul class="lesson-list">'); inUl = true; }
-        const isNested = bulletMatch[1].length >= 2;
-        result.push(`<li class="${isNested ? 'nested-li' : ''}">${bulletMatch[2]}</li>`);
-      } else if (numberMatch) {
-        if (inUl) { result.push('</ul>'); inUl = false; }
-        if (!inOl) { result.push('<ol class="lesson-ordered-list">'); inOl = true; }
-        const isNested = numberMatch[1].length >= 2;
-        result.push(`<li class="${isNested ? 'nested-li' : ''}">${numberMatch[2]}</li>`);
-      } else {
-        if (trimmed === '' || trimmed.startsWith('<') || trimmed.startsWith('#')) {
-          closeLists();
+      if (olMatch) {
+        if (inSubList) {
+          output.push('</ul>');
+          inSubList = false;
         }
-        result.push(line);
+        if (inList && listType !== 'ol') {
+          output.push('</ul>');
+          inList = false;
+        }
+        if (!inList) {
+          output.push('<ol class="lesson-ordered-list">');
+          inList = true;
+          listType = 'ol';
+        }
+        output.push(`<li>${olMatch[2]}</li>`);
+      } else if (ulMatch) {
+        const indent = ulMatch[1].length;
+        if (inList && listType === 'ol' && indent >= 2) {
+          if (!inSubList) {
+            output.push('<ul class="lesson-sub-list">');
+            inSubList = true;
+          }
+          output.push(`<li>${ulMatch[2]}</li>`);
+        } else {
+          if (inSubList) {
+            output.push('</ul>');
+            inSubList = false;
+          }
+          if (inList && listType !== 'ul') {
+            output.push('</ol>');
+            inList = false;
+          }
+          if (!inList) {
+            output.push('<ul class="lesson-list">');
+            inList = true;
+            listType = 'ul';
+          }
+          output.push(`<li>${ulMatch[2]}</li>`);
+        }
+      } else {
+        if (inSubList) {
+          output.push('</ul>');
+          inSubList = false;
+        }
+        if (inList) {
+          output.push(listType === 'ol' ? '</ol>' : '</ul>');
+          inList = false;
+          listType = null;
+        }
+        output.push(line);
       }
     }
-    closeLists();
-    return result.join('\n');
+
+    if (inSubList) output.push('</ul>');
+    if (inList) output.push(listType === 'ol' ? '</ol>' : '</ul>');
+
+    return output.join('\n');
   }
 
   escapeHtml(str) {
