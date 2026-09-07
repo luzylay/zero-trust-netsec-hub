@@ -372,6 +372,33 @@ body.sidebar-locked {
   gap: 10px;
 }
 
+.btn-topbar-audio {
+  background: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+  min-height: 38px;
+}
+
+.btn-topbar-audio:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.btn-topbar-audio.playing {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
 .btn-cyber-primary {
   background: var(--accent-primary);
   color: #ffffff;

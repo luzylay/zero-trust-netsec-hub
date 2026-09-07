@@ -159,11 +159,45 @@ class StudySpaceApp {
       });
     }
 
+    // Global Topbar Audio Button
+    const topbarAudioBtn = document.getElementById("btn-topbar-audio");
+    const topbarAudioText = document.getElementById("topbar-audio-text");
+    if (topbarAudioBtn && this.audioBot) {
+      topbarAudioBtn.addEventListener("click", () => {
+        if (!this.audioBot.isPlaying) {
+          const contentArea = document.getElementById("main-view-container");
+          const textToSpeak = contentArea ? contentArea.innerText : "Contenido de seguridad en redes.";
+          this.audioBot.speak(textToSpeak);
+        } else if (this.audioBot.isPaused) {
+          this.audioBot.resume();
+        } else {
+          this.audioBot.pause();
+        }
+      });
+
+      this.audioBot.onStateChange((state) => {
+        const icon = topbarAudioBtn.querySelector("i");
+        if (state.isPlaying && !state.isPaused) {
+          topbarAudioBtn.classList.add("playing");
+          if (icon) icon.className = "fas fa-pause";
+          if (topbarAudioText) topbarAudioText.textContent = "Pausar";
+        } else if (state.isPaused) {
+          topbarAudioBtn.classList.add("playing");
+          if (icon) icon.className = "fas fa-play";
+          if (topbarAudioText) topbarAudioText.textContent = "Reanudar";
+        } else {
+          topbarAudioBtn.classList.remove("playing");
+          if (icon) icon.className = "fas fa-volume-high";
+          if (topbarAudioText) topbarAudioText.textContent = "Escuchar";
+        }
+      });
+    }
+
     // Accessible Alt + P shortcut to toggle AudioBot reading
     document.addEventListener("keydown", (e) => {
       if (e.altKey && (e.key === "p" || e.key === "P")) {
         e.preventDefault();
-        const playBtn = document.getElementById("btn-audiobot-toggle");
+        const playBtn = document.getElementById("btn-audiobot-toggle") || document.getElementById("btn-topbar-audio");
         if (playBtn) playBtn.click();
       }
     });
@@ -468,6 +502,9 @@ class StudySpaceApp {
       </div>
 
       <div class="lesson-article">
+        <!-- AudioBot Toolbar -->
+        <div id="audiobot-mount-standards"></div>
+
         <h2><i class="fas fa-fingerprint text-cyan"></i> NIST SP 800-63-3: Digital Identity Guidelines</h2>
         <p>${std.nist.overview}</p>
 
@@ -558,6 +595,12 @@ class StudySpaceApp {
         </table>
       </div>
     `;
+
+    if (this.audioBot) {
+      this.audioBot.renderControlBar("audiobot-mount-standards", () => {
+        return "Estandares Internacionales NIST SP 800-63-3 y Resolucion SBS 504-2021. " + std.nist.overview;
+      });
+    }
   }
 
   renderAcademicResearch(container) {
@@ -807,6 +850,9 @@ class StudySpaceApp {
           </div>
         </div>
 
+        <!-- AudioBot Toolbar for Labs -->
+        <div id="audiobot-mount-labs"></div>
+
         <div style="background: #090d16; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px;">
           <h4 style="color: var(--accent-cyan); margin-bottom: 6px;"><i class="fas fa-project-diagram"></i> Topología de Red:</h4>
           <p style="font-family: var(--font-mono); font-size: 13px; color: #cbd5e1; margin-bottom: 12px;">${lab.topology}</p>
@@ -843,6 +889,12 @@ class StudySpaceApp {
         this.renderLabs(container);
       });
     });
+
+    if (this.audioBot) {
+      this.audioBot.renderControlBar("audiobot-mount-labs", () => {
+        return `${lab.title}. Topologia: ${lab.topology}. Objetivos: ${lab.objectives.join(". ")}`;
+      });
+    }
 
     container.querySelectorAll(".btn-copy-code").forEach(btn => {
       btn.addEventListener("click", async () => {
