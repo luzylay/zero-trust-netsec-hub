@@ -1,0 +1,36 @@
+# Auto-detect text files and normalize line endings to LF across platforms
+* text=auto eol=lf
+
+# Explicit Text Formatting
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.ts text eol=lf
+*.py text eol=lf
+*.go text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Binary Files (Preserve exact byte streams)
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+
+# GitHub Linguist Overrides (Ensure primary code languages are highlighted)
+docs/* linguist-documentation
+references/* linguist-documentation
+frontend/js/data/academicResearch.js linguist-detectable=true
+frontend/js/data/curriculum.js linguist-detectable=true
+backend/python/* linguist-detectable=true
+backend/typescript/* linguist-detectable=true
+backend/go/* linguist-detectable=true
