@@ -68,6 +68,7 @@ class TestDataIntegrityAndGovernance(unittest.TestCase):
 
         js_files = [
             "frontend/js/data/standards.js",
+            "frontend/js/data/academicResearch.js",
             "frontend/js/data/curriculum.js",
             "frontend/js/data/labs.js",
             "frontend/js/data/quizzes.js",

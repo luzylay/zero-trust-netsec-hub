@@ -1,6 +1,6 @@
-# 🛡️ NETWORK SECURITY & DIGITAL IDENTITY - ENTERPRISE ENGINEERING HUB
+# 🛡️ ZERO-TRUST NETWORK SECURITY & DIGITAL IDENTITY RESEARCH HUB
 
-[![Architecture](https://img.shields.io/badge/Architecture-Frontend%20%7C%20Backend%20%7C%20Tests%20%7C%20Docs-blue?style=for-the-badge)](docs/ADR_001_CLEAN_ARCHITECTURE.md)
+[![Research](https://img.shields.io/badge/Research-IEEE%20%7C%20Scopus%20%7C%20ACM%20%7C%20NIST-blue?style=for-the-badge)](docs/IEEE_SCOPUS_RESEARCH_COMPENDIUM.md)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](backend/typescript/)
 [![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)](backend/python/)
 [![Go](https://img.shields.io/badge/Go-1.23+-00ADD8?style=for-the-badge&logo=go&logoColor=white)](backend/go/)
@@ -8,94 +8,83 @@
 
 ---
 
-## 🏛️ Estructura y Organización del Repositorio
+## 🏛️ Visión y Fundamentación Científica
 
-El repositorio ha sido reorganizado y separado de manera limpia por **Capas de Responsabilidad (Frontend, Backend, Tests, Docs y References)**:
+Esta plataforma es un **Hub de Investigación Abierta y Laboratorio de Ciberseguridad de Redes** fundamentado exclusivamente en literatura científica de alto impacto (**IEEE Xplore, Scopus, ACM Digital Library**) y marcos normativos internacionales oficiales (**IETF RFCs, NIST SP 800-63-3 Suite, NIST SP 800-207 Zero Trust, y SBS Res. N° 504-2021**).
+
+Todos los materiales son **100% abiertos, públicos e independientes**, asegurando máxima protección de datos, libre estudio e integridad académica.
 
 ```
 network-security/
-├── frontend/                            # 🌐 [FRONTEND] Interfaz de Usuario, Simuladores y Componentes Visuales
-│   ├── index.html                       # Entry point de la aplicación web SPA interactiva
+├── frontend/                            # 🌐 [FRONTEND] SPA Interactiva, Simuladores y Vistas
+│   ├── index.html                       # Entry point de la aplicación web
 │   ├── css/
 │   │   └── styles.css                   # Sistema de diseño Cyber Glassmorphism
 │   └── js/
 │       ├── app.js                       # Enrutador, buscador universal (Ctrl+K) y controlador
-│       ├── data/                        # Datos de dominio (Curriculum, Standards, Labs...)
-│       │   ├── curriculum.js
-│       │   ├── enterpriseCode.js
-│       │   ├── flashcards.js
-│       │   ├── labs.js
-│       │   ├── quizzes.js
-│       │   └── standards.js
+│       ├── data/                        # Datos de dominio y compendio científico (SSOT)
+│       │   ├── academicResearch.js      # Base de datos científica IEEE, Scopus y ACM
+│       │   ├── curriculum.js            # Temario avanzado de 4 Unidades
+│       │   ├── enterpriseCode.js        # Snippets polyglot (TypeScript, Python, Go)
+│       │   ├── flashcards.js            # Repetición espaciada 3D
+│       │   ├── labs.js                  # Guías de laboratorio paso a paso
+│       │   ├── quizzes.js               # Banco de autoevaluación con feedback
+│       │   └── standards.js             # Desglose oficial NIST SP 800-63 y SBS 504-2021
 │       └── simulators/                  # 5 Motores de simulación interactiva
-│           ├── attackSimulator.js
-│           ├── cliTerminal.js
-│           ├── nistCalculator.js
-│           ├── packetVisualizer.js
-│           └── sbsAuditor.js
+│           ├── attackSimulator.js       # Simulador de ataques LAN y contramedidas
+│           ├── cliTerminal.js           # Emulador Cisco IOS CLI AAA
+│           ├── nistCalculator.js        # Evaluador de riesgo y cálculo de niveles IAL/AAL/FAL
+│           ├── packetVisualizer.js      # Análisis interactivo de datagramas UDP/TCP
+│           └── sbsAuditor.js            # Matriz de madurez regulatoria SBS Res. 504-2021
 │
-├── backend/                             # ⚙️ [BACKEND] Servicios, Protocolos, Microservicios y SecOps
+├── backend/                             # ⚙️ [BACKEND] Automatización, Protocolos y SecOps
 │   ├── python/                          # Python 3.12+ (Automatización de Red y Auditoría AAA)
-│   │   ├── cisco_aaa_automation.py
+│   │   ├── cisco_aaa_automation.py      # Provisionamiento idempotente y scoring asíncrono
 │   │   └── run_all_tests.py             # Orquestador maestro de Quality Gates
 │   ├── typescript/                      # TypeScript 5.7+ (Encoders de Protocolo RADIUS RFC 2865)
-│   │   └── radius_client.ts
+│   │   └── radius_client.ts             # Encoders binarios y cifrado XOR de contraseñas
 │   └── go/                              # Go 1.23+ (Proxy Concurrente UDP de Alto Rendimiento)
-│       └── radius_proxy.go
+│       └── radius_proxy.go              # Servidor proxy UDP con Worker Pools y Goroutines
 │
 ├── tests/                               # 🧪 [TESTING] Suites de Pruebas Automatizadas
 │   ├── python/
-│   │   └── test_cisco_aaa.py            # Pruebas unitarias de automatización Cisco AAA
+│   │   └── test_cisco_aaa.py            # 5 tests unitarios de configuración y auditoría AAA
 │   ├── typescript/
-│   │   └── test_radius_client.mjs       # Pruebas de encoder binario RADIUS
+│   │   └── test_radius_client.mjs       # 2 tests de cálculo de cabecera y cifrado RADIUS
 │   └── integration/
-│       └── test_data_integrity.py       # Auditoría de integridad de datos y categorización
+│       └── test_data_integrity.py       # 5 tests de integridad, categorización y sanitización
 │
-├── docs/                                # 📑 [DOCUMENTACIÓN & GOBERNANZA MBA]
-│   ├── EXECUTIVE_SUMMARY_MBA.md         # Marco estratégico y ROI (Nivel Directivo/MBA)
-│   ├── GOVERNANCE_FRAMEWORK.md          # Matriz RACI, SLAs y Políticas DevSecOps
+├── docs/                                # 📑 [DOCUMENTACIÓN CIENTÍFICA & MBA]
+│   ├── IEEE_SCOPUS_RESEARCH_COMPENDIUM.md # Compendio de literatura indexada (IEEE / Scopus / ACM)
+│   ├── EXECUTIVE_SUMMARY_MBA.md         # Marco estratégico de riesgo, ROI y cumplimiento SBS
+│   ├── GOVERNANCE_FRAMEWORK.md          # Matriz RACI, SLAs de respuesta y DevSecOps Gates
 │   ├── ADR_001_CLEAN_ARCHITECTURE.md    # Architecture Decision Record
-│   └── GUIA_DE_ESTUDIO_OFICIAL.md       # Compendio oficial de estudio técnico
+│   ├── DEPLOYMENT_GUIDE.md              # Guía paso a paso para GitHub y GitHub Pages
+│   └── GUIA_DE_ESTUDIO_OFICIAL.md       # Compendio maestro teórico y práctico
 │
-├── references/                          # 📚 [FUENTES & ESTÁNDARES OFICIALES]
-│   └── pdf/                             # Documentos normativos oficiales (NIST, SBS 504-2021, Sílabo)
-│       ├── 100000S75F_NetworkSecurity.pdf
-│       ├── 504-2021_R.pdf
-│       ├── NIST_SP_800-63-3.pdf
-│       ├── NIST_SP_800-63a.pdf
-│       ├── NIST_SP_800-63b.pdf
-│       ├── S01_s1 -Material.pdf
-│       ├── S01_s2 - Material.pdf
-│       ├── S02_s1 -Material.pdf
-│       ├── S02_s2-Material.pdf
-│       ├── S03_s1 - Material.pdf
-│       ├── S04_s1 - Material.pdf
-│       └── S05_s1 - Material.pdf
+├── references/                          # 📚 [ESTÁNDARES OFICIALES PÚBLICOS]
+│   └── pdf/                             # Documentos normativos oficiales de dominio público
+│       ├── 504-2021_R.pdf               # Resolución SBS N° 504-2021 (Reglamento Oficial)
+│       ├── NIST_SP_800-63-3.pdf         # NIST SP 800-63-3 (Digital Identity Guidelines)
+│       ├── NIST_SP_800-63a.pdf          # NIST SP 800-63A (Enrollment & Identity Proofing)
+│       └── NIST_SP_800-63b.pdf          # NIST SP 800-63B (Authentication & Lifecycle)
 │
 ├── index.html                           # 🚀 Acceso directo / Lanzador al Frontend
-└── README.md                            # Guía maestra y mapa arquitectónico
+└── README.md                            # Guía maestra y mapa arquitectónico del proyecto
 ```
 
 ---
 
-## 🚀 Ejecución Rápida
+## 🚀 Despliegue en GitHub & GitHub Pages
 
-### 1. Iniciar la Plataforma Web Interactiva
-Abre el archivo [frontend/index.html](file:///c:/Users/Loayza/Downloads/network-security/frontend/index.html) o el lanzador [index.html](file:///c:/Users/Loayza/Downloads/network-security/index.html) en tu navegador.
-
-### 2. Ejecutar la Suite Completa de Tests y Quality Gates
-```bash
-python backend/python/run_all_tests.py
-```
-
-### 3. Ejecutar Herramientas Backend Individuales
-```bash
-# SecOps & Automatización Cisco AAA (Python)
-python backend/python/cisco_aaa_automation.py
-
-# RADIUS Packet Encoder (TypeScript / Node.js)
-node backend/typescript/radius_client.ts
-
-# Proxy Concurrente de Red (Go 1.23+)
-go run backend/go/radius_proxy.go
-```
+Para publicar este proyecto en tu GitHub y visualizarlo en vivo en GitHub Pages:
+1. Revisa la guía paso a paso en [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md).
+2. Ejecuta los Quality Gates locales:
+   ```bash
+   python backend/python/run_all_tests.py
+   ```
+3. Sube a tu repositorio remoto:
+   ```bash
+   git remote add origin https://github.com/TU_USUARIO/zero-trust-netsec-hub.git
+   git push -u origin main
+   ```

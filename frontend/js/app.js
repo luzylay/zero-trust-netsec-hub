@@ -138,6 +138,9 @@ class StudySpaceApp {
       case "standards":
         this.renderStandards(mainContainer);
         break;
+      case "academic-research":
+        this.renderAcademicResearch(mainContainer);
+        break;
       case "simulator-cli":
         this.renderCliSimulator(mainContainer);
         break;
@@ -458,6 +461,50 @@ class StudySpaceApp {
             `).join("")}
           </tbody>
         </table>
+      </div>
+    `;
+  }
+
+  renderAcademicResearch(container) {
+    const data = window.ACADEMIC_RESEARCH_DATA || [];
+
+    container.innerHTML = `
+      <div class="hero-banner">
+        <span class="hero-badge"><i class="fas fa-microscope"></i> Indexación Científica & Peer-Reviewed</span>
+        <h1 class="hero-title">Compendio de Investigación Académica (IEEE, Scopus, ACM)</h1>
+        <p class="hero-subtitle">
+          Revisión formal de literatura científica de alto impacto, criptoanálisis de protocolos, modelos matemáticos de entropía y estado del arte en Zero Trust Architecture (NIST SP 800-207).
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 28px;">
+        ${data.map(cat => `
+          <div class="lesson-article">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <h2 style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;"><i class="fas fa-book text-cyan"></i> ${cat.category}</h2>
+              <span class="pillar-tag">${cat.badge}</span>
+            </div>
+
+            <div class="units-grid" style="grid-template-columns: 1fr; gap: 16px;">
+              ${cat.publications.map(p => `
+                <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                    <h4 style="font-size: 16px; color: #fff; margin: 0;">${p.title}</h4>
+                    <span style="font-size: 11px; background: rgba(0, 245, 255, 0.1); color: var(--accent-cyan); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">
+                      DOI: ${p.doi}
+                    </span>
+                  </div>
+                  <p style="font-size: 12px; color: var(--text-dim); margin-bottom: 10px;">
+                    <strong>Autores:</strong> ${p.authors} | <strong>Publicación:</strong> ${p.journal} (${p.year}) | <strong>Impacto:</strong> ${p.citations}
+                  </p>
+                  <p style="font-size: 13px; color: #cbd5e1; background: rgba(0, 0, 0, 0.3); padding: 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--accent-cyan); margin-bottom: 0;">
+                    <strong>Aporte Científico / Tesis:</strong> ${p.keyTakeaway}
+                  </p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `).join("")}
       </div>
     `;
   }
