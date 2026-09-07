@@ -11,7 +11,7 @@ import vm from 'node:vm';
 
 const ROOT_DIR = process.cwd();
 
-describe('🌐 Cross-Browser Engine Compatibility & CSS/JS Feature Matrix', () => {
+describe('Cross-Browser Engine Compatibility & CSS/JS Feature Matrix', () => {
 
   test('CSS Vendor Prefix & Cross-Browser Styling Audit', () => {
     const cssPath = path.join(ROOT_DIR, 'frontend', 'css', 'styles.css');

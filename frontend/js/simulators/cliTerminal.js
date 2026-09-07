@@ -63,9 +63,9 @@ class CiscoCLISimulator {
           </div>
           <div class="cli-terminal-title">Cisco IOS v15.7(4)M - Interactive AAA Console</div>
           <div class="cli-terminal-actions">
-            <button class="cli-btn" id="btn-load-aaa-scenario" title="Cargar plantilla AAA recomendada">⚡ Cargar Script AAA</button>
-            <button class="cli-btn" id="btn-clear-terminal" title="Limpiar pantalla">🧹 Limpiar</button>
-            <button class="cli-btn" id="btn-reset-terminal" title="Reiniciar Router">🔄 Recargar</button>
+            <button class="cli-btn" id="btn-load-aaa-scenario" title="Cargar plantilla AAA recomendada">Cargar Script AAA</button>
+            <button class="cli-btn" id="btn-clear-terminal" title="Limpiar pantalla">Limpiar</button>
+            <button class="cli-btn" id="btn-reset-terminal" title="Reiniciar Router">Recargar</button>
           </div>
         </div>
         <div class="cli-terminal-body" id="cli-output-area"></div>

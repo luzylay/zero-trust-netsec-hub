@@ -1,14 +1,14 @@
-# 🌐 Informe Técnico de Compatibilidad Multi-Navegador y Rendimiento Cross-Engine
+# Informe Tecnico de Compatibilidad Multi-Navegador y Rendimiento Cross-Engine
 
 **Proyecto**: Zero-Trust Network Security & Digital Identity Research Hub  
-**Estándar de Evaluación**: W3C / ECMAScript (ES6+) / WebKit / Gecko / Chromium Baseline  
-**Estado de Verificación**: ✅ **100% Compatible y Certificado**  
+**Estandar de Evaluacion**: W3C / ECMAScript (ES6+) / WebKit / Gecko / Chromium Baseline  
+**Estado de Verificacion**: **100% Compatible y Certificado**  
 
 ---
 
 ## 1. Resumen Ejecutivo de Compatibilidad
 
-La plataforma web interactiva (*Single Page Application*) ha sido diseñada bajo los principios de **Zero-Dependency Architecture (Vanilla ES6+ & Modern CSS3)**. Esto garantiza que la aplicación no depende de empaquetadores pesados (Webpack/Vite) ni librerías de terceros (React/Angular/Vue) para su ejecución en tiempo de ejecución, eliminando puntos únicos de falla y garantizando interoperabilidad inmediata.
+La plataforma web interactiva (*Single Page Application*) ha sido disenada bajo los principios de **Zero-Dependency Architecture (Vanilla ES6+ & Modern CSS3)**. Esto garantiza que la aplicacion no depende de empaquetadores pesados (Webpack/Vite) ni librerias de terceros (React/Angular/Vue) para su ejecucion en tiempo de ejecucion, eliminando puntos unicos de falla y garantizando interoperabilidad inmediata.
 
 El frontend fue auditado y probado contra los 3 motores de renderizado web dominantes en el mercado global:
 1. **Chromium (Blink / V8)**: Google Chrome, Microsoft Edge, Brave, Opera, Vivaldi.
@@ -19,19 +19,19 @@ El frontend fue auditado y probado contra los 3 motores de renderizado web domin
 
 ## 2. Matriz de Compatibilidad por Motor y Navegador
 
-| Motor de Renderizado | Navegadores Soportados | Versión Mínima | Soporte Móvil (iOS/Android) | Estado de Certificación |
+| Motor de Renderizado | Navegadores Soportados | Version Minima | Soporte Movil (iOS/Android) | Estado de Certificacion |
 | :--- | :--- | :--- | :--- | :--- |
-| **Blink / Chromium** | Google Chrome, Edge, Brave, Opera | Chrome 80+ / Edge 80+ | ✅ Android Chrome 80+ | **100% Nativo** |
-| **Gecko** | Mozilla Firefox, Tor Browser | Firefox 78+ (ESR) | ✅ Firefox Android 78+ | **100% Nativo** |
-| **WebKit** | Apple Safari, WebKit WebViews | Safari 13.1+ (macOS) | ✅ iOS Safari 13+ (iPhone/iPad) | **100% con Prefijo `-webkit`** |
+| **Blink / Chromium** | Google Chrome, Edge, Brave, Opera | Chrome 80+ / Edge 80+ | Compatible (Android Chrome 80+) | **100% Nativo** |
+| **Gecko** | Mozilla Firefox, Tor Browser | Firefox 78+ (ESR) | Compatible (Firefox Android 78+) | **100% Nativo** |
+| **WebKit** | Apple Safari, WebKit WebViews | Safari 13.1+ (macOS) | Compatible (iOS Safari 13+) | **100% con Prefijo `-webkit`** |
 
 ---
 
 ## 3. Mapeo de APIs y Mecanismos de Resiliencia (Fallbacks)
 
-### A. Estilo Cyber Glassmorphism (`backdrop-filter`)
-- **Desafío**: Safari en iOS/macOS requiere el prefijo `-webkit-backdrop-filter` para activar el desenfoque traslúcido sin parpadeos de GPU.
-- **Solución implementada**: Declaración dual en `frontend/css/styles.css`:
+### A. Estilo Glassmorphism (`backdrop-filter`)
+- **Desafio**: Safari en iOS/macOS requiere el prefijo `-webkit-backdrop-filter` para activar el desenfoque traslucido sin parpadeos de GPU.
+- **Solucion implementada**: Declaracion dual en `frontend/css/styles.css`:
   ```css
   .unit-card, .sidebar, .topbar {
     -webkit-backdrop-filter: blur(12px); /* Apple WebKit */
@@ -40,8 +40,8 @@ El frontend fue auditado y probado contra los 3 motores de renderizado web domin
   ```
 
 ### B. Persistencia Segura (`localStorage` Fallback)
-- **Desafío**: En modos de navegación privada estricta (Safari Incognito o extensiones de privacidad extrema), `window.localStorage` puede lanzar excepciones `SecurityError`.
-- **Solución implementada**: Capa de abstracción `safeStorage` en `frontend/js/app.js`:
+- **Desafio**: En modos de navegacion privada estricta (Safari Incognito o extensiones de privacidad extrema), `window.localStorage` puede lanzar excepciones `SecurityError`.
+- **Solucion implementada**: Capa de abstraccion `safeStorage` en `frontend/js/app.js`:
   ```javascript
   const _memoryStorage = {};
   const safeStorage = {
@@ -55,26 +55,26 @@ El frontend fue auditado y probado contra los 3 motores de renderizado web domin
   ```
 
 ### C. Portapapeles Universal (`Clipboard API` + Fallback)
-- **Desafío**: `navigator.clipboard.writeText()` puede estar deshabilitado en contextos HTTP locales o navegadores heredados.
-- **Solución implementada**: Función híbrida asíncrona `copyTextToClipboard` que conmuta automáticamente a `document.execCommand('copy')` con textarea temporal si la API moderna no está disponible.
+- **Desafio**: `navigator.clipboard.writeText()` puede estar deshabilitado en contextos HTTP locales o navegadores heredados.
+- **Solucion implementada**: Funcion hibrida asincrona `copyTextToClipboard` que conmuta automaticamente a `document.execCommand('copy')` con textarea temporal si la API moderna no esta disponible.
 
-### D. Diseño Responsivo y Breakpoints Móviles
-- **Pantallas Ultra-Wide (4K / 2K)**: Disposición de tarjetas en grillas adaptativas (`minmax(320px, 1fr)`).
-- **Tablets (1024px)**: Reducción del ancho del sidebar y ajuste de paneles de simulación.
-- **Móviles (<768px y <480px)**: Sidebar colapsable con transición fluida (`transform: translateX`), reorganización de simuladores en columna única (1fr).
+### D. Diseno Responsivo y Breakpoints Moviles
+- **Pantallas Ultra-Wide (4K / 2K)**: Disposicion de tarjetas en grillas adaptativas (`minmax(320px, 1fr)`).
+- **Tablets (1024px)**: Reduccion del ancho del sidebar y ajuste de paneles de simulacion.
+- **Moviles (<768px y <480px)**: Sidebar colapsable con transicion fluida (`transform: translateX`), reorganizacion de simuladores en columna unica (1fr).
 
 ---
 
 ## 4. Suite de Pruebas Automatizadas Cross-Browser
 
-Para validar empíricamente que ningún cambio rompa la compatibilidad, se implementó una suite de pruebas automatizadas en `tests/frontend/test_cross_browser.mjs`.
+Para validar empiricamente que ningun cambio rompa la compatibilidad, se implemento una suite de pruebas automatizadas en `tests/frontend/test_cross_browser.mjs`.
 
 ### Validaciones Ejecutadas:
-1. **Auditoría de Prefijos CSS**: Verifica que cada regla de desenfoque posea su contraparte `-webkit-backdrop-filter`.
-2. **Detección de APIs Obsoletas**: Escanea el código en busca de patrones no estándar o deprecados (`document.all`, `attachEvent`, `window.event`).
-3. **Emulación del Entorno DOM**: Carga en memoria todos los componentes, simula el enrutador de vistas, los 5 simuladores interactivos (Cisco CLI, NIST Calculator, SBS Auditor, Packet Visualizer, Attack Simulator) y comprueba el cálculo determinista de niveles de riesgo.
+1. **Auditoria de Prefijos CSS**: Verifica que cada regla de desenfoque posea su contraparte `-webkit-backdrop-filter`.
+2. **Deteccion de APIs Obsoletas**: Escanea el codigo en busca de patrones no estandar o deprecados (`document.all`, `attachEvent`, `window.event`).
+3. **Emulacion del Entorno DOM**: Carga en memoria todos los componentes, simula el enrutador de vistas, los 5 simuladores interactivos (Cisco CLI, NIST Calculator, SBS Auditor, Packet Visualizer, Attack Simulator) y comprueba el calculo determinista de niveles de riesgo.
 
-### Comando de Reproducción Local:
+### Comando de Reproduccion Local:
 ```bash
 node --test tests/frontend/test_cross_browser.mjs
 ```
@@ -86,6 +86,6 @@ python backend/python/run_all_tests.py
 
 ---
 
-## 5. Conclusión
+## 5. Conclusion
 
-La plataforma cumple con los más altos estándares de desarrollo web moderno: **cero dependencias externas, renderizado instantáneo en <50ms, compatibilidad 100% verificada en todos los navegadores líderes de la industria y degradación elegante ante restricciones de entorno.**
+La plataforma cumple con los mas altos estandares de desarrollo web moderno: **cero dependencias externas, renderizado instantaneo en <50ms, compatibilidad 100% verificada en todos los navegadores lideres de la industria y degradacion elegante ante restricciones de entorno.**

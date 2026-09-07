@@ -275,7 +275,7 @@ class PacketFlowVisualizer {
             <h4><i class="fas fa-microscope"></i> Estructura del Datagrama / Paquete Capturado</h4>
             <div class="pv-packet-inspector">
               <div class="pv-field-row"><span class="pv-label">Protocolo:</span> <span class="pv-val">${step.packetInfo.protocol || "N/A"}</span></div>
-              ${step.packetInfo.src ? `<div class="pv-field-row"><span class="pv-label">Origen / Destino:</span> <span class="pv-val">${step.packetInfo.src} ➔ ${step.packetInfo.dst}</span></div>` : ""}
+              ${step.packetInfo.src ? `<div class="pv-field-row"><span class="pv-label">Origen / Destino:</span> <span class="pv-val">${step.packetInfo.src} -> ${step.packetInfo.dst}</span></div>` : ""}
               ${step.packetInfo.headers ? `<div class="pv-field-row"><span class="pv-label">Cabeceras:</span> <span class="pv-val">${step.packetInfo.headers}</span></div>` : ""}
               ${step.packetInfo.encryptedPayload ? `<div class="pv-field-row"><span class="pv-label">Carga Cifrada:</span> <span class="pv-val text-cyan">${step.packetInfo.encryptedPayload}</span></div>` : ""}
               ${step.packetInfo.ticket ? `<div class="pv-field-row"><span class="pv-label">Ticket Criptográfico:</span> <span class="pv-val text-amber">${step.packetInfo.ticket}</span></div>` : ""}

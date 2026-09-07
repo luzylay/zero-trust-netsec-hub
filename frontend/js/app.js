@@ -397,7 +397,7 @@ class StudySpaceApp {
                 <h2>${lesson.title}</h2>
               </div>
               <button class="btn-cyber-primary" id="btn-mark-lesson-done">
-                <i class="fas fa-check"></i> ${this.completedLessons.includes(lesson.id) ? "Completada ✔" : "Marcar como Aprendida"}
+                <i class="fas fa-check"></i> ${this.completedLessons.includes(lesson.id) ? "Completada" : "Marcar como Aprendida"}
               </button>
             </div>
 
@@ -428,7 +428,7 @@ class StudySpaceApp {
     if (markBtn) {
       markBtn.addEventListener("click", () => {
         this.markLessonComplete(lesson.id);
-        markBtn.innerHTML = "<i class='fas fa-check'></i> Completada ✔";
+        markBtn.innerHTML = "<i class='fas fa-check'></i> Completada";
       });
     }
   }
@@ -780,7 +780,7 @@ class StudySpaceApp {
       <div class="lesson-article">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <div>
-            <span class="hero-badge">${lab.unit} | ${lab.difficulty} | ⏱️ ${lab.duration}</span>
+            <span class="hero-badge">${lab.unit} | ${lab.difficulty} | <i class="fas fa-clock"></i> ${lab.duration}</span>
             <h2>${lab.title}</h2>
           </div>
         </div>
@@ -986,8 +986,8 @@ class StudySpaceApp {
         } else {
           container.innerHTML = `
             <div class="quiz-wrapper" style="text-align: center; padding: 48px 24px;">
-              <div style="font-size: 64px; color: var(--accent-cyan); margin-bottom: 16px;">🏆</div>
-              <h2 style="font-size: 26px; margin-bottom: 12px; color: #fff;">¡Evaluación Finalizada!</h2>
+              <div style="font-size: 54px; color: var(--accent-primary); margin-bottom: 16px;"><i class="fas fa-award"></i></div>
+              <h2 style="font-size: 26px; margin-bottom: 12px; color: #fff;">Evaluacion Finalizada</h2>
               <p style="font-size: 16px; color: var(--text-muted); margin-bottom: 24px;">
                 Has obtenido un puntaje de <strong style="color: var(--accent-cyan); font-size: 22px;">${this.quizScore}</strong> de <strong>${total}</strong> posibles (${Math.round((this.quizScore / total) * 100)}%).
               </p>

@@ -91,7 +91,7 @@ class AttackSimulator {
                 <div class="node-name">PC Víctima</div>
                 <div class="node-ip">192.168.1.50</div>
                 <div class="node-status ${sc.state.attackActive && !sc.state.defenseActive ? "status-compromised" : "status-safe"}">
-                  ${sc.state.attackActive && !sc.state.defenseActive ? "⚠️ Tráfico Interceptado" : "✔️ Seguro"}
+                  ${sc.state.attackActive && !sc.state.defenseActive ? "Trafico Interceptado" : "Seguro"}
                 </div>
               </div>
 
@@ -118,7 +118,7 @@ class AttackSimulator {
                 <div class="node-name">Host Atacante</div>
                 <div class="node-ip">192.168.1.100</div>
                 <div class="node-status ${sc.state.attackActive ? "status-attacking" : "status-idle"}">
-                  ${sc.state.attackActive ? (sc.state.defenseActive ? "🛡️ Ataque Bloqueado por Switch" : "🔥 Transmitiendo Payloads Maliciosos") : "En espera"}
+                  ${sc.state.attackActive ? (sc.state.defenseActive ? "Ataque Bloqueado por Switch" : "Transmitiendo Payloads Maliciosos") : "En espera"}
                 </div>
               </div>
             </div>

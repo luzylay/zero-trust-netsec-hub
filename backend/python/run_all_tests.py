@@ -42,7 +42,7 @@ def run_command(title: str, cmd: list[str]) -> bool:
 
 
 def main() -> None:
-    print("🛡️  NETSEC ENTERPRISE QUALITY GATES & TEST SUITE ORCHESTRATOR")
+    print("NETSEC ENTERPRISE QUALITY GATES & TEST SUITE ORCHESTRATOR")
     print("=" * 70)
 
     gates = [
