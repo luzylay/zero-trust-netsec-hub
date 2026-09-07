@@ -1,23 +1,33 @@
 /**
  * AudioBot - Accessible Client-Side Voice Reader Engine
  * Zero-Cost, Zero-Dependency Text-to-Speech using W3C Web Speech API
+ * Features: Sentence chunking queue, Chromium keepalive heartbeat,
+ * multi-listener event bus with cleanup, natural voice auto-discovery,
+ * and comprehensive session playback controls.
  */
 
 class AudioBot {
   constructor() {
     this.synth = typeof window !== 'undefined' ? window.speechSynthesis : null;
-    this.currentUtterance = null;
+    this.chunks = [];
+    this.currentChunkIdx = 0;
     this.isPlaying = false;
     this.isPaused = false;
     this.rate = 1.0;
     this.voices = [];
     this.selectedVoice = null;
-    this.onStateChangeCallback = null;
+    this.listeners = [];
+    this.keepAliveTimer = null;
+    this.currentTextProvider = null;
+    this.activeMountCleanup = null;
 
     if (this.synth) {
       this.loadVoices();
       if (typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
-        window.speechSynthesis.onvoiceschanged = () => this.loadVoices();
+        window.speechSynthesis.onvoiceschanged = () => {
+          this.loadVoices();
+          this.updateVoiceDropdowns();
+        };
       }
     }
   }
@@ -25,14 +35,22 @@ class AudioBot {
   loadVoices() {
     if (!this.synth) return;
     const allVoices = this.synth.getVoices();
-    // Prioritize Spanish voices (es-*, es-ES, es-MX, es-US, es-PE, etc.)
+    // Prioritize Spanish voices
     this.voices = allVoices.filter(v => v.lang.startsWith('es') || v.lang.startsWith('ES'));
     if (this.voices.length === 0) {
-      this.voices = allVoices; // Fallback to all available voices
+      this.voices = allVoices;
     }
     if (!this.selectedVoice && this.voices.length > 0) {
-      // Prefer neural or natural voices if available
-      this.selectedVoice = this.voices.find(v => v.name.includes('Natural') || v.name.includes('Neural') || v.name.includes('Google') || v.name.includes('Sabina') || v.name.includes('Jorge') || v.name.includes('Helena')) || this.voices[0];
+      this.selectedVoice = this.voices.find(v => 
+        v.name.includes('Natural') || 
+        v.name.includes('Neural') || 
+        v.name.includes('Google') || 
+        v.name.includes('Sabina') || 
+        v.name.includes('Jorge') || 
+        v.name.includes('Helena') ||
+        v.name.includes('Monica') ||
+        v.name.includes('Paulina')
+      ) || this.voices[0];
     }
   }
 
@@ -45,9 +63,9 @@ class AudioBot {
     return rawContent
       // Remove HTML tags
       .replace(/<[^>]*>/g, ' ')
-      // Remove code blocks
-      .replace(/```[\s\S]*?```/g, ' Snippet de codigo omitido para la lectura. ')
-      // Remove inline code
+      // Replace code blocks with descriptive spoken summary
+      .replace(/```[\s\S]*?```/g, ' . Bloque de comandos omitido de la narracion. ')
+      // Remove inline code backticks
       .replace(/`([^`]+)`/g, '$1')
       // Remove markdown links [text](url) -> text
       .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
@@ -66,77 +84,92 @@ class AudioBot {
       .trim();
   }
 
-  speak(text, onEnd) {
+  splitIntoSentences(text) {
+    const clean = this.cleanTextForSpeech(text);
+    if (!clean) return [];
+    // Split by sentence terminators
+    const rawMatches = clean.match(/[^.!?\n]+[.!?\n]+/g);
+    if (!rawMatches || rawMatches.length === 0) {
+      return [clean];
+    }
+    return rawMatches.map(s => s.trim()).filter(s => s.length > 0);
+  }
+
+  speak(text) {
     if (!this.synth) return;
     this.stop();
 
-    const cleanText = this.cleanTextForSpeech(text);
-    if (!cleanText) return;
+    this.chunks = this.splitIntoSentences(text);
+    if (this.chunks.length === 0) return;
 
-    this.currentUtterance = new SpeechSynthesisUtterance(cleanText);
-    this.currentUtterance.rate = this.rate;
-    this.currentUtterance.pitch = 1.0;
-    this.currentUtterance.lang = this.selectedVoice ? this.selectedVoice.lang : 'es-ES';
+    this.currentChunkIdx = 0;
+    this.isPlaying = true;
+    this.isPaused = false;
+    this.notifyState();
+    this.startKeepAlive();
+    this.playNextChunk();
+  }
 
-    if (this.selectedVoice) {
-      this.currentUtterance.voice = this.selectedVoice;
+  playNextChunk() {
+    if (!this.synth || !this.isPlaying || this.isPaused) return;
+
+    if (this.currentChunkIdx >= this.chunks.length) {
+      this.stop();
+      return;
     }
 
-    this.currentUtterance.onstart = () => {
-      this.isPlaying = true;
-      this.isPaused = false;
-      this.notifyState();
+    const chunkText = this.chunks[this.currentChunkIdx];
+    const utterance = new SpeechSynthesisUtterance(chunkText);
+    utterance.rate = this.rate;
+    utterance.pitch = 1.0;
+    utterance.lang = this.selectedVoice ? this.selectedVoice.lang : 'es-ES';
+
+    if (this.selectedVoice) {
+      utterance.voice = this.selectedVoice;
+    }
+
+    utterance.onend = () => {
+      if (this.isPlaying && !this.isPaused) {
+        this.currentChunkIdx++;
+        this.playNextChunk();
+      }
     };
 
-    this.currentUtterance.onpause = () => {
-      this.isPlaying = true;
-      this.isPaused = true;
-      this.notifyState();
+    utterance.onerror = (e) => {
+      if (e.error === 'interrupted' || e.error === 'canceled') return;
+      this.currentChunkIdx++;
+      this.playNextChunk();
     };
 
-    this.currentUtterance.onresume = () => {
-      this.isPlaying = true;
-      this.isPaused = false;
-      this.notifyState();
-    };
-
-    this.currentUtterance.onend = () => {
-      this.isPlaying = false;
-      this.isPaused = false;
-      this.notifyState();
-      if (typeof onEnd === 'function') onEnd();
-    };
-
-    this.currentUtterance.onerror = () => {
-      this.isPlaying = false;
-      this.isPaused = false;
-      this.notifyState();
-    };
-
-    this.synth.speak(this.currentUtterance);
+    this.synth.speak(utterance);
   }
 
   pause() {
     if (!this.synth) return;
-    if (this.synth.speaking && !this.synth.paused) {
+    if (this.isPlaying && !this.isPaused) {
       this.synth.pause();
       this.isPaused = true;
+      this.stopKeepAlive();
       this.notifyState();
     }
   }
 
   resume() {
     if (!this.synth) return;
-    if (this.synth.paused) {
+    if (this.isPaused) {
       this.synth.resume();
       this.isPaused = false;
+      this.startKeepAlive();
       this.notifyState();
     }
   }
 
   stop() {
     if (!this.synth) return;
+    this.stopKeepAlive();
     this.synth.cancel();
+    this.chunks = [];
+    this.currentChunkIdx = 0;
     this.isPlaying = false;
     this.isPaused = false;
     this.notifyState();
@@ -144,34 +177,88 @@ class AudioBot {
 
   setRate(rateValue) {
     this.rate = parseFloat(rateValue) || 1.0;
-    if (this.isPlaying && !this.isPaused && this.currentUtterance) {
-      // Re-trigger speech from current position if needed or adjust for next
+    if (this.isPlaying && !this.isPaused) {
+      this.synth.cancel();
+      this.playNextChunk();
     }
   }
 
   setVoice(voiceName) {
     const v = this.voices.find(x => x.name === voiceName);
-    if (v) this.selectedVoice = v;
+    if (v) {
+      this.selectedVoice = v;
+      if (this.isPlaying && !this.isPaused) {
+        this.synth.cancel();
+        this.playNextChunk();
+      }
+    }
+  }
+
+  startKeepAlive() {
+    this.stopKeepAlive();
+    // Chromium bugfix: SpeechSynthesis pauses after ~15 seconds on long text
+    this.keepAliveTimer = setInterval(() => {
+      if (this.synth && this.isPlaying && !this.isPaused) {
+        this.synth.pause();
+        this.synth.resume();
+      }
+    }, 10000);
+  }
+
+  stopKeepAlive() {
+    if (this.keepAliveTimer) {
+      clearInterval(this.keepAliveTimer);
+      this.keepAliveTimer = null;
+    }
   }
 
   onStateChange(cb) {
-    this.onStateChangeCallback = cb;
+    if (typeof cb === 'function') {
+      this.listeners.push(cb);
+      // Return unregister callback for clean component lifecycle
+      return () => {
+        this.listeners = this.listeners.filter(l => l !== cb);
+      };
+    }
+    return () => {};
   }
 
   notifyState() {
-    if (typeof this.onStateChangeCallback === 'function') {
-      this.onStateChangeCallback({
-        isPlaying: this.isPlaying,
-        isPaused: this.isPaused,
-        rate: this.rate,
-        voice: this.selectedVoice ? this.selectedVoice.name : 'Predeterminada'
-      });
-    }
+    const state = {
+      isPlaying: this.isPlaying,
+      isPaused: this.isPaused,
+      rate: this.rate,
+      voice: this.selectedVoice ? this.selectedVoice.name : 'Predeterminada',
+      progress: this.chunks.length > 0 ? Math.round((this.currentChunkIdx / this.chunks.length) * 100) : 0
+    };
+    this.listeners.forEach(cb => {
+      try { cb(state); } catch (e) {}
+    });
+  }
+
+  updateVoiceDropdowns() {
+    document.querySelectorAll('.audiobot-voice-select').forEach(select => {
+      const currentVal = select.value;
+      select.innerHTML = this.voices.map(v => `
+        <option value="${v.name}" ${this.selectedVoice && this.selectedVoice.name === v.name ? 'selected' : ''}>
+          ${v.name.length > 25 ? v.name.substring(0, 25) + '...' : v.name}
+        </option>
+      `).join('');
+      if (currentVal) select.value = currentVal;
+    });
   }
 
   renderControlBar(mountElementId, textProvider) {
     const mount = document.getElementById(mountElementId);
     if (!mount) return;
+
+    this.currentTextProvider = textProvider;
+
+    // Clean up previous active mount listener
+    if (typeof this.activeMountCleanup === 'function') {
+      this.activeMountCleanup();
+      this.activeMountCleanup = null;
+    }
 
     if (!this.isSupported()) {
       mount.innerHTML = `
@@ -197,7 +284,7 @@ class AudioBot {
         </div>
 
         <div class="audiobot-center">
-          <button class="audiobot-btn primary" id="btn-audiobot-toggle" title="Reproducir / Pausar lectura (Alt + P)">
+          <button class="audiobot-btn primary" id="btn-audiobot-toggle" title="Reproducir / Pausar lectura de la sesion (Alt + P)">
             <i class="fas ${this.isPlaying && !this.isPaused ? 'fa-pause' : 'fa-play'}"></i>
             <span id="audiobot-play-label">${this.isPlaying && !this.isPaused ? 'Pausar' : (this.isPaused ? 'Reanudar' : 'Escuchar Sesion')}</span>
           </button>
@@ -221,7 +308,7 @@ class AudioBot {
           ${this.voices.length > 0 ? `
             <div class="audiobot-select-wrap voice-selector-wrap">
               <i class="fas fa-volume-high"></i>
-              <select id="audiobot-voice-select" class="audiobot-select" title="Voz del lector">
+              <select id="audiobot-voice-select" class="audiobot-select audiobot-voice-select" title="Voz del lector">
                 ${this.voices.map(v => `
                   <option value="${v.name}" ${this.selectedVoice && this.selectedVoice.name === v.name ? 'selected' : ''}>
                     ${v.name.length > 25 ? v.name.substring(0, 25) + '...' : v.name}
@@ -262,27 +349,20 @@ class AudioBot {
     if (rateSelect) {
       rateSelect.addEventListener('change', (e) => {
         this.setRate(e.target.value);
-        if (this.isPlaying) {
-          const text = typeof textProvider === 'function' ? textProvider() : textProvider;
-          this.speak(text);
-        }
       });
     }
 
     if (voiceSelect) {
       voiceSelect.addEventListener('change', (e) => {
         this.setVoice(e.target.value);
-        if (this.isPlaying) {
-          const text = typeof textProvider === 'function' ? textProvider() : textProvider;
-          this.speak(text);
-        }
       });
     }
 
-    this.onStateChange((state) => {
-      const pLabel = document.getElementById('audiobot-play-label');
-      const wave = document.getElementById('audiobot-wave');
+    this.activeMountCleanup = this.onStateChange((state) => {
+      const pLabel = mount.querySelector('#audiobot-play-label');
+      const wave = mount.querySelector('#audiobot-wave');
       const playIcon = toggleBtn ? toggleBtn.querySelector('i') : null;
+      const sBtn = mount.querySelector('#btn-audiobot-stop');
 
       if (playIcon) {
         playIcon.className = state.isPlaying && !state.isPaused ? 'fas fa-pause' : 'fas fa-play';
@@ -294,8 +374,8 @@ class AudioBot {
         if (state.isPlaying && !state.isPaused) wave.classList.add('active');
         else wave.classList.remove('active');
       }
-      if (stopBtn) {
-        stopBtn.disabled = !state.isPlaying;
+      if (sBtn) {
+        sBtn.disabled = !state.isPlaying;
       }
     });
   }

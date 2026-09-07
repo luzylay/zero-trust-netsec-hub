@@ -165,8 +165,7 @@ class StudySpaceApp {
     if (topbarAudioBtn && this.audioBot) {
       topbarAudioBtn.addEventListener("click", () => {
         if (!this.audioBot.isPlaying) {
-          const contentArea = document.getElementById("main-view-container");
-          const textToSpeak = contentArea ? contentArea.innerText : "Contenido de seguridad en redes.";
+          const textToSpeak = this.getCurrentReadableContent();
           this.audioBot.speak(textToSpeak);
         } else if (this.audioBot.isPaused) {
           this.audioBot.resume();
@@ -201,6 +200,47 @@ class StudySpaceApp {
         if (playBtn) playBtn.click();
       }
     });
+  }
+
+  getCurrentReadableContent() {
+    if (this.currentView === "curriculum") {
+      const unit = window.CURRICULUM_DATA.find(u => u.id === this.currentUnitId) || window.CURRICULUM_DATA[0];
+      const lesson = unit.sessions.find(s => s.id === this.currentLessonId) || unit.sessions[0];
+      return `Unidad ${unit.unitNumber}. ${lesson.title}. ${lesson.content}`;
+    }
+    if (this.currentView === "standards") {
+      const std = window.STANDARDS_DATA;
+      return `Estándares Internacionales NIST SP 800-63-3 y Marco SBS 504-2021. ${std.nist.overview}. Marco normativo SBS: ${std.sbs504.title}.`;
+    }
+    if (this.currentView === "academic-research") {
+      const data = window.ACADEMIC_RESEARCH_DATA || [];
+      const topics = data.map(d => `${d.category}: ${d.publications.map(p => p.title + '. ' + p.keyTakeaway).join('. ')}`).join('. ');
+      return `Compendio de Investigación Académica en Seguridad de Redes. ${topics}`;
+    }
+    if (this.currentView === "labs") {
+      const lab = window.LABS_DATA.find(l => l.id === this.currentLabId) || window.LABS_DATA[0];
+      const steps = lab.steps.map(s => `Paso ${s.stepNumber}: ${s.title}. ${s.instructions}`).join('. ');
+      return `Laboratorio: ${lab.title}. Topología: ${lab.topology}. Objetivos: ${lab.objectives.join(', ')}. ${steps}`;
+    }
+    if (this.currentView === "polyglot-code") {
+      const data = window.ENTERPRISE_CODE_DATA || [];
+      const topic = data.find(t => t.id === this.currentCodeTopicId) || data[0];
+      return `Patrones Empresariales de Código Polyglot. ${topic.title}. ${topic.description}.`;
+    }
+    if (this.currentView === "flashcards") {
+      const card = window.FLASHCARDS_DATA[this.currentFcIdx];
+      return `Tarjeta de Estudio: Categoría ${card.category}. Pregunta: ${card.front}. Respuesta: ${card.back}`;
+    }
+    if (this.currentView === "quiz") {
+      const quiz = window.QUIZZES_DATA[this.currentQuizIdx];
+      const options = quiz.options.map((o, i) => `Opción ${i + 1}: ${o}`).join('. ');
+      return `Evaluación: Pregunta ${this.currentQuizIdx + 1}. ${quiz.question}. Opciones: ${options}`;
+    }
+    if (this.currentView === "dashboard") {
+      return "Network Security and Digital Identity Hub. Espacio integral de aprendizaje de seguridad en redes, protocolos AAA, NIST SP 800-63-3, resolución SBS 504-2021 y laboratorios prácticos.";
+    }
+    const contentArea = document.getElementById("main-view-container");
+    return contentArea ? contentArea.innerText : "Contenido de seguridad en redes.";
   }
 
   navigateTo(viewId, params = {}) {
@@ -645,6 +685,12 @@ class StudySpaceApp {
         `).join("")}
       </div>
     `;
+
+    if (this.audioBot) {
+      this.audioBot.renderControlBar("audiobot-mount-research", () => {
+        return this.getCurrentReadableContent();
+      });
+    }
   }
 
   renderCliSimulator(container) {
@@ -820,6 +866,12 @@ class StudySpaceApp {
         }, 2000);
       });
     }
+
+    if (this.audioBot) {
+      this.audioBot.renderControlBar("audiobot-mount-code", () => {
+        return `${topic.title}. ${topic.description}. Beneficios del patrón de arquitectura en TypeScript, Python y Go.`;
+      });
+    }
   }
 
   renderLabs(container) {
@@ -962,6 +1014,7 @@ class StudySpaceApp {
     if (prevBtn) {
       prevBtn.addEventListener("click", () => {
         if (this.currentFcIdx > 0) {
+          if (this.audioBot) this.audioBot.stop();
           this.currentFcIdx--;
           this.renderFlashcards(container);
         }
@@ -971,9 +1024,16 @@ class StudySpaceApp {
     if (nextBtn) {
       nextBtn.addEventListener("click", () => {
         if (this.currentFcIdx < total - 1) {
+          if (this.audioBot) this.audioBot.stop();
           this.currentFcIdx++;
           this.renderFlashcards(container);
         }
+      });
+    }
+
+    if (this.audioBot) {
+      this.audioBot.renderControlBar("audiobot-mount-flashcards", () => {
+        return `Tarjeta de Estudio ${this.currentFcIdx + 1}. Categoría: ${card.category}. Pregunta: ${card.front}. Respuesta: ${card.back}`;
       });
     }
   }
@@ -1054,6 +1114,7 @@ class StudySpaceApp {
 
     if (nextBtn) {
       nextBtn.addEventListener("click", () => {
+        if (this.audioBot) this.audioBot.stop();
         if (this.currentQuizIdx < total - 1) {
           this.currentQuizIdx++;
           this.renderQuizzes(container);
@@ -1071,6 +1132,13 @@ class StudySpaceApp {
             </div>
           `;
         }
+      });
+    }
+
+    if (this.audioBot) {
+      this.audioBot.renderControlBar("audiobot-mount-quiz", () => {
+        const opts = q.options.map((opt, idx) => `Opción ${String.fromCharCode(65 + idx)}: ${opt}`).join('. ');
+        return `Evaluación de Redes. Pregunta ${this.currentQuizIdx + 1}: ${q.question}. ${opts}`;
       });
     }
   }
