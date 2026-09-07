@@ -1,6 +1,7 @@
 /**
  * Comprehensive Enterprise Curriculum & Knowledge Base for Network Security & Digital Identity
  * Covers all 4 Units, 18 weeks, theoretical principles, architecture, real-world case studies,
+ * beginner-friendly foundational glossaries (TCP/UDP, MAC/IP, Handshakes, etc.),
  * industry tooling, operational pitfalls, and defense-in-depth hardening.
  * Strictly zero emojis, academic/enterprise grade.
  */
@@ -21,10 +22,27 @@ window.CURRICULUM_DATA = [
           "Pilares de Autenticidad, Trazabilidad y No Repudio",
           "Modelos de Riesgo Cibernético (Amenaza, Vulnerabilidad, Impacto)",
           "Arquitectura de Defensa en Profundidad (Defense in Depth)",
+          "Glosario para Principiantes",
           "Casos de Estudio de la Industria (Equifax, Colonial Pipeline)"
         ],
         content: `
-### 1. Principios Fundamentales de la Seguridad de la Información
+### 1. Glosario Técnico y Fundamentos para Principiantes
+
+Si eres nuevo en seguridad de redes, estos son los conceptos clave que necesitas comprender antes de profundizar:
+
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **Activo de Información (Asset)** | Cualquier dato, servidor, router o sistema que tiene valor para una organización. | Las joyas dentro de una caja fuerte o la base de datos de clientes de un banco. |
+| **Cifrado Simétrico** | Método de encriptación que utiliza **la misma clave secreta** tanto para cifrar como para descifrar el mensaje. | Un candado físico tradicional: quien tiene una copia exacta de la llave puede abrir y cerrar. |
+| **Cifrado Asimétrico** | Método que utiliza **un par de claves matemáticas**: una Clave Pública (que se comparte con todos) y una Clave Privada (secreta y personal). | Un buzón de correos: cualquiera puede depositar una carta por la ranura (clave pública), pero solo el cartero con la llave puede abrir el buzón y leerlas (clave privada). |
+| **Función Hash** | Algoritmo matemático unidireccional que convierte cualquier cantidad de texto en un código alfanumérico de longitud fija (ej. SHA-256). Es imposible revertir el hash al texto original. | La huella dactilar de un archivo: si cambias una sola letra en un libro de 500 páginas, el hash resultante cambia por completo. |
+| **RBAC (Role-Based Access Control)** | Modelo donde los permisos se asignan a roles de trabajo y no a personas individuales. | En un hospital, cualquier usuario con rol "Médico" puede ver historiales clínicos, pero el rol "Recepcionista" solo puede ver citas. |
+| **PKI (Public Key Infrastructure)** | Sistema de certificados digitales y autoridades de confianza que validan que una clave pública realmente pertenece a quien dice ser. | El sistema de pasaportes emitidos por el gobierno para validar la identidad de los ciudadanos en aeropuertos. |
+| **DDoS (Denial of Service)** | Ataque masivo donde miles de computadoras inundan un servidor con tráfico falso hasta colapsarlo y dejarlo inaccesible para usuarios reales. | Una multitud de 10,000 personas bloqueando deliberadamente todas las puertas y teléfonos de una tienda para que nadie pueda entrar a comprar. |
+
+---
+
+### 2. Principios Fundamentales de la Seguridad de la Información
 
 La seguridad en redes y sistemas informáticos se fundamenta en garantizar que los activos de información estén protegidos contra accesos no autorizados, modificaciones ilícitas e interrupciones en el servicio. La protección debe ser integral, abarcando hardware, software, datos en reposo, datos en tránsito y el factor humano.
 
@@ -51,7 +69,7 @@ La seguridad en redes y sistemas informáticos se fundamenta en garantizar que l
 
 ---
 
-### 2. Modelo Matemático y Ecuación de Riesgo Cibernético
+### 3. Modelo Matemático y Ecuación de Riesgo Cibernético
 
 $$\\text{Riesgo (Risk)} = \\text{Amenaza (Threat)} \\times \\text{Vulnerabilidad (Vulnerability)} \\times \\text{Impacto (Impact)}$$
 
@@ -62,7 +80,7 @@ $$\\text{Riesgo (Risk)} = \\text{Amenaza (Threat)} \\times \\text{Vulnerabilidad
 
 ---
 
-### 3. Casos Reales de la Industria
+### 4. Casos Reales de la Industria
 
 1. **Incidente Equifax (2017) - Quiebre de Confidencialidad:**
    - *Vector:* Vulnerabilidad en Apache Struts (CVE-2017-5638) no parcheada durante más de 60 días en un portal de disputas.
@@ -75,7 +93,7 @@ $$\\text{Riesgo (Risk)} = \\text{Amenaza (Threat)} \\times \\text{Vulnerabilidad
 
 ---
 
-### 4. Herramientas de la Industria y Comandos Prácticos
+### 5. Herramientas de la Industria y Comandos Prácticos
 
 - **Nmap (Network Mapper):** Auditoría de puertos y detección de vulnerabilidades.
 \`\`\`bash
@@ -89,11 +107,9 @@ nmap -sS -sV --script vuln -p 1-10000 -T4 192.168.1.0/24
 openssl s_client -connect 192.168.1.10:443 -tls1_3 -servername secure.empresa.local
 \`\`\`
 
-- **OpenVAS / Greenbone:** Escáner automatizado de vulnerabilidades de infraestructura corporativa.
-
 ---
 
-### 5. Precauciones y Trampas de Implementación
+### 6. Precauciones y Trampas de Implementación
 
 - **Falsa Sensación de Seguridad por Perímetro Único:** Confiar exclusivamente en un firewall perimetral sin segmentación interna permite que una intrusión en una estación de trabajo comprometa todo el dominio Active Directory.
 - **Ignorar la Disponibilidad en Decisiones de Cifrado:** Implementar túneles IPsec sobredimensionados en hardware sin aceleración criptográfica (**AES-NI**) puede saturar la CPU de los routers y provocar caídas de enlace bajo alto tráfico.
@@ -106,12 +122,26 @@ openssl s_client -connect 192.168.1.10:443 -tls1_3 -servername secure.empresa.lo
         topics: [
           "Taxonomía de Malware (Virus, Gusanos, Troyanos, RATs, Ransomware, Rootkits)",
           "Ciclo de Vida de las Infecciones",
+          "Glosario Técnico de Amenazas",
           "Técnicas de Evasión (Polimorfismo, Metamorfismo, Sandboxing Bypass)",
           "Detección Basada en Firmas, Heurística y Análisis de Comportamiento (EDR/XDR)",
           "Caso de Estudio: WannaCry (2017) y NotPetya"
         ],
         content: `
-### 1. Taxonomía del Malware Moderno
+### 1. Glosario Técnico y Fundamentos de Malware
+
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **Payload (Carga Útil)** | El fragmento de código del malware que ejecuta la acción perjudicial real (robar datos, cifrar discos o abrir puertos). | La ojiva o explosivo dentro de un misil; el resto del misil es solo el vehículo de transporte. |
+| **RAT (Remote Access Trojan)** | Software malicioso que otorga al atacante control remoto gráfico total de la máquina infectada (cámara, teclado, archivos). | Como instalar un TeamViewer o AnyDesk clandestino sin que el usuario lo sepa. |
+| **Rootkit** | Herramienta oculta que se instala en el núcleo más profundo del sistema operativo (Kernel) para borrar los rastros del malware. | Un intruso que se vuelve invisible a los ojos de la policía porque altera las cámaras de seguridad del edificio. |
+| **Zero-Day (Día Cero)** | Una vulnerabilidad de software recién descubierta para la cual el fabricante aún no ha creado un parche ni existe firma de antivirus. | Una cerradura de banco cuya falla secreta de fábrica solo conocen los ladrones. |
+| **Sandbox (Bandeja de Arena)** | Entorno virtual seguro y aislado donde se ejecuta un archivo sospechoso para observar su comportamiento sin peligro. | Una cámara de bioseguridad acristalada donde los científicos analizan un virus peligroso. |
+| **EDR / XDR** | Software moderno de seguridad que vigila continuamente la memoria RAM y el comportamiento de los procesos para detectar anomalías en vivo. | Un guardia de seguridad con inteligencia artificial patrullando dentro de la computadora en tiempo real. |
+
+---
+
+### 2. Taxonomía del Malware Moderno
 
 El software malicioso (**Malware**) engloba programas diseñados deliberadamente para causar daños, robar credenciales, alterar la integridad del sistema o establecer control no autorizado sobre infraestructuras de red.
 
@@ -126,7 +156,7 @@ El software malicioso (**Malware**) engloba programas diseñados deliberadamente
 
 ---
 
-### 2. Ciclo de Vida de la Infección y Vectores de Evasión
+### 3. Ciclo de Vida de la Infección y Vectores de Evasión
 
 1. **Desarrollo y Armado (Weaponization):** El actor de amenazas ensambla el payload malicioso, aplicando empaquetadores (**UPX, Themida**), cifrado polimórfico o metamórfico para alterar los hashes MD5/SHA-256 en cada compilación.
 2. **Entrega y Explotación (Delivery & Exploitation):** Tráfico malicioso transmitido mediante phishing, descargas desatendidas (Drive-by Download) o explotación de vulnerabilidades en servicios expuestos (ej. SMB, RDP).
@@ -136,7 +166,7 @@ El software malicioso (**Malware**) engloba programas diseñados deliberadamente
 
 ---
 
-### 3. Técnicas de Detección de Malware
+### 4. Técnicas de Detección de Malware
 
 1. **Detección Basada en Firmas:** Compara secuencias de bytes y hashes estáticos contra bases de datos globales de amenazas. Es ineficaz ante ataques Zero-Day o variantes con polimorfismo.
 2. **Análisis Heurístico y Desensamblado Estático:** Analiza las llamadas a la API de Windows (\`VirtualAllocEx\`, \`WriteProcessMemory\`, \`CreateRemoteThread\`) en busca de patrones típicos de inyección DLL.
@@ -145,7 +175,7 @@ El software malicioso (**Malware**) engloba programas diseñados deliberadamente
 
 ---
 
-### 4. Caso de Estudio: El Gusano Ransomware WannaCry (2017)
+### 5. Caso de Estudio: El Gusano Ransomware WannaCry (2017)
 
 - **Vector de Entrada:** Explotación de la vulnerabilidad en el protocolo SMBv1 de Microsoft (**CVE-2017-0143 / EternalBlue**), filtrada del grupo Equation Group.
 - **Mecanismo de Propagación:** Escaneo masivo y autónomo del puerto TCP 445 en subredes locales e Internet. Una vez infectado un equipo, actuaba como gusano para propagarse a todos los hosts accesibles sin interacción de usuario.
@@ -154,7 +184,7 @@ El software malicioso (**Malware**) engloba programas diseñados deliberadamente
 
 ---
 
-### 5. Herramientas y Comandos Prácticos
+### 6. Herramientas y Comandos Prácticos
 
 - **YARA:** Creación de reglas para escaneo e identificación de patrones de malware.
 \`\`\`text
@@ -176,7 +206,7 @@ netstat -ano -p tcp | findstr "ESTABLISHED"
 
 ---
 
-### 6. Precauciones y Trampas Operativas
+### 7. Precauciones y Trampas Operativas
 
 - **Desactivar SMBv1 en toda la red:** SMBv1 es un protocolo obsoleto que carece de autenticación robusta y cifrado; debe ser deshabilitado mediante directivas GPO.
 - **No confiar en la extensión del archivo:** Archivos con doble extensión (ej. \`factura.pdf.exe\`) engañan al usuario si el explorador de Windows tiene desmarcada la opción de mostrar extensiones conocidas.
@@ -187,25 +217,29 @@ netstat -ano -p tcp | findstr "ESTABLISHED"
         title: "Sesión 1.3: Botnets y Servidores de Comando y Control (C2)",
         topics: [
           "Arquitectura y Topologías de Botnets (Centralizada IRC/HTTP, P2P, Híbrida)",
+          "Glosario de Redes Botnet y C2",
           "Evasión Avanzada: DGA (Domain Generation Algorithms) y Fast-Flux DNS",
           "Canales Encubiertos (DNS Tunneling, DoH, Cloud APIs)",
           "Estrategias Defensivas: DNS Sinkholing, Análisis de Beaconing y Threat Intelligence",
           "Caso de Estudio: Mirai Botnet (2016) y GameOver Zeus"
         ],
         content: `
-### 1. ¿Qué es una Botnet?
+### 1. Glosario Técnico y Fundamentos de Botnets
 
-Una **Botnet** es una red distribuida de dispositivos informáticos comprometidos (denominados *Bots* o *Zombies*) que son controlados de forma remota y coordinada por un atacante (*Botmaster*) a través de un canal de Comando y Control (**C2 / C&C**).
-
-#### Casos de Uso Malicioso de las Botnets:
-- **Ataques de Denegación de Servicio Distribuida (DDoS):** Saturación de enlaces por amplificación DNS/NTP o inundación de peticiones HTTP en Capa 7.
-- **Campañas Masivas de Phishing y Spam:** Envío distribuido de millones de correos para evitar listas negras basadas en reputación de IP.
-- **Redes de Proxies Residenciales:** Enrutamiento encubierto del tráfico de bandas de cibercrimen para eludir controles de geolocalización.
-- **Cryptojacking Distribuido:** Monopolización no autorizada de ciclos de CPU/GPU para minería de criptomonedas.
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **Bot / Zombie** | Dispositivo informático infectado (computadora, cámara, router) que obedece órdenes remotas de un atacante sin que su dueño lo sepa. | Un soldado hipnotizado en un ejército clandestino. |
+| **Botmaster / Herder** | El ciberdelincuente que controla y administra la red de computadoras infectadas. | El general que da órdenes a su ejército de soldados hipnotizados. |
+| **Servidor C2 (Command & Control)** | Servidor web o central donde el atacante publica las órdenes y recibe los datos robados de todos los bots. | La estación de radio clandestina que transmite instrucciones a agentes encubiertos. |
+| **Beaconing (Balizamiento)** | Señal o mensaje periódico y silencioso que un bot infectado envía a su servidor C2 para preguntar: "¿Tienes órdenes nuevas para mí?". | Un submarino que emite un pulso de radar cada 10 minutos para reportar su posición a la base. |
+| **DGA (Domain Generation Algorithm)** | Algoritmo matemático en el malware que genera automáticamente cientos de nombres de dominio nuevos cada día para evitar bloqueos. | Un espía que cambia de número de teléfono cada 24 horas usando una fórmula matemática conocida solo por él y su base. |
+| **DNS Sinkholing** | Técnica defensiva donde los defensores toman control de un dominio malicioso y redirigen su tráfico a una IP falsa interna para censar víctimas y anular el ataque. | Desviar una llamada telefónica de un estafador directamente a la central de la policía. |
 
 ---
 
-### 2. Topologías de Infraestructura C2
+### 2. ¿Qué es una Botnet y cómo opera?
+
+Una **Botnet** es una red distribuida de dispositivos informáticos comprometidos que son controlados de forma remota y coordinada por un atacante (*Botmaster*) a través de un canal de Comando y Control (**C2 / C&C**).
 
 \`\`\`mermaid
 flowchart TD
@@ -272,6 +306,7 @@ tshark -r captura_red.pcap -Y "dns.flags.response == 0 and dns.qry.name.len > 50
         id: "u1-s4",
         title: "Sesión 1.4: Metodologías de Ataque a Redes LAN y Monitoreo",
         topics: [
+          "Glosario Esencial de Redes (TCP vs UDP, IP vs MAC, Handshake)",
           "Ataques de Acceso (Fuerza Bruta, Password Spraying, Pass-the-Hash)",
           "Ataques de Capa 2 (ARP Poisoning, DHCP Starvation, MAC Flooding, VLAN Hopping)",
           "Ingeniería Social (Phishing, Spear Phishing, Whaling, Vishing, Pretexting)",
@@ -279,9 +314,23 @@ tshark -r captura_red.pcap -Y "dns.flags.response == 0 and dns.qry.name.len > 50
           "Defensas de Switch: Port Security, DHCP Snooping, Dynamic ARP Inspection (DAI)"
         ],
         content: `
-### 1. Metodologías de Ataque en Redes de Acceso Local (LAN)
+### 1. Glosario Fundamental de Redes: TCP vs UDP, MAC vs IP
 
-Las redes locales construidas sobre protocolos de enlace tradicionales (Ethernet / 802.3, ARP, DHCP) carecen de autenticación nativa, lo que permite que un atacante con acceso físico o lógico a un puerto de switch ejecute ataques de interceptación y denegación de servicio.
+Para entender los ataques a redes locales, es indispensable dominar estos conceptos básicos de comunicaciones:
+
+| Concepto de Red | Definición Sencilla | Explicación Práctica / Analogía |
+| :--- | :--- | :--- |
+| **TCP (Transmission Control Protocol)** | Protocolo de transporte orientado a la conexión, confiable y ordenado. Verifica que cada paquete llegue sin errores mediante confirmaciones (ACKs). | Como enviar una carta certificada con acuse de recibo donde el cartero te entrega un comprobante firmado de entrega. Usado en Web (HTTP/HTTPS), SSH y transferencias de archivos. |
+| **UDP (User Datagram Protocol)** | Protocolo de transporte rápido, sin conexión ni confirmación de entrega. No garantiza el orden de llegada. | Como una transmisión de radio en vivo: si hay interferencia por un segundo, la señal continúa y no se detiene a reenviar lo que te perdiste. Usado en Streaming de video, DNS, llamadas VoIP y juegos online. |
+| **Three-Way Handshake (TCP)** | Proceso de 3 pasos para iniciar una sesión TCP: 1) SYN (¿Podemos hablar?), 2) SYN-ACK (Sí, hablemos), 3) ACK (Entendido, iniciemos). | Como decir: "Hola", responder: "Hola, te escucho", y confirmar: "Perfecto, te cuento...". |
+| **Dirección MAC (Media Access Control)** | Identificador físico único de 48 bits grabado de fábrica en la tarjeta de red de cada dispositivo (Capa 2). | El número de serie o DNI físico imborrable grabado en el motor de un vehículo. |
+| **Dirección IP (Internet Protocol)** | Dirección lógica de red (Capa 3) que identifica la ubicación de un dispositivo en una red (ej. 192.168.1.50). | La dirección postal o número de departamento donde vives (puede cambiar si te mudas de red). |
+| **Protocolo ARP (Address Resolution Protocol)** | Protocolo que traduce una dirección IP lógica a una dirección MAC física en la red local. | Preguntar en voz alta en un salón: "¿Quién es Juan Pérez (IP) para entregarle esta carta en su mesa (MAC)?". |
+| **Protocolo DHCP (Dynamic Host Configuration)** | Servidor que asigna automáticamente direcciones IP, máscaras y DNS a las computadoras cuando se conectan. | El recepcionista del hotel que te entrega la llave y el número de habitación al registrarte. |
+
+---
+
+### 2. Metodologías de Ataque en Redes de Acceso Local (LAN)
 
 \`\`\`mermaid
 sequenceDiagram
@@ -310,7 +359,7 @@ sequenceDiagram
 
 ---
 
-### 2. Dispositivos y Protocolos de Telemetría y Monitoreo de Red
+### 3. Dispositivos y Protocolos de Telemetría y Monitoreo de Red
 
 | Mecanismo de Telemetría | Capa OSI | Datos Recopilados | Uso en Operaciones de Seguridad (SOC) |
 | :--- | :--- | :--- | :--- |
@@ -322,7 +371,7 @@ sequenceDiagram
 
 ---
 
-### 3. Configuración de Hardening en Cisco IOS CLI
+### 4. Configuración de Hardening en Cisco IOS CLI
 
 \`\`\`cisco
 ! 1. Activacion de DHCP Snooping global y por VLAN
@@ -347,7 +396,7 @@ interface range FastEthernet0/1 - 24
 
 ---
 
-### 4. Precauciones y Trampas Operativas
+### 5. Precauciones y Trampas Operativas
 
 - **No habilitar DHCP Snooping antes de DAI:** Si se habilita DAI sin tener activa y poblada la base de datos de DHCP Snooping, el switch descartará inmediatamente TODO el tráfico ARP legítimo, aislando a todos los usuarios de la red.
 - **Riesgo de SNMPv1 y SNMPv2c:** Ambas versiones transmiten la cadena de comunidad (*Community String*) en texto claro sin cifrar. Deben ser erradicadas en favor de **SNMPv3 con nivel authPriv** (autenticación SHA + cifrado AES).
@@ -367,6 +416,7 @@ interface range FastEthernet0/1 - 24
         id: "u2-s1",
         title: "Sesión 2.1: El Framework AAA y Protocolos Centralizados",
         topics: [
+          "Glosario Esencial de Gestión de Identidad y AAA",
           "Arquitectura y Componentes del Framework AAA",
           "Protocolo TACACS+ (RFC 8907): Arquitectura TCP 49, Desacoplamiento y Cifrado Total",
           "Protocolo Kerberos v5 (RFC 4120): KDC, AS, TGS, Tickets TGT y Service Tickets",
@@ -374,9 +424,21 @@ interface range FastEthernet0/1 - 24
           "Caso de Estudio: Compromiso de Active Directory en Redes Corporativas"
         ],
         content: `
-### 1. El Framework AAA (Authentication, Authorization, Accounting)
+### 1. Glosario Técnico de Identidad y Protocolos AAA
 
-El framework **AAA** es el pilar de la gestión centralizada de accesos e identidades en infraestructuras corporativas:
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **NAS (Network Access Server)** | El dispositivo intermediario (router, switch o concentrador VPN) que solicita credenciales al usuario y consulta al servidor central de autenticación. | El guardia de la puerta del edificio que te pide tu documento y llama por radio a la administración para ver si puedes entrar. |
+| **Shared Secret (Secreto Compartido)** | Contraseña secreta configurada manualmente tanto en el switch/router como en el servidor RADIUS/TACACS+ para cifrar los paquetes entre ambos. | La palabra clave secreta acordada entre dos agentes de inteligencia para verificar que sus mensajes no fueron manipulados. |
+| **KDC (Key Distribution Center)** | El servidor central de Kerberos que emite boletos de autenticación cifrados en un dominio Active Directory. | La taquilla central de un parque de atracciones que emite pulseras de acceso. |
+| **Ticket TGT (Ticket Granting Ticket)** | Boleto digital temporal emitido por el KDC tras ingresar tu contraseña correctamente, que te permite pedir acceso a servicios sin volver a escribir tu clave. | El pase VIP del parque de diversiones que te permite subirte a los juegos sin volver a pagar en cada juego. |
+| **SPN (Service Principal Name)** | Identificador único que asocia un servicio de red (ej. SQL Server, HTTP) con una cuenta de usuario o cuenta de servicio en Active Directory. | La placa identificatoria de un empleado de mantenimiento que le permite operar una máquina específica. |
+
+---
+
+### 2. El Framework AAA (Authentication, Authorization, Accounting)
+
+El modelo **AAA** es el pilar de la gestión centralizada de accesos e identidades en infraestructuras corporativas:
 
 1. **Autenticación (Authentication - ¿Quién es la entidad?):** Proceso de verificación rigurosa de la identidad declarada mediante uno o más factores (**Conocimiento, Posesión, Inherencia**).
 2. **Autorización (Authorization - ¿Qué tiene permitido hacer?):** Asignación de privilegios, listas de comandos, atributos de red (VLANs, ACLs descargables) aplicados a la sesión del usuario.
@@ -384,7 +446,7 @@ El framework **AAA** es el pilar de la gestión centralizada de accesos e identi
 
 ---
 
-### 2. Protocolo TACACS+ (RFC 8907)
+### 3. Protocolo TACACS+ (RFC 8907)
 
 **TACACS+ (Terminal Access Controller Access Control System Plus)** es el estándar de facto para la administración segura de dispositivos de infraestructura (Routers, Switches, Firewalls):
 
@@ -395,9 +457,7 @@ El framework **AAA** es el pilar de la gestión centralizada de accesos e identi
 
 ---
 
-### 3. Protocolo Kerberos v5 (RFC 4120)
-
-Kerberos es el protocolo de autenticación distribuida basado en tickets de confianza utilizado por Microsoft Active Directory y entornos Unix/Linux:
+### 4. Protocolo Kerberos v5 (RFC 4120)
 
 \`\`\`mermaid
 sequenceDiagram
@@ -421,7 +481,7 @@ sequenceDiagram
 
 ---
 
-### 4. Configuración Práctica en Cisco IOS CLI
+### 5. Configuración Práctica en Cisco IOS CLI
 
 \`\`\`cisco
 ! 1. Habilitar el nuevo modelo AAA
@@ -452,7 +512,7 @@ aaa accounting commands 15 default start-stop group TACACS_CLUSTER
 
 ---
 
-### 5. Precauciones y Trampas Operativas
+### 6. Precauciones y Trampas Operativas
 
 - **Clave Secreta Compartida Débil:** La seguridad del cifrado de TACACS+ y RADIUS depende críticamente de la entropía de la clave compartida (*Shared Secret*). Claves cortas permiten la recuperación de credenciales mediante ataques de diccionario sobre capturas de red.
 - **Configurar Siempre el Fallback Local:** La palabra clave \`local\` al final de la lista de métodos garantiza que, si los servidores TACACS+ no responden por caída de red, el administrador pueda iniciar sesión con la cuenta local de rescate.
@@ -462,6 +522,7 @@ aaa accounting commands 15 default start-stop group TACACS_CLUSTER
         id: "u2-s2",
         title: "Sesión 2.2: Protocolos RADIUS, DIAMETER y Modelos de Autorización",
         topics: [
+          "Glosario de Protocolos de Acceso y Control de Red",
           "Protocolo RADIUS (RFC 2865 / 2866): UDP 1812/1813, AVPs y Cifrado XOR con MD5",
           "Protocolo DIAMETER (RFC 6733): Evolución sobre TCP/SCTP con TLS y Soporte Móvil",
           "Modelos de Control de Acceso: DAC, MAC, RBAC, ABAC y Zero Trust Architecture (NIST SP 800-207)",
@@ -469,9 +530,19 @@ aaa accounting commands 15 default start-stop group TACACS_CLUSTER
           "Implementación con FreeRADIUS en Linux"
         ],
         content: `
-### 1. Protocolo RADIUS (RFC 2865 y RFC 2866)
+### 1. Glosario Técnico de RADIUS, DIAMETER y Modelos de Acceso
 
-**RADIUS (Remote Authentication Dial-In User Service)** es el protocolo estándar de autenticación y contabilidad para control de acceso a redes cableadas (802.1X), redes inalámbricas WPA2/WPA3 Enterprise y servidores VPN:
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **802.1X (Port-Based NAC)** | Estándar de seguridad que bloquea físicamente un puerto de red hasta que el usuario se autentique exitosamente. | El torniquete del metro que no gira ni te deja pasar hasta que pones tu tarjeta con saldo válido. |
+| **Suplicante (Supplicant)** | El software cliente en la computadora del usuario que envía las credenciales para la autenticación 802.1X. | La aplicación en tu celular que muestra el código QR de embarque en el aeropuerto. |
+| **AVP (Attribute-Value Pair)** | Formato estándar de datos en RADIUS/DIAMETER que transporta pares de datos tipo "Nombre = Valor" (ej. \`Framed-IP-Address = 10.0.0.5\`). | Las casillas de un formulario aduanero: [Campo: Nacionalidad] = [Valor: Peruana]. |
+| **EAP (Extensible Authentication Protocol)** | Framework universal que permite transportar diferentes métodos de autenticación (certificados, passwords, tokens) sobre redes Wi-Fi o cableadas. | El contenedor estándar de transporte de carga que puede llevar dentro cajas de cualquier fabricante. |
+| **RadSec (RFC 6614)** | Protocolo seguro que envuelve el tráfico tradicional RADIUS dentro de un túnel cifrado TLS sobre TCP puerto 2083. | Poner un paquete de correspondencia dentro de un maletín blindado con clave antes de enviarlo por mensajería. |
+
+---
+
+### 2. Protocolo RADIUS (RFC 2865 y RFC 2866)
 
 \`\`\`mermaid
 flowchart LR
@@ -488,7 +559,7 @@ flowchart LR
 
 ---
 
-### 2. Comparativa Técnica: RADIUS vs TACACS+ vs DIAMETER
+### 3. Comparativa Técnica: RADIUS vs TACACS+ vs DIAMETER
 
 | Criterio Técnico | RADIUS (RFC 2865/2866) | TACACS+ (RFC 8907) | DIAMETER (RFC 6733) |
 | :--- | :--- | :--- | :--- |
@@ -500,7 +571,7 @@ flowchart LR
 
 ---
 
-### 3. Modelos Modernos de Control de Acceso
+### 4. Modelos Modernos de Control de Acceso
 
 1. **DAC (Discretionary Access Control):** El propietario del archivo o recurso decide quién tiene acceso. Alto riesgo de fuga de información.
 2. **MAC (Mandatory Access Control):** El sistema impone etiquetas de seguridad (Top Secret, Secret, Confidencial). Común en entornos militares (SELinux).
@@ -509,7 +580,7 @@ flowchart LR
 
 ---
 
-### 4. Implementación y Configuración con FreeRADIUS en Linux
+### 5. Implementación y Configuración con FreeRADIUS en Linux
 
 \`\`\`bash
 # 1. Definicion del cliente NAS en /etc/freeradius/3.0/clients.conf
@@ -531,7 +602,7 @@ freeradius -X
 
 ---
 
-### 5. Precauciones y Trampas Operativas
+### 6. Precauciones y Trampas Operativas
 
 - **Uso de Claves Compartidas Débiles en WPA2-Enterprise:** Si la clave compartida entre el Access Point y el servidor RADIUS es interceptada, un atacante puede descifrar los atributos de autorización y suplantar al servidor de autenticación.
 - **Migración hacia RadSec (RFC 6614):** Enlaces RADIUS que atraviesen redes no confiables o Internet deben encapsularse obligatoriamente mediante **TLS sobre TCP puerto 2083 (RadSec)** para proteger la confidencialidad de los nombres de usuario y atributos.
@@ -541,6 +612,7 @@ freeradius -X
         id: "u2-s3",
         title: "Sesión 2.3: Marco Normativo y Directrices Modernas de Identidad",
         topics: [
+          "Glosario de Normativas y Estándares de Autenticación",
           "NIST SP 800-63-3: Niveles IAL, AAL y FAL",
           "Directrices Modernas de Contraseñas (NIST SP 800-63B)",
           "Resolución SBS N° 504-2021: Normativa Peruana de Seguridad de la Información y Ciberseguridad",
@@ -548,7 +620,19 @@ freeradius -X
           "Auditoría y Listas de Control de Acceso"
         ],
         content: `
-### 1. Suite NIST SP 800-63-3: Digital Identity Guidelines
+### 1. Glosario Técnico de Normativa y Aseguramiento de Identidad
+
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **NIST (National Institute of Standards and Technology)** | Agencia federal estadounidense que crea los estándares globales más respetados de criptografía, identidad y ciberseguridad. | La Real Academia de la Lengua o la FIFA de las normas técnicas mundiales. |
+| **MFA (Multi-Factor Authentication)** | Requisito de presentar dos o más pruebas independientes de identidad pertenecientes a categorías distintas: 1) Algo que sabes (clave), 2) Algo que tienes (token FIDO2), 3) Algo que eres (huella). | Para entrar a una bóveda bancaria requieres tu código PIN (saber) más tu llave física (tener) más tu lectura de iris (ser). |
+| **FIDO2 / WebAuthn** | Estándar moderno de autenticación basado en hardware criptográfico (llaves USB YubiKey o biometría local) inmune al phishing porque vincula el login al dominio exacto del navegador. | Una llave física digital inteligente que solo gira en la cerradura si la dirección web coincide exactamente con el banco legítimo. |
+| **SIM Swapping** | Ataque donde un criminal engaña a la compañía telefónica para duplicar el chip del teléfono de la víctima y recibir sus códigos SMS del banco. | Un ladrón que saca un duplicado falso de la llave de tu casillero en la oficina postal para robarte las cartas. |
+| **PAM (Privileged Access Management)** | Bóveda de contraseñas de alta seguridad que custodia las credenciales de administrador de servidores y graba en video todo lo que hacen. | Una caja fuerte con cámara de circuito cerrado que registra cada segundo que alguien manipula las llaves maestras del edificio. |
+
+---
+
+### 2. Suite NIST SP 800-63-3: Digital Identity Guidelines
 
 El marco del **National Institute of Standards and Technology (NIST)** define los estándares mundiales para la gestión moderna de identidades digitales y control de accesos, estructurado en tres dimensiones de aseguramiento (**xAL**):
 
@@ -567,7 +651,7 @@ El marco del **National Institute of Standards and Technology (NIST)** define lo
 
 ---
 
-### 2. Directrices Modernas de Contraseñas del NIST (SP 800-63B)
+### 3. Directrices Modernas de Contraseñas del NIST (SP 800-63B)
 
 El NIST revolucionó las prácticas de contraseñas eliminando mitos obsoletos que perjudicaban la seguridad real:
 
@@ -581,7 +665,7 @@ El NIST revolucionó las prácticas de contraseñas eliminando mitos obsoletos q
 
 ---
 
-### 3. Resolución SBS N° 504-2021 (Regulación Financiera del Perú)
+### 4. Resolución SBS N° 504-2021 (Regulación Financiera del Perú)
 
 La **Superintendencia de Banca, Seguros y AFP (SBS)** del Perú establece exigencias mandatorias de ciberseguridad para entidades financieras y empresas de servicios complementarios:
 
@@ -592,7 +676,7 @@ La **Superintendencia de Banca, Seguros y AFP (SBS)** del Perú establece exigen
 
 ---
 
-### 4. Precauciones y Trampas Operativas
+### 5. Precauciones y Trampas Operativas
 
 - **Falsa Seguridad de los SMS OTP:** La autenticación mediante códigos enviados por SMS es altamente vulnerable a ataques de **SIM Swapping** e interceptación en redes de señalización SS7. El NIST desaconseja SMS para niveles AAL2/AAL3 en favor de FIDO2 o aplicaciones TOTP.
 - **Auditoría de Cuentas de Servicio Huérfanas:** Cuentas creadas para proyectos temporales que conservan privilegios elevados de administrador de dominio deben ser deshabilitadas y eliminadas mediante revisiones periódicas de acceso (**Access Reviews**).
@@ -609,10 +693,10 @@ La **Superintendencia de Banca, Seguros y AFP (SBS)** del Perú establece exigen
     summary: "Arquitectura de seguridad perimetral, evolución de firewalls (Stateless, Stateful, NGFW Capa 7), diseño de zonas DMZ, sistemas de detección y prevención de intrusiones (Snort, Suricata, Zeek), firmas y análisis de anomalías, y túneles VPN IPsec (IKEv1/IKEv2, Fase 1, Fase 2, ESP, AH).",
     sessions: [
       {
-        id: "u1-s1_u3",
         id: "u3-s1",
         title: "Sesión 3.1: Seguridad Perimetral, Arquitectura de Firewalls y DMZ",
         topics: [
+          "Glosario de Seguridad Perimetral y Firewalls",
           "Evolución de Firewalls (Packet Filtering, Stateful Inspection, Next-Generation Firewalls L7)",
           "Diseño de Arquitecturas de Red Segura (Zonas de Confianza, DMZ, Microsegmentación)",
           "Inspección Profunda de Paquetes (DPI) y Desencriptado TLS/SSL Man-in-the-Middle",
@@ -620,21 +704,19 @@ La **Superintendencia de Banca, Seguros y AFP (SBS)** del Perú establece exigen
           "Caso de Estudio: Fuga de Datos de Target a través de Proveedor HVAC"
         ],
         content: `
-### 1. Evolución Tecnológica de los Firewalls
+### 1. Glosario Técnico de Seguridad Perimetral y Firewalls
 
-El firewall es el elemento central de control de flujo de tráfico en los límites de red corporativos:
-
-1. **Firewalls de Filtrado de Paquetes (Stateless - 1ra Generación):**
-   - Inspeccionan cada paquete de forma aislada basándose en las cabeceras de Capa 3 y 4 (IP origen/destino, puerto origen/destino, protocolo).
-   - *Limitación:* No mantienen estado de conexión; permiten ataques de spoofing y requieren abrir rangos masivos de puertos efímeros para el tráfico de retorno.
-2. **Firewalls de Inspección con Estado (Stateful Inspection - 2da Generación):**
-   - Mantienen una tabla de estado dinámica de conexiones activas (**State Table**). Si un paquete entrante corresponde a una sesión TCP/UDP previamente iniciada desde el interior (ej. flag TCP ACK tras SYN-ACK), es permitido automáticamente.
-3. **Firewalls de Próxima Generación (NGFW - Capa 7):**
-   - Integran inspección profunda de aplicaciones (**App-ID**), prevención de intrusiones (**IPS**), antivirus de gateway, filtrado de URLs y descifrado e inspección TLS/SSL activa. Permiten bloquear aplicaciones específicas (ej. BitTorrent, TeamViewer) incluso si operan en el puerto estándar HTTPS 443.
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **Firewall (Cortafuegos)** | Dispositivo de hardware o software que filtra y controla el tráfico de red entrante y saliente según un conjunto de reglas de seguridad. | El control de aduanas en una frontera internacional que revisa documentos y no deja pasar a personas o cargas no autorizadas. |
+| **DMZ (Zona Desmilitarizada)** | Subred física o lógica aislada donde se colocan los servidores públicos (Web, Correo, DNS) para que, si son hackeados, el atacante no pueda acceder a la red interna corporativa. | El vestíbulo o sala de espera de una embajada donde atienden al público sin darles acceso a las oficinas privadas del embajador. |
+| **Stateful (Con Estado)** | Capacidad del firewall de recordar qué conexiones fueron iniciadas desde adentro para permitir automáticamente las respuestas legítimas sin abrir puertos permanentes. | Cuando abres la puerta de tu casa para pedir una pizza: recuerdas que tú pediste la pizza, así que dejas entrar al repartidor cuando llega. |
+| **DPI (Deep Packet Inspection)** | Inspección profunda que examina no solo las cabeceras de red sino el contenido real de los datos en Capa de Aplicación (Capa 7). | En lugar de solo revisar el remitente del sobre, abrir la carta y leer el texto para asegurarse de que no contenga amenazas. |
+| **NAT (Network Address Translation)** | Tecnología que traduce múltiples direcciones IP privadas internas en una sola dirección IP pública para navegar por Internet. | La centralita telefónica de una empresa donde 500 empleados tienen anexos internos, pero hacia afuera todos llaman desde el mismo número principal. |
 
 ---
 
-### 2. Diseño de Arquitecturas Seguras: Zonas DMZ
+### 2. Evolución Tecnológica de los Firewalls
 
 \`\`\`mermaid
 flowchart LR
@@ -644,10 +726,13 @@ flowchart LR
     DMZ -.-> |Bloqueado por Defecto| LAN
 \`\`\`
 
-- **Principio de Mínimo Privilegio en Zonas:**
-  - *Internet -> DMZ:* Permitir únicamente los puertos de servicio estrictamente públicos (TCP 80/443 para Web, TCP 25 para Correo).
-  - *DMZ -> LAN Interna:* **BLOQUEADO POR DEFECTO**. Ningún servidor de la DMZ puede iniciar conexiones hacia la red interna. Si un servidor web es comprometido, el atacante no puede alcanzar la base de datos interna directamente.
-  - *LAN Interna -> DMZ:* Permitido únicamente para administración mediante protocolos seguros (SSH, HTTPS).
+1. **Firewalls de Filtrado de Paquetes (Stateless - 1ra Generación):**
+   - Inspeccionan cada paquete de forma aislada basándose en las cabeceras de Capa 3 y 4 (IP origen/destino, puerto origen/destino, protocolo).
+   - *Limitación:* No mantienen estado de conexión; permiten ataques de spoofing y requieren abrir rangos masivos de puertos efímeros para el tráfico de retorno.
+2. **Firewalls de Inspección con Estado (Stateful Inspection - 2da Generación):**
+   - Mantienen una tabla de estado dinámica de conexiones activas (**State Table**). Si un paquete entrante corresponde a una sesión TCP/UDP previamente iniciada desde el interior (ej. flag TCP ACK tras SYN-ACK), es permitido automáticamente.
+3. **Firewalls de Próxima Generación (NGFW - Capa 7):**
+   - Integran inspección profunda de aplicaciones (**App-ID**), prevención de intrusiones (**IPS**), antivirus de gateway, filtrado de URLs y descifrado e inspección TLS/SSL activa. Permiten bloquear aplicaciones específicas (ej. BitTorrent, TeamViewer) incluso si operan en el puerto estándar HTTPS 443.
 
 ---
 
@@ -692,6 +777,7 @@ iptables -A INPUT -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW
         id: "u3-s2",
         title: "Sesión 3.2: Sistemas de Detección y Prevención de Intrusiones (IDS/IPS)",
         topics: [
+          "Glosario de IDS, IPS y Firmas de Red",
           "Diferencias Arquitectónicas entre IDS (Pasivo/Promiscuo) e IPS (En Línea/Inline)",
           "Motores de Inspección: Detección Basada en Firmas vs Análisis de Anomalías de Comportamiento",
           "Reglas de Detección en Snort 3 y Suricata",
@@ -699,9 +785,19 @@ iptables -A INPUT -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW
           "Evasión de NIDS: Fragmentación IP, Evasión TCP y Ofuscación"
         ],
         content: `
-### 1. IDS vs IPS: Diferencias Arquitectónicas
+### 1. Glosario Técnico de IDS e IPS
 
-Los sistemas de detección y prevención de intrusiones analizan el tráfico en tiempo real en busca de actividades maliciosas o violaciones de políticas:
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **IDS (Intrusion Detection System)** | Sistema pasivo que escucha una copia del tráfico de red y genera alertas si detecta un patrón de ataque, pero no detiene el paquete. | Un sistema de alarma sonora con cámara que avisa que un ladrón entró a la casa, pero no cierra la puerta. |
+| **IPS (Intrusion Prevention System)** | Sistema activo ubicado en medio del flujo de datos que analiza los paquetes y los bloquea o descarta inmediatamente si son maliciosos. | Un guardia de seguridad armado en la entrada que neutraliza y expulsa al atacante antes de que cruce la puerta. |
+| **Falso Positivo** | Cuando el sistema de seguridad clasifica erróneamente una actividad comercial legítima como un ataque y la bloquea. | Una alarma de incendios que se activa por el vapor de una tetera o una ducha caliente. |
+| **Falso Negativo** | Cuando un ataque real atraviesa las defensas sin ser detectado ni alertado por el sistema de seguridad. | Un ladrón que entra a robar sin que los sensores de movimiento noten su presencia. |
+| **Modo Promiscuo** | Configuración de una tarjeta de red para escuchar y capturar TODO el tráfico que pasa por el cable, no solo el dirigido a su propia IP. | Poner la oreja en una sala y escuchar las conversaciones de todas las personas presentes en lugar de solo cuando te hablan a ti. |
+
+---
+
+### 2. IDS vs IPS: Diferencias Arquitectónicas
 
 \`\`\`mermaid
 flowchart TD
@@ -725,7 +821,7 @@ flowchart TD
 
 ---
 
-### 2. Sintaxis y Creación de Reglas en Snort / Suricata
+### 3. Sintaxis y Creación de Reglas en Snort / Suricata
 
 Una regla de Snort se compone de una **Cabecera** (Acción, Protocolo, IP Origen, Puerto Origen, Dirección, IP Destino, Puerto Destino) y **Opciones** (Mensaje, Contenido, Referencias, Clasificación, SID):
 
@@ -742,7 +838,7 @@ drop http any any -> $HOME_NET any (msg:"WEB-ATTACKS SQL Injection UNION SELECT"
 
 ---
 
-### 3. Técnicas de Evasión de NIDS/NIPS y Contramedidas
+### 4. Técnicas de Evasión de NIDS/NIPS y Contramedidas
 
 1. **Fragmentación IP:** El atacante divide el payload malicioso en microfragmentos IP diminutos. Si el sensor no reensambla los paquetes en memoria exactamente igual que el sistema operativo destino, el ataque pasa desapercibido.
    - *Contramedida:* Motor de preprocesador de desfragmentación IP con coincidencia de política de SO (**Frag3 en Snort**).
@@ -753,7 +849,7 @@ drop http any any -> $HOME_NET any (msg:"WEB-ATTACKS SQL Injection UNION SELECT"
 
 ---
 
-### 4. Implementación y Pruebas con Snort en Linux
+### 5. Implementación y Pruebas con Snort en Linux
 
 \`\`\`bash
 # 1. Validacion de la sintaxis del archivo de configuracion
@@ -765,7 +861,7 @@ snort -A console -q -u snort -g snort -c /etc/snort/snort.conf -i eth0
 
 ---
 
-### 5. Precauciones y Trampas Operativas
+### 6. Precauciones y Trampas Operativas
 
 - **Sobrecarga de Falsos Positivos:** Un sensor IPS con firmas mal calibradas puede bloquear tráfico comercial legítimo, causando denegaciones de servicio autoinducidas. Las reglas deben probarse primero en modo alerta (*Alert-Only*) antes de pasar a modo bloqueo (*Drop*).
 - **Agotamiento de Recursos de CPU y Memoria:** Motores de inspección con expresiones regulares (**PCRE**) complejas sin anclas de longitud pueden sufrir ataques de ReDoS (Denegación de Servicio por Expresiones Regulares), congelando el tráfico en el sensor.
@@ -775,6 +871,7 @@ snort -A console -q -u snort -g snort -c /etc/snort/snort.conf -i eth0
         id: "u3-s3",
         title: "Sesión 3.3: Redes Privadas Virtuales (VPN) y Protocolo IPSec",
         topics: [
+          "Glosario de VPNs y Criptografía de Túnel",
           "Arquitectura del Framework IPSec (RFC 4301): Protocolos AH (RFC 4302) y ESP (RFC 4303)",
           "Modos de Operación IPSec: Modo Transporte vs Modo Túnel",
           "Intercambio de Claves IKE (Internet Key Exchange): Comparativa IKEv1 vs IKEv2",
@@ -782,9 +879,19 @@ snort -A console -q -u snort -g snort -c /etc/snort/snort.conf -i eth0
           "Configuración Práctica de Túnel IPsec Site-to-Site en Cisco IOS CLI"
         ],
         content: `
-### 1. Framework IPSec (RFC 4301) y Protocolos de Seguridad
+### 1. Glosario Técnico de VPNs e IPSec
 
-**IPSec (Internet Protocol Security)** es un conjunto de estándares de la IETF que opera en la **Capa 3 (Capa de Red)** para proporcionar autenticación, integridad y confidencialidad en comunicaciones a través de redes IP no confiables:
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **VPN (Virtual Private Network)** | Conexión cifrada segura que permite a dos redes o a un usuario remoto comunicarse a través de Internet pública como si estuvieran en la misma oficina local. | Un túnel subterráneo privado blindado construido por debajo de una autopista pública congestionada y llena de mirones. |
+| **IKE (Internet Key Exchange)** | Protocolo que negocia de forma automática y segura qué algoritmos de cifrado y claves secretas usarán ambos extremos de la VPN. | Una reunión privada inicial entre dos embajadores para acordar el código secreto que usarán en sus futuras cartas. |
+| **Diffie-Hellman (DH)** | Algoritmo matemático revolucionario que permite a dos desconocidos acordar una clave secreta a través de un canal público sin que nadie que espíe la conversación pueda deducir la clave. | Mezclar botes de pintura pública de colores hasta obtener un tono idéntico que solo los dos conocen y nadie puede separar. |
+| **ESP vs AH** | ESP es el protocolo que **cifra los datos y los autentica**; AH solo **autentica pero NO cifra** (los datos viajan legibles). | ESP es una caja fuerte blindada y opaca; AH es una caja de cristal transparente sellada con cera notarial irrompible. |
+| **MTU y MSS** | MTU (Maximum Transmission Unit) es el tamaño máximo de paquete (usualmente 1500 bytes). Al cifrar con VPN se agregan cabeceras extra, requiriendo ajustar el MSS para evitar fragmentación. | Enviar una encomienda en una caja del tamaño exacto del camión: si le pones cinta de embalaje extra gruesa, ya no entra en la puerta y tienes que partirla en dos paquetes más lentos. |
+
+---
+
+### 2. Framework IPSec (RFC 4301) y Protocolos de Seguridad
 
 \`\`\`mermaid
 flowchart TD
@@ -808,7 +915,7 @@ flowchart TD
 
 ---
 
-### 2. Negociación IKEv1 vs IKEv2 y Fases del Túnel
+### 3. Negociación IKEv1 vs IKEv2 y Fases del Túnel
 
 | Fase de Negociación | IKEv1 (RFC 2409) | IKEv2 (RFC 7296) | Propósito Criptográfico |
 | :--- | :--- | :--- | :--- |
@@ -819,7 +926,7 @@ flowchart TD
 
 ---
 
-### 3. Configuración de Túnel IPsec Site-to-Site en Cisco IOS CLI
+### 4. Configuración de Túnel IPsec Site-to-Site en Cisco IOS CLI
 
 \`\`\`cisco
 ! =========================================================================
@@ -861,7 +968,7 @@ interface GigabitEthernet0/0
 
 ---
 
-### 4. Precauciones y Trampas Operativas
+### 5. Precauciones y Trampas Operativas
 
 - **Diffie-Hellman Groups Débiles:** Grupos DH 1 (768-bit), DH 2 (1024-bit) y DH 5 (1536-bit) son computacionalmente vulnerables y están obsoletos. Se debe configurar como mínimo **DH Group 14 (2048-bit), DH Group 19 (ECDH 256-bit) o DH Group 20 (ECDH 384-bit)**.
 - **Riesgo de MTU / Fragmentación:** El encapsulamiento ESP y las cabeceras IPsec añaden entre 50 y 73 bytes a cada paquete. Si no se ajusta el **TCP MSS Clamping** (\`ip tcp adjust-mss 1360\`), los paquetes de 1500 bytes se fragmentarán, degradando severamente el rendimiento de la VPN.
@@ -881,6 +988,7 @@ interface GigabitEthernet0/0
         id: "u4-s1",
         title: "Sesión 4.1: Criptoanálisis, Gestión de Claves y Modelos de Entropía",
         topics: [
+          "Glosario de Criptografía y Criptoanálisis",
           "Fundamentos de Criptoanálisis (Ataques de Texto Claro Conocido, Cumpleaños, Canal Lateral)",
           "Modelos Matemáticos de Entropía de Shannon en Generadores de Números Pseudoaleatorios (CSPRNG)",
           "Infraestructura de Clave Pública (PKI): Jerarquía de CAs, CRLs, OCSP y OCSP Stapling",
@@ -888,7 +996,19 @@ interface GigabitEthernet0/0
           "Criptografía Post-Cuántica (PQC): Algoritmos Estandarizados por el NIST (ML-KEM, ML-DSA)"
         ],
         content: `
-### 1. Modelos de Entropía y Fundamentos de Criptoanálisis
+### 1. Glosario Técnico de Criptografía y Criptoanálisis
+
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **Criptoanálisis** | La ciencia y arte de descifrar mensajes secretos o romper algoritmos de cifrado sin conocer la clave secreta original. | El trabajo de los descifradores de códigos como Alan Turing en la Segunda Guerra Mundial rompiendo la máquina Enigma. |
+| **Entropía (en Ciberseguridad)** | Medida de la aleatoriedad, desorden e impredecibilidad de una clave o generador de números. A mayor entropía, más difícil es adivinar la clave. | Lanzar una moneda al aire 100 veces al azar vs repetir siempre la misma secuencia predecible "123456". |
+| **CSPRNG** | Cryptographically Secure Pseudo-Random Number Generator: generador de números aleatorios seguro alimentado por ruido físico del hardware. | Una tómbola de lotería auditada con pelotas rebotando caóticamente vs un programa de computadora básico que siempre repite los mismos números. |
+| **Ataque de Canal Lateral** | Ataque que no ataca la matemática del cifrado sino que mide fenómenos físicos del chip: consumo eléctrico, calor o microsegundos de tiempo de cálculo. | Averiguar la combinación de una caja fuerte escuchando con un estetoscopio el sonido del mecanismo al girar la perilla. |
+| **Computación Cuántica y Algoritmo de Shor** | Nuevas computadoras basadas en física cuántica que podrán resolver en minutos los problemas matemáticos que protegen a RSA y ECC. | Una superllave capaz de probar billones de combinaciones simultáneas en un instante. |
+
+---
+
+### 2. Modelos de Entropía y Fundamentos de Criptoanálisis
 
 La fortaleza de cualquier algoritmo criptográfico moderno reside en la aleatoriedad y entropía de sus claves.
 
@@ -900,7 +1020,7 @@ $$H(X) = -\\sum_{i=1}^{n} P(x_i) \\log_2 P(x_i)$$
 
 ---
 
-### 2. Tipos Fundamentales de Ataques Criptoanalíticos
+### 3. Tipos Fundamentales de Ataques Criptoanalíticos
 
 1. **Ataque de Texto Cifrado Únicamente (Ciphertext-Only):** El atacante solo tiene acceso a mensajes cifrados e intenta deducir la clave mediante análisis estadístico de frecuencias.
 2. **Ataque de Texto Claro Conocido (Known-Plaintext):** El atacante posee muestras de texto claro y sus correspondientes textos cifrados.
@@ -909,7 +1029,7 @@ $$H(X) = -\\sum_{i=1}^{n} P(x_i) \\log_2 P(x_i)$$
 
 ---
 
-### 3. Infraestructura de Clave Pública (PKI) y Validación de Certificados
+### 4. Infraestructura de Clave Pública (PKI) y Validación de Certificados
 
 \`\`\`mermaid
 flowchart TD
@@ -926,7 +1046,7 @@ flowchart TD
 
 ---
 
-### 4. Criptografía Post-Cuántica (PQC)
+### 5. Criptografía Post-Cuántica (PQC)
 
 Con el advenimiento de las computadoras cuánticas a gran escala, el **Algoritmo de Shor** romperá la criptografía asimétrica actual basada en factorización de enteros y logaritmos discretos (**RSA, ECC, Diffie-Hellman**). El NIST ha estandarizado los algoritmos resistentes a ataques cuánticos:
 
@@ -936,7 +1056,7 @@ Con el advenimiento de las computadoras cuánticas a gran escala, el **Algoritmo
 
 ---
 
-### 5. Precauciones y Trampas Operativas
+### 6. Precauciones y Trampas Operativas
 
 - **Uso de Generadores de Números Aleatorios no Seguros:** Utilizar funciones estándar como \`Math.random()\` en JavaScript o \`rand()\` en C para generar tokens de sesión, nonces o claves criptográficas permite predecir los valores y comprometer la seguridad. Debe utilizarse siempre \`crypto.getRandomValues()\`.
 - **Ignorar el Anclaje de Certificados Raíz (Root CA):** Mantener la CA Raíz de la empresa conectada a la red en lugar de conservarla **offline** en una bóveda segura expone a toda la organización a que un atacante emita certificados válidos para cualquier dominio.
@@ -946,6 +1066,7 @@ Con el advenimiento de las computadoras cuánticas a gran escala, el **Algoritmo
         id: "u4-s2",
         title: "Sesión 4.2: Hardening Empresarial de Infraestructura de Red y Servidores",
         topics: [
+          "Glosario de Hardening y Bastionado de Sistemas",
           "Metodología de Hardening basada en Guías CIS Benchmarks y DISA STIGs",
           "Hardening de Plano de Control, Gestión y Datos en Equipos de Red (CoPP, SSHv2, AAA)",
           "Hardening de Servidores Linux y Windows (Kernel Sysctl, SELinux, Directivas GPO)",
@@ -953,13 +1074,19 @@ Con el advenimiento de las computadoras cuánticas a gran escala, el **Algoritmo
           "Auditoría Automatizada de Seguridad con Lynis y OpenSCAP"
         ],
         content: `
-### 1. Metodología de Hardening de Infraestructura
+### 1. Glosario Técnico de Hardening y Bastionado
 
-El **Hardening (Endurecimiento)** es el proceso sistemático de reducción de la superficie de ataque de un dispositivo o sistema operativo, deshabilitando servicios innecesarios, aplicando configuraciones seguras por defecto y restringiendo privilegios según los estándares **CIS Benchmarks** y **DISA STIGs**.
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **Hardening (Endurecimiento)** | Proceso de reforzar la seguridad de un servidor o switch deshabilitando servicios innecesarios, cerrando puertos no usados y aplicando configuraciones seguras. | Instalar cerraduras de alta seguridad, rejas, alarmas y cerrar todas las ventanas no usadas en un edificio. |
+| **Superficie de Ataque** | La suma de todos los puntos vulnerables por donde un atacante podría intentar entrar a un sistema (puertos abiertos, servicios activos, usuarios sin clave). | El número de puertas, ventanas y tragaluces que tiene una casa: cuantas menos aberturas tenga, más fácil es vigilarla. |
+| **CIS Benchmarks** | Guías y normas técnicas internacionales creadas por expertos globales con listas de verificación exactas para configurar servidores de forma segura. | El manual oficial de inspección técnica vehicular de aviación civil que garantiza que el avión esté 100% seguro para despegar. |
+| **Kernel Sysctl** | Archivo de configuración en Linux (\`/etc/sysctl.conf\`) que permite modificar parámetros profundos del núcleo del sistema operativo para bloquear ataques de red. | La perilla de ajuste de la computadora central de un auto para limitar la velocidad o activar el frenado automático de emergencia. |
+| **CoPP (Control Plane Policing)** | Función de seguridad en routers que protege el procesador central (CPU) contra ataques de saturación de paquetes de red. | El guardaespaldas que frena a la multitud de fanáticos para que el presidente pueda concentrarse en tomar decisiones importantes. |
 
 ---
 
-### 2. Hardening en Dispositivos de Red: Los Tres Planos
+### 2. Metodología de Hardening de Infraestructura: Los Tres Planos
 
 \`\`\`mermaid
 flowchart TD
@@ -1037,6 +1164,7 @@ oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis --report inf
         id: "u4-s3",
         title: "Sesión 4.3: Respuesta ante Incidentes, Análisis Forense y Ciberinteligencia (CTI)",
         topics: [
+          "Glosario de Respuesta ante Incidentes y Forense Digital",
           "Fases del Ciclo de Vida de Respuesta ante Incidentes (NIST SP 800-61 Rev. 2 e ISO/IEC 27035)",
           "Framework MITRE ATT&CK: Tácticas, Técnicas y Procedimientos (TTPs)",
           "Ciberinteligencia de Amenazas (CTI) y Modelos de Compartición (STIX/TAXII, MISP)",
@@ -1044,9 +1172,19 @@ oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis --report inf
           "Caso de Estudio: El Ciberataque a SolarWinds Orion (2020) y Respuesta CSIRT"
         ],
         content: `
-### 1. Ciclo de Vida de Respuesta ante Incidentes (NIST SP 800-61 Rev. 2)
+### 1. Glosario Técnico de Respuesta ante Incidentes y Análisis Forense
 
-El estándar del NIST define un proceso cíclico estructurado para gestionar brechas de seguridad y contener amenazas en redes corporativas:
+| Término | Definición Sencilla | Analogía / Ejemplo Práctico |
+| :--- | :--- | :--- |
+| **CSIRT / SOC** | CSIRT es el equipo de respuesta a emergencias cibernéticas; SOC es el centro de monitoreo 24/7 que vigila las alertas de seguridad en tiempo real. | El SOC es la central de monitoreo de cámaras de la ciudad; el CSIRT son los bomberos y paramédicos que acuden al rescate cuando ocurre un incendio. |
+| **Cadena de Custodia** | Registro legal cronológico y minucioso que documenta quién recolectó, custodió y analizó una prueba digital para garantizar que no fue alterada. | El precinto policial sellado y firmado que asegura que el arma encontrada en la escena del crimen no fue manipulada antes del juicio. |
+| **Orden de Volatilidad (RFC 3227)** | Principio forense que establece que se deben recolectar primero las evidencias que desaparecen al apagar la computadora (memoria RAM, conexiones de red) antes que los discos duros. | Fotografiar y preservar el hielo derretido o las huellas en la nieve antes de que salga el sol y se evaporen. |
+| **MITRE ATT&CK** | Base de conocimiento global estructurada en una matriz que clasifica exactamente cómo operan los cibercriminales paso a paso (Tácticas y Técnicas). | El manual enciclopédico de modus operandi de todas las bandas criminales conocidas. |
+| **CTI (Cyber Threat Intelligence)** | Información procesada y analizada sobre amenazas actuales, actores maliciosos y direcciones IP atacantes para prevenir incidentes. | Los informes de inteligencia militar sobre los movimientos y tácticas del ejército adversario. |
+
+---
+
+### 2. Ciclo de Vida de Respuesta ante Incidentes (NIST SP 800-61 Rev. 2)
 
 \`\`\`mermaid
 flowchart LR
@@ -1066,7 +1204,7 @@ flowchart LR
 
 ---
 
-### 2. Marco MITRE ATT&CK para Ciberinteligencia y Threat Hunting
+### 3. Marco MITRE ATT&CK para Ciberinteligencia y Threat Hunting
 
 El marco **MITRE ATT&CK** categoriza el comportamiento de los adversarios en una matriz de **Tácticas** (el objetivo del atacante) y **Técnicas** (cómo lo logra):
 
@@ -1081,7 +1219,7 @@ El marco **MITRE ATT&CK** categoriza el comportamiento de los adversarios en una
 
 ---
 
-### 3. Caso de Estudio: El Ataque a la Cadena de Suministro de SolarWinds (2020)
+### 4. Caso de Estudio: El Ciberataque a la Cadena de Suministro de SolarWinds (2020)
 
 - **Vector de Ataque:** Inserción de un backdoor sofisticado (**SUNBURST**) en las actualizaciones de software legítimas de la plataforma de monitoreo SolarWinds Orion.
 - **Evasión Avanzada:** El malware permanecía en reposo durante dos semanas antes de contactar a su C2 mediante dominios que simulaban ser tráfico legítimo de Amazon Web Services.
@@ -1090,7 +1228,7 @@ El marco **MITRE ATT&CK** categoriza el comportamiento de los adversarios en una
 
 ---
 
-### 4. Preservación de Evidencia Digital Forense y Cadena de Custodia
+### 5. Preservación de Evidencia Digital Forense y Cadena de Custodia
 
 Para que la evidencia digital sea admisible en procesos judiciales, se debe garantizar el principio de **Orden de Volatilidad (RFC 3227)**:
 
@@ -1102,7 +1240,7 @@ Para que la evidencia digital sea admisible en procesos judiciales, se debe gara
 
 ---
 
-### 5. Herramientas Prácticas de Análisis Forense
+### 6. Herramientas Prácticas de Análisis Forense
 
 - **Volatility 3:** Framework de análisis forense de volcados de memoria RAM.
 \`\`\`bash
