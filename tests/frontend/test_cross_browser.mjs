@@ -170,6 +170,7 @@ describe('Cross-Browser Engine Compatibility & CSS/JS Feature Matrix', () => {
       'frontend/js/data/quizzes.js',
       'frontend/js/data/flashcards.js',
       'frontend/js/data/enterpriseCode.js',
+      'frontend/js/diagrams.js',
       'frontend/js/simulators/cliTerminal.js',
       'frontend/js/simulators/packetVisualizer.js',
       'frontend/js/simulators/nistCalculator.js',
@@ -191,7 +192,23 @@ describe('Cross-Browser Engine Compatibility & CSS/JS Feature Matrix', () => {
     assert.ok(context.window.QUIZZES_DATA.length >= 8, 'QUIZZES_DATA loaded');
     assert.ok(context.window.FLASHCARDS_DATA.length >= 8, 'FLASHCARDS_DATA loaded');
     assert.ok(context.window.ENTERPRISE_CODE_DATA.length > 0, 'ENTERPRISE_CODE_DATA loaded');
+    assert.ok(context.window.VisualDiagramsEngine, 'VisualDiagramsEngine loaded');
     assert.ok(context.window.AudioBot, 'AudioBot class is loaded');
+
+    // Test VisualDiagramsEngine vector SVG generation
+    const VisualDiagrams = context.window.VisualDiagramsEngine;
+    const diagramTypes = [
+      'botnet_topologies', 'arp_poisoning_flow', 'kerberos_flow', 'radius_flow',
+      'dmz_architecture', 'ids_vs_ips', 'ipsec_architecture', 'pki_hierarchy',
+      'cisco_planes', 'incident_response'
+    ];
+    diagramTypes.forEach(dtype => {
+      const svg = VisualDiagrams.getDiagramSvg(dtype);
+      assert.ok(svg, `Diagram ${dtype} must return valid SVG string`);
+      assert.ok(svg.includes('<svg'), `Diagram ${dtype} output must contain <svg tag`);
+      const block = VisualDiagrams.renderVisualDiagramBlock(dtype, `Test ${dtype}`);
+      assert.ok(block.includes('visual-diagram-wrapper'), `Diagram wrapper must be rendered for ${dtype}`);
+    });
 
     // Test AudioBot Markdown Text Sanitizer
     const AudioBot = context.window.AudioBot;

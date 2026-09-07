@@ -241,22 +241,7 @@ netstat -ano -p tcp | findstr "ESTABLISHED"
 
 Una **Botnet** es una red distribuida de dispositivos informáticos comprometidos que son controlados de forma remota y coordinada por un atacante (*Botmaster*) a través de un canal de Comando y Control (**C2 / C&C**).
 
-\`\`\`mermaid
-flowchart TD
-    subgraph Arquitectura_Centralizada
-    BM1[Botmaster] --> C2Server[Servidor C2 Central]
-    C2Server --> Bot1[Bot 1]
-    C2Server --> Bot2[Bot 2]
-    C2Server --> Bot3[Bot 3]
-    end
-
-    subgraph Arquitectura_P2P_Descentralizada
-    BM2[Botmaster] --> NodeA[Nodo P2P 1]
-    NodeA <--> NodeB[Nodo P2P 2]
-    NodeB <--> NodeC[Nodo P2P 3]
-    NodeA <--> NodeC
-    end
-\`\`\`
+[DIAGRAM:botnet_topologies:Topologías de Redes Botnet y Servidores de Comando y Control (C2)]
 
 1. **Arquitectura Centralizada (HTTP/HTTPS/TLS):**
    - Los bots envían consultas periódicas (heartbeats o beacons) a una dirección IP o nombre de dominio central.
@@ -332,19 +317,7 @@ Para entender los ataques a redes locales, es indispensable dominar estos concep
 
 ### 2. Metodologías de Ataque en Redes de Acceso Local (LAN)
 
-\`\`\`mermaid
-sequenceDiagram
-    participant Victima as PC Víctima (192.168.1.50)
-    participant Atacante as Atacante MITM (192.168.1.100)
-    participant Gateway as Router Gateway (192.168.1.1)
-
-    Note over Atacante: Envenenamiento de Tablas ARP
-    Atacante->>Victima: Gratuitous ARP: 192.168.1.1 tiene MAC_Atacante
-    Atacante->>Gateway: Gratuitous ARP: 192.168.1.50 tiene MAC_Atacante
-    Note over Victima, Gateway: Tráfico redirigido a través del atacante
-    Victima->>Atacante: Datos enviados (Capa 3 y Capa 7)
-    Atacante->>Gateway: Reenvío de tráfico legítimo (Man-in-the-Middle)
-\`\`\`
+[DIAGRAM:arp_poisoning_flow:Flujo de Ataque ARP Poisoning / Man-In-The-Middle y Detección DAI]
 
 #### Principales Vectores de Ataque en Capa 2:
 1. **ARP Poisoning / Spoofing (Man-in-the-Middle):**
@@ -459,20 +432,7 @@ El modelo **AAA** es el pilar de la gestión centralizada de accesos e identidad
 
 ### 4. Protocolo Kerberos v5 (RFC 4120)
 
-\`\`\`mermaid
-sequenceDiagram
-    participant Usuario as Cliente (Usuario)
-    participant AS as KDC: Authentication Server
-    participant TGS as KDC: Ticket Granting Server
-    participant Server as Servidor de Aplicación
-
-    Usuario->>AS: 1. Petición AS-REQ (Nombre de usuario + Timestamp cifrado)
-    AS->>Usuario: 2. Respuesta AS-REP (Ticket TGT cifrado con clave KDC + Clave de Sesión TGT)
-    Usuario->>TGS: 3. Petición TGS-REQ (TGT + Autenticador cifrado)
-    TGS->>Usuario: 4. Respuesta TGS-REP (Service Ticket cifrado con clave del Servicio)
-    Usuario->>Server: 5. Petición AP-REQ (Service Ticket)
-    Server->>Usuario: 6. Acceso concedido al recurso
-\`\`\`
+[DIAGRAM:kerberos_flow:Flujo de Autenticación Kerberos v5 (AS-REQ, TGS, AP-REQ)]
 
 #### Ataques y Vulnerabilidades Críticas de Kerberos:
 - **Kerberoasting:** Solicitud de Service Tickets (TGS) para cuentas de servicio con nombres SPN (**Service Principal Names**). El atacante extrae el ticket cifrado con la contraseña de la cuenta de servicio y realiza fuerza bruta offline con Hashcat para recuperar la contraseña en texto plano.
@@ -544,12 +504,7 @@ aaa accounting commands 15 default start-stop group TACACS_CLUSTER
 
 ### 2. Protocolo RADIUS (RFC 2865 y RFC 2866)
 
-\`\`\`mermaid
-flowchart LR
-    User[Suplicante 802.1X] <--> |EAPoL| NAS[NAS / Switch / AP]
-    NAS <--> |RADIUS UDP 1812/1813| RadiusServer[Servidor RADIUS / FreeRADIUS]
-    RadiusServer <--> |LDAP / Kerberos| DB[(Directorio Corporativo)]
-\`\`\`
+[DIAGRAM:radius_flow:Arquitectura de Control de Acceso de Red IEEE 802.1X y Servidor RADIUS]
 
 - **Capa de Transporte:** Utiliza **UDP en puertos 1812 (Autenticación/Autorización) y 1813 (Accounting)** (o los puertos heredados 1645/1646).
 - **Estructura de Paquetes:** Compuesto por una cabecera de 20 bytes (Código, Identificador, Longitud, Authenticator) seguida de atributos TLV (**Type-Length-Value / AVPs**).
@@ -718,13 +673,7 @@ La **Superintendencia de Banca, Seguros y AFP (SBS)** del Perú establece exigen
 
 ### 2. Evolución Tecnológica de los Firewalls
 
-\`\`\`mermaid
-flowchart LR
-    Internet((Internet Pública)) <--> |Untrusted| FW[Firewall Perimetral]
-    FW <--> |DMZ: HTTP / SMTP / DNS| DMZ[Servidores Públicos DMZ]
-    FW <--> |Trusted: LAN Corporativa| LAN[Estaciones y Servidores Internos]
-    DMZ -.-> |Bloqueado por Defecto| LAN
-\`\`\`
+[DIAGRAM:dmz_architecture:Topología de Segmentación en Capas y Zona Desmilitarizada (DMZ)]
 
 1. **Firewalls de Filtrado de Paquetes (Stateless - 1ra Generación):**
    - Inspeccionan cada paquete de forma aislada basándose en las cabeceras de Capa 3 y 4 (IP origen/destino, puerto origen/destino, protocolo).
@@ -799,22 +748,7 @@ iptables -A INPUT -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW
 
 ### 2. IDS vs IPS: Diferencias Arquitectónicas
 
-\`\`\`mermaid
-flowchart TD
-    subgraph Modo_IDS_Pasivo
-    R1[Router] --> SW1[Switch con SPAN Port]
-    SW1 --> HostA[Servidor]
-    SW1 -.-> |Copia de Trafico SPAN| IDS[Sensor IDS Pasivo]
-    IDS -.-> |Alerta / Syslog| SIEM[SIEM / SOC]
-    end
-
-    subgraph Modo_IPS_En_Linea
-    R2[Router] --> IPS_Inline[Sensor IPS Inline]
-    IPS_Inline --> SW2[Switch]
-    SW2 --> HostB[Servidor]
-    IPS_Inline --x |Descarta Paquete Malicioso en Vuelo| Drop[Drop / TCP Reset]
-    end
-\`\`\`
+[DIAGRAM:ids_vs_ips:Comparativa Operativa: NIDS Pasivo (SPAN) vs NIPS Activo (Inline)]
 
 - **NIDS (Network IDS - Modo Pasivo):** Conectado a un puerto espejo (**SPAN**) o Network TAP. No afecta la latencia de la red, pero solo puede alertar de forma reactiva una vez que el paquete ya llegó a la víctima.
 - **NIPS (Network IPS - Modo Inline):** Intercalado físicamente en la ruta del tráfico de red. Analiza cada paquete en tránsito y puede descartarlo (*Drop*), terminar la sesión TCP (*TCP Reset*) o reconfigurar dinámicamente el firewall perimetral antes de que el ataque alcance al objetivo.
@@ -893,19 +827,7 @@ snort -A console -q -u snort -g snort -c /etc/snort/snort.conf -i eth0
 
 ### 2. Framework IPSec (RFC 4301) y Protocolos de Seguridad
 
-\`\`\`mermaid
-flowchart TD
-    subgraph Modos_IPSec
-    direction TB
-    M1[Modo Transporte: Cifra solo el Payload / Cabecera IP original visible]
-    M2[Modo Tunel: Cifra todo el paquete original / Agrega Nueva Cabecera IP externa]
-    end
-
-    subgraph Protocolos_Base
-    P1[AH - Authentication Header: Autenticacion e Integridad / SIN Cifrado]
-    P2[ESP - Encapsulating Security Payload: Autenticacion + Integridad + CIFRADO]
-    end
-\`\`\`
+[DIAGRAM:ipsec_architecture:Estructura de Encapsulamiento de Paquetes IPsec (Modo Transporte vs Túnel)]
 
 1. **Protocolo AH (Authentication Header - RFC 4302 / IP Protocol 51):**
    - Garantiza autenticidad e integridad mediante HMAC. **NO PROPORCIONA CONFIDENCIALIDAD (No cifra los datos)**.
@@ -1031,13 +953,7 @@ $$H(X) = -\\sum_{i=1}^{n} P(x_i) \\log_2 P(x_i)$$
 
 ### 4. Infraestructura de Clave Pública (PKI) y Validación de Certificados
 
-\`\`\`mermaid
-flowchart TD
-    RootCA[Root CA Offline - Certificado Raiz Autofirmado] --> SubCA1[Intermediate CA de Emision]
-    SubCA1 --> EndCert1[Certificado de Servidor Web TLS]
-    SubCA1 --> EndCert2[Certificado VPN IPsec / 802.1X]
-    SubCA1 --> EndCert3[Certificado de Firma de Codigo]
-\`\`\`
+[DIAGRAM:pki_hierarchy:Jerarquía de Infraestructura de Clave Pública (PKI) y Autoridades de Certificación (CA)]
 
 - **Validación de Revocación:**
   - **CRLs (Certificate Revocation Lists):** Listas estáticas firmadas periódicamente por la CA con números de serie revocados. Son lentas y consumen ancho de banda.
@@ -1088,14 +1004,7 @@ Con el advenimiento de las computadoras cuánticas a gran escala, el **Algoritmo
 
 ### 2. Metodología de Hardening de Infraestructura: Los Tres Planos
 
-\`\`\`mermaid
-flowchart TD
-    subgraph Planos_de_Seguridad_Cisco
-    CP[Plano de Control: Protocolos de Enrutamiento BGP/OSPF, ARP, ICMP]
-    MP[Plano de Gestion: SSHv2, SNMPv3, Syslog, HTTPS, TACACS+]
-    DP[Plano de Datos: Conmutacion y Enrutamiento de Paquetes de Usuario]
-    end
-\`\`\`
+[DIAGRAM:cisco_planes:Arquitectura de Seguridad en los 3 Planos de Routers y Switches Cisco]
 
 1. **Plano de Gestión (Management Plane):**
    - Deshabilitar Telnet y HTTP no seguro; exigir **SSHv2 con cifrado AES-GCM y clave RSA-4096 o Ed25519**.
@@ -1186,13 +1095,7 @@ oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis --report inf
 
 ### 2. Ciclo de Vida de Respuesta ante Incidentes (NIST SP 800-61 Rev. 2)
 
-\`\`\`mermaid
-flowchart LR
-    P[1. Preparación] --> D[2. Detección y Análisis]
-    D --> C[3. Contención, Erradicación y Recuperación]
-    C --> L[4. Actividad Post-Incidente / Lecciones Aprendidas]
-    L --> P
-\`\`\`
+[DIAGRAM:incident_response:Ciclo de Vida de Respuesta ante Incidentes de Seguridad (NIST SP 800-61 Rev. 2)]
 
 1. **Preparación:** Creación de playbooks de respuesta, inventario de activos, políticas de respaldo inmutable y conformación del equipo **CSIRT / SOC**.
 2. **Detección y Análisis:** Correlación de alertas en el SIEM, validación de falsos positivos y determinación del alcance, severidad y vector de entrada del incidente.

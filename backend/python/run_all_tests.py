@@ -53,6 +53,7 @@ def main() -> None:
             "node", "-c",
             "frontend/js/data/standards.js", "frontend/js/data/academicResearch.js", "frontend/js/data/curriculum.js", "frontend/js/data/labs.js",
             "frontend/js/data/quizzes.js", "frontend/js/data/flashcards.js", "frontend/js/data/enterpriseCode.js",
+            "frontend/js/diagrams.js",
             "frontend/js/simulators/cliTerminal.js", "frontend/js/simulators/packetVisualizer.js",
             "frontend/js/simulators/nistCalculator.js", "frontend/js/simulators/sbsAuditor.js",
             "frontend/js/simulators/attackSimulator.js", "frontend/js/audioBot.js", "frontend/js/app.js"

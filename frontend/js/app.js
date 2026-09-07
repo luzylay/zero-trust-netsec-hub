@@ -1342,17 +1342,77 @@ class StudySpaceApp {
 
     let text = markdown.trim();
 
-    // 1. Extract and protect code blocks & mermaid blocks first
+    // 0. Extract and format visual vector diagrams [DIAGRAM:type:title]
     const codeBlocks = [];
+    text = text.replace(/\[DIAGRAM:([a-zA-Z0-9_-]+)(?::([^\]]+))?\]/g, (match, type, title) => {
+      const idx = codeBlocks.length;
+      if (typeof VisualDiagramsEngine !== "undefined" && VisualDiagramsEngine.getDiagramSvg(type)) {
+        codeBlocks.push(VisualDiagramsEngine.renderVisualDiagramBlock(type, title));
+      } else {
+        codeBlocks.push(`
+          <div class="visual-diagram-wrapper">
+            <div class="visual-diagram-header">
+              <div class="v-diag-badge"><i class="fas fa-project-diagram"></i> <span>${title || 'Diagrama'}</span></div>
+            </div>
+          </div>
+        `);
+      }
+      return `\n\n__CODE_BLOCK_${idx}__\n\n`;
+    });
+
+    // 1. Extract and protect code blocks & mermaid blocks
     text = text.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
       const idx = codeBlocks.length;
       if (lang === "mermaid") {
-        codeBlocks.push(`
-          <div class="mermaid-diagram-box">
-            <div class="mermaid-badge"><i class="fas fa-project-diagram"></i> Diagrama de Arquitectura / Flujo</div>
-            <pre class="mermaid-code"><code>${this.escapeHtml(code.trim())}</code></pre>
-          </div>
-        `);
+        // Attempt automatic mapping to high-resolution vector SVG if matching architecture keywords
+        let matchedType = null;
+        let diagramTitle = "Diagrama de Arquitectura y Flujo de Red";
+        const cTrim = code.toLowerCase();
+        if (cTrim.includes("botmaster") || cTrim.includes("c2server") || cTrim.includes("botnet")) {
+          matchedType = "botnet_topologies";
+          diagramTitle = "Topologías de Redes Botnet y Servidores C2";
+        } else if (cTrim.includes("arp") || cTrim.includes("envenenamiento") || cTrim.includes("mitm")) {
+          matchedType = "arp_poisoning_flow";
+          diagramTitle = "Flujo de Ataque ARP Poisoning y Detección DAI";
+        } else if (cTrim.includes("kerberos") || cTrim.includes("as-req") || cTrim.includes("tgt")) {
+          matchedType = "kerberos_flow";
+          diagramTitle = "Flujo de Autenticación Kerberos v5";
+        } else if (cTrim.includes("radius") || cTrim.includes("eapol") || cTrim.includes("802.1x")) {
+          matchedType = "radius_flow";
+          diagramTitle = "Arquitectura de Control de Acceso 802.1X y RADIUS";
+        } else if (cTrim.includes("dmz") || cTrim.includes("perimetral") || cTrim.includes("firewall")) {
+          matchedType = "dmz_architecture";
+          diagramTitle = "Topología de Segmentación Perimetral y DMZ";
+        } else if (cTrim.includes("nids") || cTrim.includes("nips") || cTrim.includes("span")) {
+          matchedType = "ids_vs_ips";
+          diagramTitle = "Comparativa Arquitectónica: NIDS Pasivo vs NIPS Inline";
+        } else if (cTrim.includes("ipsec") || cTrim.includes("esp") || cTrim.includes("transporte")) {
+          matchedType = "ipsec_architecture";
+          diagramTitle = "Encapsulamiento IPsec (Modo Transporte vs Túnel)";
+        } else if (cTrim.includes("pki") || cTrim.includes("rootca") || cTrim.includes("ca_raiz")) {
+          matchedType = "pki_hierarchy";
+          diagramTitle = "Jerarquía de Infraestructura de Clave Pública (PKI)";
+        } else if (cTrim.includes("copp") || cTrim.includes("plano") || cTrim.includes("cisco")) {
+          matchedType = "cisco_planes";
+          diagramTitle = "Seguridad en los Tres Planos de Infraestructura Cisco";
+        } else if (cTrim.includes("nist") || cTrim.includes("preparacion") || cTrim.includes("incidentes")) {
+          matchedType = "incident_response";
+          diagramTitle = "Ciclo de Vida de Respuesta ante Incidentes (NIST SP 800-61)";
+        }
+
+        if (matchedType && typeof VisualDiagramsEngine !== "undefined") {
+          codeBlocks.push(VisualDiagramsEngine.renderVisualDiagramBlock(matchedType, diagramTitle));
+        } else {
+          codeBlocks.push(`
+            <div class="visual-diagram-wrapper">
+              <div class="visual-diagram-header">
+                <div class="v-diag-badge"><i class="fas fa-project-diagram"></i> Diagrama de Arquitectura / Flujo</div>
+                <span class="v-diag-format"><i class="fas fa-code"></i> Código Estructurado</span>
+              </div>
+              <pre class="mermaid-code"><code>${this.escapeHtml(code.trim())}</code></pre>
+            </div>
+          `);
+        }
       } else {
         const langLabel = lang ? lang.toUpperCase() : "SHELL";
         codeBlocks.push(`
