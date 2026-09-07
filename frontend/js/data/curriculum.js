@@ -1,6 +1,8 @@
 /**
- * Comprehensive Curriculum & Knowledge Base for Network Security & Digital Identity
- * Covers all 4 Units, 18 weeks, theoretical principles, architecture, attacks, and defenses.
+ * Comprehensive Enterprise Curriculum & Knowledge Base for Network Security & Digital Identity
+ * Covers all 4 Units, 18 weeks, theoretical principles, architecture, real-world case studies,
+ * industry tooling, operational pitfalls, and defense-in-depth hardening.
+ * Strictly zero emojis, academic/enterprise grade.
  */
 
 window.CURRICULUM_DATA = [
@@ -14,206 +16,341 @@ window.CURRICULUM_DATA = [
       {
         id: "u1-s1",
         title: "Sesión 1.1: Principios Fundamentales y Triada de Seguridad",
-        topics: ["Triada CIA extendida", "Vulnerabilidad vs Amenaza vs Riesgo", "Capas de Defensa en Profundidad (Defense in Depth)"],
+        topics: [
+          "Triada CIA Extendida (Confidencialidad, Integridad, Disponibilidad)",
+          "Pilares de Autenticidad, Trazabilidad y No Repudio",
+          "Modelos de Riesgo Cibernético (Amenaza, Vulnerabilidad, Impacto)",
+          "Arquitectura de Defensa en Profundidad (Defense in Depth)",
+          "Casos de Estudio de la Industria (Equifax, Colonial Pipeline)"
+        ],
         content: `
 ### 1. Principios Fundamentales de la Seguridad de la Información
 
-La seguridad en redes y sistemas informáticos se fundamenta en garantizar que los activos de información estén protegidos contra accesos no autorizados, modificaciones ilícitas e interrupciones en el servicio.
+La seguridad en redes y sistemas informáticos se fundamenta en garantizar que los activos de información estén protegidos contra accesos no autorizados, modificaciones ilícitas e interrupciones en el servicio. La protección debe ser integral, abarcando hardware, software, datos en reposo, datos en tránsito y el factor humano.
 
 #### La Tríada CIA Extendida:
-1. **Confidencialidad (Confidentiality):** Garantiza que la información y el tráfico de red solo sean accesibles por entidades autorizadas. Se implementa mediante:
-   - Cifrado simétrico y asimétrico (AES-256, RSA, ECC).
-   - Control de acceso basado en roles (RBAC).
-   - Segmentación de red y túneles VPN cifrados.
-2. **Integridad (Integrity):** Asegura que los datos no hayan sido alterados, modificados o destruidos de forma no autorizada durante el almacenamiento o en tránsito por la red. Se implementa mediante:
-   - Funciones Hash criptográficas (SHA-256, SHA-3).
-   - Códigos de Autenticación de Mensajes (HMAC).
-   - Firmas digitales e infraestructuras PKI.
-3. **Disponibilidad (Availability):** Garantiza que los servicios, redes y datos estén accesibles y operativos para los usuarios autorizados cuando lo requieran. Se implementa mediante:
-   - Redundancia de hardware y enlaces (HSRP, VRRP, BGP multihoming).
-   - Balanceo de carga y clustering de servidores.
-   - Mitigación de ataques de Denegación de Servicio Distribuida (DDoS).
-   - Planes de Continuidad del Negocio (BCP) y Recuperación ante Desastres (DRP).
+1. **Confidencialidad (Confidentiality):** Garantiza que la información y el tráfico de red solo sean accesibles por entidades autorizadas.
+   - Cifrado simétrico de alto rendimiento para datos en tránsito (AES-256-GCM, ChaCha20-Poly1305).
+   - Criptografía asimétrica para intercambio seguro de claves (ECDH, RSA-4096).
+   - Control de acceso basado en roles (**RBAC**) y atributos (**ABAC**).
+   - Segmentación perimetral mediante VLANs y túneles VPN IPsec/TLS.
+2. **Integridad (Integrity):** Asegura que los datos no hayan sido alterados, modificados o destruidos de forma no autorizada durante el almacenamiento o en tránsito.
+   - Funciones Hash criptográficas resistentes a colisiones (SHA-256, SHA-3, BLAKE3).
+   - Códigos de Autenticación de Mensajes basados en Hash (**HMAC-SHA256**).
+   - Firmas digitales e Infraestructuras de Clave Pública (**PKI X.509**).
+3. **Disponibilidad (Availability):** Garantiza que los servicios, redes y datos estén accesibles y operativos para los usuarios autorizados cuando lo requieran.
+   - Redundancia de hardware y enlaces (protocolos HSRP, VRRP, GLBP, BGP Multihoming).
+   - Balanceo de carga en Capa 4 y Capa 7 con failover automatizado.
+   - Mitigación de ataques de Denegación de Servicio Distribuida (**DDoS**) mediante Anycast BGP y Scrubbing Centers.
+   - Planes de Continuidad del Negocio (**BCP**) y Recuperación ante Desastres (**DRP**) con RTO y RPO auditados.
 
-#### Pilares Adicionales:
-- **Autenticidad (Authenticity):** Certeza verificable del origen y de la identidad de la entidad emisora.
-- **Trazabilidad / Contabilidad (Accountability & Auditability):** Capacidad de registrar y auditar cada acción realizada en la red vinculándola a un usuario o proceso específico.
-- **No Repudio (Non-Repudiation):** Imposibilidad de que el emisor o receptor de una transacción niegue haberla ejecutado (respaldado por firmas digitales y certificados X.509).
+#### Pilares Adicionales de Seguridad:
+- **Autenticidad (Authenticity):** Certeza verificable del origen y de la identidad de la entidad emisora mediante certificados digitales o firmas criptográficas.
+- **Trazabilidad / Contabilidad (Accountability & Auditability):** Capacidad de registrar y auditar cada acción realizada en la red vinculándola de manera unívoca a un usuario o proceso.
+- **No Repudio (Non-Repudiation):** Imposibilidad de que el emisor o receptor de una transacción niegue haberla ejecutado, respaldado por sellos de tiempo confiables (**RFC 3161**) y criptografía asimétrica.
 
 ---
 
-### 2. Ecuación y Relación de Riesgo Cibernético
+### 2. Modelo Matemático y Ecuación de Riesgo Cibernético
 
 $$\\text{Riesgo (Risk)} = \\text{Amenaza (Threat)} \\times \\text{Vulnerabilidad (Vulnerability)} \\times \\text{Impacto (Impact)}$$
 
-- **Vulnerabilidad (Debilidad):** Falla en el diseño, implementación o configuración de un sistema o protocolo (ej. software sin parches, contraseñas débiles, falta de autenticación en ARP).
-- **Amenaza (Vector potencial):** Evento o actor malicioso (hacker, ransomware, malware) con el potencial de explotar una vulnerabilidad.
-- **Impacto (Consecuencia):** Daño financiero, operativo, reputacional o legal si la amenaza se materializa.
-- **Controles de Seguridad:** Salvaguardas administrativas, técnicas y físicas aplicadas para mitigar el riesgo a un nivel residual aceptable.
+- **Vulnerabilidad (Debilidad):** Falla en el diseño, implementación o configuración de un sistema o protocolo (ej. software desactualizado, falta de cifrado en telnet, inyección SQL).
+- **Amenaza (Vector Potencial):** Evento o actor malicioso (ciberdelincuente, ransomware, malware estado-nación) con la capacidad de explotar una vulnerabilidad.
+- **Impacto (Consecuencia):** Daño financiero, operativo, reputacional o legal derivado de la materialización de la amenaza.
+- **Riesgo Residual:** Nivel de riesgo que permanece una vez implementados los controles de seguridad (**Controles Administrativos, Técnicos y Físicos**).
+
+---
+
+### 3. Casos Reales de la Industria
+
+1. **Incidente Equifax (2017) - Quiebre de Confidencialidad:**
+   - *Vector:* Vulnerabilidad en Apache Struts (CVE-2017-5638) no parcheada durante más de 60 días en un portal de disputas.
+   - *Consecuencia:* Exfiltración de datos personales y crediticios de más de 147 millones de personas.
+   - *Fallo de Control:* Carencia de inventario de activos, fallas en la inspección TLS interna (el certificado del sensor de red estaba vencido, impidiendo ver la exfiltración).
+2. **Incidente Colonial Pipeline (2021) - Quiebre de Disponibilidad:**
+   - *Vector:* Acceso a una cuenta heredada de VPN empresarial sin autenticación multifactor (**MFA**), obtenida a través de una fuga de credenciales en la Dark Web.
+   - *Consecuencia:* Despliegue de ransomware DarkSide que paralizó el suministro del 45% del combustible de la costa este de EE.UU.
+   - *Fallo de Control:* Ausencia de políticas de MFA mandatorias y falta de depuración de accesos legados.
+
+---
+
+### 4. Herramientas de la Industria y Comandos Prácticos
+
+- **Nmap (Network Mapper):** Auditoría de puertos y detección de vulnerabilidades.
+\`\`\`bash
+# Escaneo sigiloso TCP SYN con deteccion de versiones y scripts de vulnerabilidad
+nmap -sS -sV --script vuln -p 1-10000 -T4 192.168.1.0/24
+\`\`\`
+
+- **OpenSSL:** Verificación de certificados y robustez de cifrado en servicios web y de red.
+\`\`\`bash
+# Inspeccion de la cadena de confianza TLS y protocolos soportados
+openssl s_client -connect 192.168.1.10:443 -tls1_3 -servername secure.empresa.local
+\`\`\`
+
+- **OpenVAS / Greenbone:** Escáner automatizado de vulnerabilidades de infraestructura corporativa.
+
+---
+
+### 5. Precauciones y Trampas de Implementación
+
+- **Falsa Sensación de Seguridad por Perímetro Único:** Confiar exclusivamente en un firewall perimetral sin segmentación interna permite que una intrusión en una estación de trabajo comprometa todo el dominio Active Directory.
+- **Ignorar la Disponibilidad en Decisiones de Cifrado:** Implementar túneles IPsec sobredimensionados en hardware sin aceleración criptográfica (**AES-NI**) puede saturar la CPU de los routers y provocar caídas de enlace bajo alto tráfico.
+- **Falta de Rotación y Gestión de Claves:** Usar claves precompartidas (**PSK**) estáticas en VPNs durante años sin rotación programada anula las garantías de no repudio.
 `
       },
       {
         id: "u1-s2",
         title: "Sesión 1.2: Taxonomía y Ciclo de Vida del Malware",
-        topics: ["Virus informáticos", "Gusanos (Worms)", "Troyanos y RATs", "Backdoors (Puertas Traseras)", "Técnicas de Detección"],
+        topics: [
+          "Taxonomía de Malware (Virus, Gusanos, Troyanos, RATs, Ransomware, Rootkits)",
+          "Ciclo de Vida de las Infecciones",
+          "Técnicas de Evasión (Polimorfismo, Metamorfismo, Sandboxing Bypass)",
+          "Detección Basada en Firmas, Heurística y Análisis de Comportamiento (EDR/XDR)",
+          "Caso de Estudio: WannaCry (2017) y NotPetya"
+        ],
         content: `
-### 1. Taxonomía del Malware
+### 1. Taxonomía del Malware Moderno
 
-El software malicioso (Malware) comprende cualquier programa diseñado con la intención deliberada de causar daños, robar información o subvertir la operatividad de sistemas de red.
+El software malicioso (**Malware**) engloba programas diseñados deliberadamente para causar daños, robar credenciales, alterar la integridad del sistema o establecer control no autorizado sobre infraestructuras de red.
 
-| Tipo de Malware | Vector de Propagación | Requiere Intervención Humana | Carga Útil (Payload) Principal |
+| Tipo de Malware | Vector de Propagación | Intervención Humana | Impacto Primario |
 | :--- | :--- | :--- | :--- |
-| **Virus** | Se adhiere a ejecutables legítimos (.exe, .dll, macros) | **Sí** (el usuario debe ejecutar el archivo huésped) | Corrupción de archivos, alteración del Master Boot Record (MBR), robo de datos |
-| **Gusano (Worm)** | Se propaga de forma autónoma por la red explotando vulnerabilidades en protocolos de red | **No** (propagación 100% automatizada e independiente) | Saturación de ancho de banda, apertura de puertos, despliegue masivo de payloads |
-| **Troyano (Trojan)** | Se disfraza de software legítimo o deseable (crack, instalador) | **Sí** (el usuario es engañado para instalarlo) | Apertura de backdoors (RAT), robo de credenciales (Stealers), descarga de otros malwares (Droppers) |
-| **Backdoor (Puerta Trasera)** | Mecanismo encubierto instalado en el sistema operativo o servicio | Depende del método de instalación | Permite acceso remoto administrativo no autenticado al atacante en cualquier momento |
+| **Virus** | Infección de ejecutables (.exe, .dll, macros) | Requiere ejecución por parte del usuario | Corrupción de archivos, alteración del MBR, robo de datos locales |
+| **Gusano (Worm)** | Automatizado vía red explotando vulnerabilidades | No requiere interacción humana | Saturación de ancho de banda, propagación masiva, backdoors |
+| **Troyano (Trojan)** | Camuflado en software aparentemente legítimo | Engaño mediante ingeniería social | Apertura de RATs, keylogging, descarga secundaria de payloads |
+| **Ransomware** | Phishing, RDP expuesto, vulnerabilidades L7 | Variable | Cifrado simétrico/asimétrico masivo de discos y extorsión |
+| **Rootkit** | Inyección a nivel de kernel o hypervisor | Acceso root/SYSTEM previo | Ocultación de procesos, módulos de red y persistencia invisible |
+| **Spyware / InfoStealer** | Archivos adjuntos, paquetes web maliciosos | Ejecución de archivo trampa | Extracción de tokens de sesión de navegador, contraseñas y billeteras |
 
 ---
 
-### 2. Ciclo de Vida del Virus y Gusanos
+### 2. Ciclo de Vida de la Infección y Vectores de Evasión
 
-1. **Etapa de Creación / Desarrollo:** El autor programa el código malicioso, ensambla la carga útil y aplica técnicas de evasión (ofuscación, empaquetado con UPX, criptografía polimórfica/metamórfica).
-2. **Etapa de Infección / Replicación:**
-   - *Virus:* Infección del sector de arranque (Boot Sector), archivos del sistema o macros de oficina.
-   - *Gusano:* Escaneo masivo de rangos de red IP (TCP SYN scan) en busca de puertos vulnerables (ej. SMB puerto 445 en EternalBlue / WannaCry, MS-SQL puerto 1433 en Slammer).
-3. **Etapa de Latencia (Dormancy):** El malware permanece inactivo para eludir el análisis en sandboxes y evadir sospechas, esperando un disparador (trigger) por fecha, comando C2 o evento del sistema.
-4. **Etapa de Activación / Ejecución del Payload:** Despliegue de la acción destructiva o lucrativa: cifrado de discos (Ransomware), exfiltración de credenciales, o enrolamiento en una botnet.
+1. **Desarrollo y Armado (Weaponization):** El actor de amenazas ensambla el payload malicioso, aplicando empaquetadores (**UPX, Themida**), cifrado polimórfico o metamórfico para alterar los hashes MD5/SHA-256 en cada compilación.
+2. **Entrega y Explotación (Delivery & Exploitation):** Tráfico malicioso transmitido mediante phishing, descargas desatendidas (Drive-by Download) o explotación de vulnerabilidades en servicios expuestos (ej. SMB, RDP).
+3. **Instalación y Persistencia (Installation & Persistence):** Creación de claves en el Registro de Windows (\`HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\`), tareas programadas o servicios de sistema ocultos.
+4. **Comando y Control (C2 Beaconing):** El binario infectado establece comunicación cifrada saliente (TLS, DNS tunneling, WebSockets) con la infraestructura del atacante.
+5. **Acción sobre Objetivos (Actions on Objectives):** Exfiltración de datos confidenciales, cifrado de volúmenes de almacenamiento o movimiento lateral hacia controladores de dominio.
 
 ---
 
 ### 3. Técnicas de Detección de Malware
 
-1. **Detección Basada en Firmas (Signature-Based):**
-   - Compara el hash (MD5, SHA-256) o secuencias de bytes del binario contra una base de datos de firmas conocidas.
-   - *Limitación:* Ineficaz ante malware nuevo (Zero-Day) o variantes polimórficas.
-2. **Comprobación de Integridad / Suma de Verificación (CRC / Hash):**
-   - Almacena una línea base (baseline) de los hashes de los ejecutables del sistema. Si el valor hash cambia, alerta sobre posible infección o inyección.
-3. **Programas de Vigilancia (Hooking & API Monitoring):**
-   - Interceptan llamadas al sistema (System Calls / Windows API) como \`CreateRemoteThread\`, \`VirtualAllocEx\` o intentos de modificación de claves del Registro (\`Run/RunOnce\`).
-4. **Búsqueda Heurística (Heuristic Analysis):**
-   - Examina el código en busca de secuencias de instrucciones sospechosas (ej. bucles de descifrado, rutinas de evasión de depuradores) sin requerir una firma exacta.
-5. **Análisis del Comportamiento (Behavioral / EDR / XDR con IA & ML):**
-   - Ejecuta el proceso en un entorno aislado (Sandbox) o monitorea la telemetría en tiempo real: conexiones de red anómalas a IPs no categorizadas, volumen inusual de escrituras en disco (síntoma de ransomware), o inyección de código en procesos legítimos (\`svchost.exe\`, \`lsass.exe\`).
+1. **Detección Basada en Firmas:** Compara secuencias de bytes y hashes estáticos contra bases de datos globales de amenazas. Es ineficaz ante ataques Zero-Day o variantes con polimorfismo.
+2. **Análisis Heurístico y Desensamblado Estático:** Analiza las llamadas a la API de Windows (\`VirtualAllocEx\`, \`WriteProcessMemory\`, \`CreateRemoteThread\`) en busca de patrones típicos de inyección DLL.
+3. **Análisis Dinámico en Sandbox:** Ejecución controlada del archivo en una máquina virtual instrumentada para monitorear modificaciones de archivos, claves de registro y tráfico de red saliente.
+4. **Sistemas EDR / XDR con Aprendizaje Automático:** Telemetría en tiempo real que detecta anomalías de comportamiento (ej. el proceso \`word.exe\` intentando invocar \`powershell.exe -enc\` con privilegios elevados).
+
+---
+
+### 4. Caso de Estudio: El Gusano Ransomware WannaCry (2017)
+
+- **Vector de Entrada:** Explotación de la vulnerabilidad en el protocolo SMBv1 de Microsoft (**CVE-2017-0143 / EternalBlue**), filtrada del grupo Equation Group.
+- **Mecanismo de Propagación:** Escaneo masivo y autónomo del puerto TCP 445 en subredes locales e Internet. Una vez infectado un equipo, actuaba como gusano para propagarse a todos los hosts accesibles sin interacción de usuario.
+- **Carga Útil:** Cifrado de archivos con algoritmo AES-128-CBC + RSA-2048 y solicitud de rescate en Bitcoin.
+- **Detención:** Descubrimiento de un dominio no registrado ("Killswitch") al que el malware consultaba antes de ejecutar el cifrado.
+
+---
+
+### 5. Herramientas y Comandos Prácticos
+
+- **YARA:** Creación de reglas para escaneo e identificación de patrones de malware.
+\`\`\`text
+rule Detectar_Inyeccion_ProcessHollowing {
+    strings:
+        $api1 = "NtUnmapViewOfSection" ascii
+        $api2 = "VirtualAllocEx" ascii
+        $api3 = "WriteProcessMemory" ascii
+    condition:
+        all of them and uint16(0) == 0x5A4D
+}
+\`\`\`
+
+- **Sysinternals Suite (Process Hacker, Autoruns):** Auditoría en vivo de memoria y persistencia.
+\`\`\`bash
+# Listado de conexiones de red activas asociadas a identificadores de proceso (PID)
+netstat -ano -p tcp | findstr "ESTABLISHED"
+\`\`\`
+
+---
+
+### 6. Precauciones y Trampas Operativas
+
+- **Desactivar SMBv1 en toda la red:** SMBv1 es un protocolo obsoleto que carece de autenticación robusta y cifrado; debe ser deshabilitado mediante directivas GPO.
+- **No confiar en la extensión del archivo:** Archivos con doble extensión (ej. \`factura.pdf.exe\`) engañan al usuario si el explorador de Windows tiene desmarcada la opción de mostrar extensiones conocidas.
 `
       },
       {
         id: "u1-s3",
         title: "Sesión 1.3: Botnets y Servidores de Comando y Control (C2)",
-        topics: ["Arquitectura de Botnets", "Topologías C2 (Centralizado vs P2P vs DGA)", "Mitigación y Sinkholing"],
+        topics: [
+          "Arquitectura y Topologías de Botnets (Centralizada IRC/HTTP, P2P, Híbrida)",
+          "Evasión Avanzada: DGA (Domain Generation Algorithms) y Fast-Flux DNS",
+          "Canales Encubiertos (DNS Tunneling, DoH, Cloud APIs)",
+          "Estrategias Defensivas: DNS Sinkholing, Análisis de Beaconing y Threat Intelligence",
+          "Caso de Estudio: Mirai Botnet (2016) y GameOver Zeus"
+        ],
         content: `
 ### 1. ¿Qué es una Botnet?
 
-Una **Botnet** (red de robots) es una infraestructura distribuida de dispositivos informáticos comprometidos (denominados *Bots* o *Zombies*) que son controlados de forma remota y coordinada por un atacante (denominado *Botmaster* o *Herder*) a través de canales de comunicación encubiertos.
+Una **Botnet** es una red distribuida de dispositivos informáticos comprometidos (denominados *Bots* o *Zombies*) que son controlados de forma remota y coordinada por un atacante (*Botmaster*) a través de un canal de Comando y Control (**C2 / C&C**).
 
-#### Usos de las Botnets:
-- Ataques de Denegación de Servicio Distribuida masivos (DDoS L3/L4 y L7).
-- Minería ilícita de criptomonedas (Cryptojacking).
-- Distribución masiva de Spam y campañas de Phishing.
-- Redes de proxies residenciales para ocultar el tráfico de ciberdelincuentes.
-- Robo y exfiltración masiva de credenciales bancarias e identidad.
+#### Casos de Uso Malicioso de las Botnets:
+- **Ataques de Denegación de Servicio Distribuida (DDoS):** Saturación de enlaces por amplificación DNS/NTP o inundación de peticiones HTTP en Capa 7.
+- **Campañas Masivas de Phishing y Spam:** Envío distribuido de millones de correos para evitar listas negras basadas en reputación de IP.
+- **Redes de Proxies Residenciales:** Enrutamiento encubierto del tráfico de bandas de cibercrimen para eludir controles de geolocalización.
+- **Cryptojacking Distribuido:** Monopolización no autorizada de ciclos de CPU/GPU para minería de criptomonedas.
 
 ---
 
-### 2. Arquitecturas de Mando y Control (C&C / C2)
+### 2. Topologías de Infraestructura C2
 
 \`\`\`mermaid
 flowchart TD
-    subgraph Centralizada
-    BM1[Botmaster] --> C2Server[Servidor C2 HTTP / IRC]
+    subgraph Arquitectura_Centralizada
+    BM1[Botmaster] --> C2Server[Servidor C2 Central]
     C2Server --> Bot1[Bot 1]
     C2Server --> Bot2[Bot 2]
     C2Server --> Bot3[Bot 3]
     end
 
-    subgraph Descentralizada_P2P
-    BM2[Botmaster] --> NodeA[Nodo P2P A]
-    NodeA <--> NodeB[Nodo P2P B]
-    NodeB <--> NodeC[Nodo P2P C]
+    subgraph Arquitectura_P2P_Descentralizada
+    BM2[Botmaster] --> NodeA[Nodo P2P 1]
+    NodeA <--> NodeB[Nodo P2P 2]
+    NodeB <--> NodeC[Nodo P2P 3]
     NodeA <--> NodeC
     end
 \`\`\`
 
-1. **Arquitectura Centralizada (IRC / HTTP / HTTPS):**
-   - Todos los bots se conectan a una o varias direcciones IP / Nombres de Dominio fijos de servidores C2.
-   - *Protocolos:* Antiguamente canales IRC (#channel); actualmente HTTP/HTTPS cifrado mediante TLS para camuflarse en el tráfico web corporativo legítimo.
-   - *Vulnerabilidad defensiva:* Presenta un punto único de fallo (Single Point of Failure). Si los defensores toman control de la IP del C2 o el registrador suspende el dominio, la botnet queda descabezada.
+1. **Arquitectura Centralizada (HTTP/HTTPS/TLS):**
+   - Los bots envían consultas periódicas (heartbeats o beacons) a una dirección IP o nombre de dominio central.
+   - *Punto Débil Defensivo:* Posee un punto único de fallo (Single Point of Failure). Si los defensores confiscan la IP o dan de baja el dominio, la botnet queda neutralizada.
 2. **Arquitectura Descentralizada Peer-to-Peer (P2P):**
-   - No existe un servidor central. Cada bot actúa como cliente y servidor, reenviando comandos firmados criptográficamente por el Botmaster a sus nodos vecinos.
-   - *Ejemplo histórico:* Storm Worm, GameOver Zeus.
-   - *Ventaja del atacante:* Alta resiliencia; dar de baja unos pocos nodos no desmantela la red.
-3. **Mecanismos Avanzados de Evasión:**
-   - **DGA (Domain Generation Algorithms):** El malware genera matemáticamente cientos de nombres de dominio pseudoaleatorios por día utilizando una semilla temporal (ej. la fecha actual). El bot intenta conectarse a todos ellos hasta encontrar el que el atacante registró para ese día.
-   - **Fast-Flux DNS:** Técnica que asocia un único dominio a decenas de direcciones IP de bots que cambian constantemente cada pocos segundos mediante valores TTL de DNS extremadamente bajos.
-   - **Canales Encubiertos:** Uso de DNS over HTTPS (DoH), APIs de Telegram, Discord o transacciones en la Blockchain de Bitcoin para recibir instrucciones.
+   - No existe un servidor central; cada bot actúa como cliente y servidor, reenviando comandos firmados criptográficamente mediante clave asimétrica a los nodos vecinos.
+   - *Ejemplo Histórico:* GameOver Zeus, Storm Worm. Gran resiliencia ante decomisos judiciales.
+3. **Mecanismos de Evasión Dinámica:**
+   - **DGA (Domain Generation Algorithms):** Algoritmo matemático integrado en el malware que genera cientos de dominios pseudoaleatorios por día utilizando como semilla la fecha UTC o cotizaciones financieras. El botmaster solo necesita registrar uno de ellos para retomar el control.
+   - **Fast-Flux DNS:** Técnica que asocia un nombre de dominio a cientos de direcciones IP de bots que rotan continuamente con valores TTL (Time-To-Live) de DNS extremadamente cortos (60 a 300 segundos).
+   - **Canales Encubiertos (DNS Tunneling):** Exfiltración de datos codificados en consultas DNS (ej. \`datos_robados.attacker-c2.com\`) para eludir firewalls que permiten tráfico saliente en puerto UDP 53.
 
 ---
 
-### 3. Técnicas de Mitigación y Defensas Anti-Botnet
+### 3. Caso de Estudio: La Botnet Mirai (2016)
 
-- **DNS Sinkholing:** Los investigadores de seguridad o autoridades redirigen el tráfico de dominios maliciosos de C2 hacia servidores de análisis controlados (Sinkholes) en lugar del C2 real, cortando la comunicación con los atacantes y permitiendo censar a las víctimas.
-- **Inspección de Tráfico y Análisis de Beaconing:** Detección de patrones regulares de conexión de red saliente hacia destinos externos sospechosos (heartbeat o balizas periódicas con jitter).
-- **Control de Reputación IP / DNS:** Bloqueo perimetral en NGFW de dominios recién registrados (Newly Registered Domains - NRD) o con mala reputación de Threat Intelligence.
+- **Dispositivos Comprometidos:** Cientos de miles de cámaras IP, grabadores DVR y routers domésticos con arquitectura ARM/MIPS.
+- **Vector de Infección:** Escaneo masivo del puerto Telnet (TCP 23) y uso de un diccionario de apenas 62 combinaciones de credenciales por defecto (\`admin:admin\`, \`root:123456\`).
+- **Impacto:** Ataque DDoS récord de 1.2 Tbps contra el proveedor de DNS Dyn, dejando sin servicio a plataformas como Twitter, Netflix, GitHub y Spotify en toda la costa este de EE.UU.
+
+---
+
+### 4. Estrategias Defensivas y Herramientas
+
+- **DNS Sinkholing:** Configuración de servidores DNS corporativos para responder con una dirección IP interna controlada (loopback \`127.0.0.1\` o honeypot) a consultas dirigidas a dominios C2 conocidos, anulando la conexión y permitiendo identificar qué IP interna está infectada.
+- **Detección de Beaconing con RITA / Zeek:**
+\`\`\`bash
+# Ejemplo de deteccion de intervalos periodicos de baliza (beaconing) en registros de red Zeek
+rita show-beacons dataset_corporativo
+\`\`\`
+
+- **Inspección de Tráfico DNS en Wireshark / TShark:**
+\`\`\`bash
+# Filtrado de consultas DNS anormalmente largas (indicador de DNS Tunneling)
+tshark -r captura_red.pcap -Y "dns.flags.response == 0 and dns.qry.name.len > 50" -T fields -e dns.qry.name
+\`\`\`
+
+---
+
+### 5. Precauciones Operativas
+
+- **Segmentación de Dispositivos IoT:** Cámaras, sensores y dispositivos embebidos deben ubicarse en VLANs aisladas sin acceso directo a Internet ni visibilidad hacia la red de servidores.
+- **Bloqueo de DNS Externos no Autorizados:** Forzar a que todos los endpoints utilicen únicamente el servidor DNS interno corporativo con filtrado de reputación RPZ (**Response Policy Zones**).
 `
       },
       {
         id: "u1-s4",
         title: "Sesión 1.4: Metodologías de Ataque a Redes LAN y Monitoreo",
-        topics: ["Ataques de Acceso", "Ataques a Conexiones y Capa 2 (ARP Spoofing, DHCP Starvation, SYN Flood)", "Ingeniería Social", "Dispositivos de Monitoreo (SNMPv3, NetFlow, SPAN, TAP)"],
+        topics: [
+          "Ataques de Acceso (Fuerza Bruta, Password Spraying, Pass-the-Hash)",
+          "Ataques de Capa 2 (ARP Poisoning, DHCP Starvation, MAC Flooding, VLAN Hopping)",
+          "Ingeniería Social (Phishing, Spear Phishing, Whaling, Vishing, Pretexting)",
+          "Mecanismos de Monitoreo (SNMPv3, NetFlow/IPFIX, Syslog RFC 5424, SPAN, Network TAPs)",
+          "Defensas de Switch: Port Security, DHCP Snooping, Dynamic ARP Inspection (DAI)"
+        ],
         content: `
-### 1. Metodologías de Ataque en Redes Locales (LAN)
+### 1. Metodologías de Ataque en Redes de Acceso Local (LAN)
 
-#### A. Ataques de Acceso:
-- **Fuerza Bruta Directa e Híbrida:** Intentos exhaustivos de combinaciones de credenciales contra servicios de autenticación (SSH, RDP, Telnet, Web).
-- **Ataque por Diccionario:** Uso de listas precompiladas de contraseñas de alta frecuencia (ej. \`rockyou.txt\`).
-- **Password Spraying:** Intento de una sola contraseña común (ej. \`Primavera2026!\`) contra cientos de cuentas de usuario distintas, eludiendo bloqueos por intentos fallidos por cuenta.
-- **Pass-the-Hash / Pass-the-Ticket:** Reutilización de hashes NTLM o tickets Kerberos capturados en memoria RAM (LSASS) sin necesidad de descifrar la contraseña en texto claro.
+Las redes locales construidas sobre protocolos de enlace tradicionales (Ethernet / 802.3, ARP, DHCP) carecen de autenticación nativa, lo que permite que un atacante con acceso físico o lógico a un puerto de switch ejecute ataques de interceptación y denegación de servicio.
 
-#### B. Ataques a las Conexiones y Capa de Enlace (Layer 2 Attacks):
 \`\`\`mermaid
 sequenceDiagram
     participant Victima as PC Víctima (192.168.1.50)
     participant Atacante as Atacante MITM (192.168.1.100)
     participant Gateway as Router Gateway (192.168.1.1)
 
-    Note over Atacante: Gratuitous ARP Spoofing
-    Atacante->>Victima: ARP Reply: 192.168.1.1 is at MAC_Atacante
-    Atacante->>Gateway: ARP Reply: 192.168.1.50 is at MAC_Atacante
-    Note over Victima, Gateway: Tablas ARP envenenadas
-    Victima->>Atacante: Tráfico hacia Internet (interceptado y reenviado)
-    Atacante->>Gateway: Reenvía tráfico legítimo
+    Note over Atacante: Envenenamiento de Tablas ARP
+    Atacante->>Victima: Gratuitous ARP: 192.168.1.1 tiene MAC_Atacante
+    Atacante->>Gateway: Gratuitous ARP: 192.168.1.50 tiene MAC_Atacante
+    Note over Victima, Gateway: Tráfico redirigido a través del atacante
+    Victima->>Atacante: Datos enviados (Capa 3 y Capa 7)
+    Atacante->>Gateway: Reenvío de tráfico legítimo (Man-in-the-Middle)
 \`\`\`
 
-1. **ARP Poisoning / ARP Spoofing (Man-in-the-Middle):**
-   - El atacante envía respuestas ARP falsificadas (Gratuitous ARP) a la víctima y al gateway, asociando la dirección IP legítima con la dirección MAC del atacante.
-   - *Defensa:* **Dynamic ARP Inspection (DAI)** en switches Cisco, que valida paquetes ARP contra la base de datos de DHCP Snooping.
-2. **DHCP Starvation:**
-   - El atacante inunda el switch con miles de solicitudes DHCP Request con direcciones MAC falsificadas, agotando todo el pool de direcciones IP del servidor DHCP legítimo y procediendo a levantar un servidor Rogue DHCP para interceptar el tráfico.
-   - *Defensa:* **DHCP Snooping** (marca puertos como Trusted/Untrusted) y **Port Security** (limita el número de MACs por puerto).
-3. **MAC Flooding:**
-   - Inundación de la tabla CAM (Content Addressable Memory) del switch con miles de direcciones MAC falsas hasta desbordarla, forzando al switch a entrar en modo 'fail-open' (hub), transmitiendo todos los paquetes por todos los puertos (Broadcast).
-   - *Defensa:* **Port Security** con límite máximo de MACs y violación en modo \`shutdown\` o \`restrict\`.
-4. **TCP SYN Flood (Denegación de Servicio):**
-   - Explotación del Three-Way Handshake de TCP enviando miles de paquetes SYN con IPs de origen falsificadas, sin responder con el ACK final, agotando la cola de conexiones semiabiertas (Backlog Queue) del servidor.
-   - *Defensa:* **TCP SYN Cookies**, firewalls con inspección de estado y límites de tasa (rate limiting).
-
-#### C. Ataques por Ingeniería Social:
-- **Phishing tradicional:** Envío masivo de correos electrónicos engañosos imitando marcas u organizaciones legítimas.
-- **Spear Phishing:** Ataques altamente dirigidos y personalizados a un individuo u organización específica tras recopilar inteligencia OSINT.
-- **Whaling:** Spear phishing dirigido a altos ejecutivos (CEO, CFO) para autorizar transferencias fraudulentas (Business Email Compromise - BEC).
-- **Vishing & Smishing:** Ingeniería social mediante llamadas telefónicas de voz (Vishing) o mensajes SMS (Smishing).
-- **Baiting & Pretexting:** Uso de cebos (ej. memorias USB maliciosas abandonadas en recepciones) o creación de un escenario ficticio convincente para obtener acceso físico o lógico.
+#### Principales Vectores de Ataque en Capa 2:
+1. **ARP Poisoning / Spoofing (Man-in-the-Middle):**
+   - El atacante envía respuestas ARP falsas sin solicitud previa (*Gratuitous ARP*) asociando la IP del Gateway con su propia MAC.
+   - *Defensa:* **Dynamic ARP Inspection (DAI)**, que valida cada paquete ARP contra la base de datos de DHCP Snooping.
+2. **DHCP Starvation y Rogue DHCP Server:**
+   - El atacante agota el pool de IPs del servidor legítimo emitiendo miles de peticiones DHCP Discover con MACs ficticias, para luego levantar un servidor DHCP malicioso que asigna su propia IP como DNS y Gateway.
+   - *Defensa:* **DHCP Snooping**, configurando los puertos de usuarios como *Untrusted* y los puertos de servidores/uplinks como *Trusted*.
+3. **MAC Address Table Flooding:**
+   - Inundación de la tabla CAM del switch con miles de direcciones MAC falsas por segundo, forzando al switch a entrar en modo *fail-open* (comportándose como un Hub) y enviando todo el tráfico a todos los puertos.
+   - *Defensa:* **Port Security**, limitando el número máximo de MACs aprendidas por puerto.
 
 ---
 
-### 2. Dispositivos y Técnicas de Monitoreo de Red
+### 2. Dispositivos y Protocolos de Telemetría y Monitoreo de Red
 
-| Mecanismo de Monitoreo | Capa OSI / Enfoque | Tipo de Datos Recopilados | Casos de Uso en Ciberseguridad |
+| Mecanismo de Telemetría | Capa OSI | Datos Recopilados | Uso en Operaciones de Seguridad (SOC) |
 | :--- | :--- | :--- | :--- |
-| **SNMPv3** | Capa de Aplicación (UDP 161/162) | Métricas de estado de hardware, ancho de banda, CPU, contadores de interfaz con cifrado (AES) y autenticación (SHA). | Monitoreo de disponibilidad, detección de caídas de interfaces y saturación de enlaces. |
-| **NetFlow / IPFIX** | Capa de Red y Transporte (L3/L4) | Metadatos de flujos de red: IP origen/destino, puerto origen/destino, protocolo, bytes, paquetes y marcas de tiempo. | Detección de anomalías de tráfico masivo, exfiltración de datos, escaneos de puertos y ataques DDoS sin almacenar el contenido del payload. |
-| **Syslog (RFC 5424)** | Capa de Aplicación (UDP/TCP 514, TLS 6514) | Registros cronológicos de eventos del sistema (login exitoso/fallido, cambios de configuración, alertas de firewall). | Trazabilidad forense, cumplimiento normativo y correlación centralizada en SIEM. |
-| **Port Mirroring (SPAN / RSPAN / ERSPAN)** | Capa de Enlace / Red | Copia exacta bit a bit del tráfico físico o VLAN hacia un puerto donde está conectado un sensor NIDS (Snort, Zeek). | Inspección profunda de paquetes (DPI) y análisis forense de tráfico completo. |
-| **Network TAP (Test Access Point)** | Capa Física (Capa 1) | Dispositivo de hardware pasivo intercalado en el cable que duplica las señales ópticas o de cobre sin introducir latencia ni afectar al switch. | Captura forense de alta velocidad 10G/40G/100G garantizada sin pérdida de paquetes por sobrecarga de CPU de switch. |
+| **SNMPv3** | Capa 7 (UDP 161/162) | Métricas de hardware, contadores de interfaz, estado de enlaces cifrados con AES/SHA | Alertas de caídas de interfaces, saturación de ancho de banda |
+| **NetFlow / IPFIX** | Capa 3/4 (UDP) | Metadatos de flujo: IP origen/destino, puerto, protocolo, bytes, duración | Detección de anomalías de tráfico masivo, escaneos y exfiltración |
+| **Syslog (RFC 5424)** | Capa 7 (UDP/TCP 514, TLS 6514) | Eventos del sistema, intentos de login, cambios de configuración | Auditoría forense y correlación centralizada en SIEM |
+| **Port Mirroring (SPAN)** | Capa 2/3 | Copia bit a bit del tráfico físico hacia un sensor NIDS | Inspección profunda de paquetes (**DPI**) con Snort/Suricata |
+| **Network TAP** | Capa 1 (Física) | Duplicación pasiva por hardware de señales ópticas/cobre | Captura forense 10G/40G sin impacto en la CPU del switch |
+
+---
+
+### 3. Configuración de Hardening en Cisco IOS CLI
+
+\`\`\`cisco
+! 1. Activacion de DHCP Snooping global y por VLAN
+ip dhcp snooping
+ip dhcp snooping vlan 10,20
+interface GigabitEthernet0/1
+ description UPLINK_HACIA_ROUTER_Y_DHCP_SERVER
+ ip dhcp snooping trust
+
+! 2. Activacion de Dynamic ARP Inspection (DAI)
+ip arp inspection vlan 10,20
+ip arp inspection validate src-mac dst-mac ip
+
+! 3. Configuracion de Port Security en puertos de acceso
+interface range FastEthernet0/1 - 24
+ switchport mode access
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security violation restrict
+ switchport port-security mac-address sticky
+\`\`\`
+
+---
+
+### 4. Precauciones y Trampas Operativas
+
+- **No habilitar DHCP Snooping antes de DAI:** Si se habilita DAI sin tener activa y poblada la base de datos de DHCP Snooping, el switch descartará inmediatamente TODO el tráfico ARP legítimo, aislando a todos los usuarios de la red.
+- **Riesgo de SNMPv1 y SNMPv2c:** Ambas versiones transmiten la cadena de comunidad (*Community String*) en texto claro sin cifrar. Deben ser erradicadas en favor de **SNMPv3 con nivel authPriv** (autenticación SHA + cifrado AES).
 `
       }
     ]
@@ -229,224 +366,236 @@ sequenceDiagram
       {
         id: "u2-s1",
         title: "Sesión 2.1: El Framework AAA y Protocolos Centralizados",
-        topics: ["Concepto de Autenticación, Autorización y Contabilidad", "Protocolo TACACS+ (RFC 8907)", "Protocolo Kerberos v5 (RFC 4120)"],
+        topics: [
+          "Arquitectura y Componentes del Framework AAA",
+          "Protocolo TACACS+ (RFC 8907): Arquitectura TCP 49, Desacoplamiento y Cifrado Total",
+          "Protocolo Kerberos v5 (RFC 4120): KDC, AS, TGS, Tickets TGT y Service Tickets",
+          "Vulnerabilidades Críticas de Kerberos: Kerberoasting, AS-REP Roasting, Golden/Silver Tickets",
+          "Caso de Estudio: Compromiso de Active Directory en Redes Corporativas"
+        ],
         content: `
 ### 1. El Framework AAA (Authentication, Authorization, Accounting)
 
-El modelo **AAA** es el pilar de la gestión centralizada de accesos e identidades en arquitecturas de red empresariales y de proveedores de servicios:
+El framework **AAA** es el pilar de la gestión centralizada de accesos e identidades en infraestructuras corporativas:
 
-1. **Autenticación (Authentication - ¿Quién eres?):**
-   - Es el proceso mediante el cual una entidad demuestra su identidad ante un sistema de verificación.
-   - *Mecanismos:* Factores basados en conocimiento (contraseñas), posesión (tokens FIDO2, smart cards, OTP) o inherencia (biometría de huella, rostro).
-2. **Autorización (Authorization - ¿Qué puedes hacer?):**
-   - Es el proceso de conceder derechos específicos, permisos y privilegios a la entidad ya autenticada.
-   - *Modelos:* Control de acceso basado en roles (**RBAC**), control de acceso basado en atributos (**ABAC**), o listas de control de comandos (Command Authorization).
-3. **Contabilidad / Registro (Accounting - ¿Qué hiciste y durante cuánto tiempo?):**
-   - Es el proceso de recopilar, auditar y registrar las acciones realizadas por el usuario durante su sesión activa (hora de inicio, comandos ejecutados, bytes transferidos, hora de desconexión).
+1. **Autenticación (Authentication - ¿Quién es la entidad?):** Proceso de verificación rigurosa de la identidad declarada mediante uno o más factores (**Conocimiento, Posesión, Inherencia**).
+2. **Autorización (Authorization - ¿Qué tiene permitido hacer?):** Asignación de privilegios, listas de comandos, atributos de red (VLANs, ACLs descargables) aplicados a la sesión del usuario.
+3. **Contabilidad / Registro (Accounting - ¿Qué acciones ejecutó y cuándo?):** Recopilación y registro de métricas operativas (marcas de tiempo de login/logout, comandos ejecutados, paquetes y bytes transmitidos) para auditoría y no repudio.
 
 ---
 
 ### 2. Protocolo TACACS+ (RFC 8907)
 
-**TACACS+ (Terminal Access Controller Access Control System Plus)** es un protocolo optimizado para la administración segura de dispositivos de red (Routers, Switches, Firewalls):
+**TACACS+ (Terminal Access Controller Access Control System Plus)** es el estándar de facto para la administración segura de dispositivos de infraestructura (Routers, Switches, Firewalls):
 
-- **Capa de Transporte:** Utiliza **TCP en el puerto 49**, garantizando entrega confiable orientada a la conexión.
-- **Separación de Servicios:** Desacopla de forma 100% independiente las tres funciones: Autenticación, Autorización y Contabilidad. Esto permite autenticar mediante Kerberos/LDAP pero autorizar comandos específicos mediante TACACS+.
-- **Seguridad Criptográfica:** Cifra el **CUERPO COMPLETO (Payload)** del paquete, protegiendo tanto contraseñas como comandos ejecutados y nombres de usuario. Solo la cabecera fija de 12 bytes viaja sin cifrar.
-- **Autorización Granular por Comando:** Permite interceptar cada comando individual escrito por el administrador en la consola (\`show running-config\`, \`reload\`, \`interface GigabitEthernet0/0\`) y consultar en tiempo real al servidor TACACS+ si el usuario tiene permiso para ejecutar ese comando específico.
+- **Capa de Transporte:** Utiliza **TCP en el puerto 49**, garantizando entrega orientada a la conexión y control de flujo.
+- **Desacoplamiento Total:** Separa de forma independiente los tres servicios (**Autenticación, Autorización y Contabilidad**), permitiendo autenticar contra un servidor LDAP/Active Directory pero autorizar comandos específicos en un servidor TACACS+ dedicado.
+- **Cifrado del Payload Completo:** A diferencia de RADIUS, TACACS+ cifra la totalidad del cuerpo del paquete (incluyendo comandos de configuración y nombres de usuario). Solo la cabecera fija de 12 bytes viaja en texto claro.
+- **Autorización Granular por Comando:** Permite inspeccionar cada comando individual introducido por el administrador en tiempo real antes de permitir su ejecución en la consola.
 
 ---
 
 ### 3. Protocolo Kerberos v5 (RFC 4120)
 
-Kerberos es el estándar de la industria para autenticación de un solo inicio de sesión (**SSO**) en redes no confiables (utilizado nativamente en Microsoft Active Directory):
+Kerberos es el protocolo de autenticación distribuida basado en tickets de confianza utilizado por Microsoft Active Directory y entornos Unix/Linux:
 
 \`\`\`mermaid
 sequenceDiagram
-    participant C as Cliente (Usuario)
-    participant AS as Authentication Server (AS)
-    participant TGS as Ticket Granting Server (TGS)
-    participant SS as Servidor de Servicio (Target)
+    participant Usuario as Cliente (Usuario)
+    participant AS as KDC: Authentication Server
+    participant TGS as KDC: Ticket Granting Server
+    participant Server as Servidor de Aplicación
 
-    Note over C, AS: Paso 1: Autenticación Inicial
-    C->>AS: 1. AS-REQ (ID Usuario, Timestamp cifrado con Hash Password)
-    AS->>C: 2. AS-REP [TGT cifrado con K_TGS + Clave de Sesión Cliente-TGS cifrada con K_Cliente]
-    
-    Note over C, TGS: Paso 2: Solicitud de Ticket de Servicio
-    C->>TGS: 3. TGS-REQ [TGT + Autenticador cifrado con Clave de Sesión Cliente-TGS + ID Servicio]
-    TGS->>C: 4. TGS-REP [Service Ticket cifrado con K_Servicio + Clave de Sesión Cliente-Servidor]
-    
-    Note over C, SS: Paso 3: Acceso al Recurso
-    C->>SS: 5. AP-REQ [Service Ticket + Autenticador cifrado]
-    SS->>C: 6. AP-REP (Autenticación Mutua opcional)
+    Usuario->>AS: 1. Petición AS-REQ (Nombre de usuario + Timestamp cifrado)
+    AS->>Usuario: 2. Respuesta AS-REP (Ticket TGT cifrado con clave KDC + Clave de Sesión TGT)
+    Usuario->>TGS: 3. Petición TGS-REQ (TGT + Autenticador cifrado)
+    TGS->>Usuario: 4. Respuesta TGS-REP (Service Ticket cifrado con clave del Servicio)
+    Usuario->>Server: 5. Petición AP-REQ (Service Ticket)
+    Server->>Usuario: 6. Acceso concedido al recurso
 \`\`\`
 
-- **Key Distribution Center (KDC):** Compuesto por dos componentes lógicos:
-  1. **Authentication Server (AS):** Valida la identidad inicial del usuario y entrega el **TGT (Ticket Granting Ticket)**.
-  2. **Ticket Granting Server (TGS):** Emite tickets de servicio (**Service Tickets**) para recursos específicos a cambio de un TGT válido.
-- **Protección contra Replay Attacks:** Utiliza marcas de tiempo criptográficas (**Timestamps**) que requieren sincronización estricta de relojes mediante protocolo **NTP** (con una tolerancia típica máxima de 5 minutos).
-- **Autenticación Mutua:** El cliente verifica la autenticidad del servidor y el servidor verifica la del cliente antes de transmitir datos sensibles.
+#### Ataques y Vulnerabilidades Críticas de Kerberos:
+- **Kerberoasting:** Solicitud de Service Tickets (TGS) para cuentas de servicio con nombres SPN (**Service Principal Names**). El atacante extrae el ticket cifrado con la contraseña de la cuenta de servicio y realiza fuerza bruta offline con Hashcat para recuperar la contraseña en texto plano.
+- **AS-REP Roasting:** Explotación de cuentas que tienen desactivada la preautenticación Kerberos (\`DONT_REQ_PREAUTH\`). El atacante solicita un AS-REP directamente y extrae el hash para crackeo offline.
+- **Golden Ticket:** Ataque de persistencia total tras comprometer la cuenta de sistema \`krbtgt\`. El atacante puede forjar TGTs válidos con privilegios de Domain Admin con vigencia de hasta 10 años.
+
+---
+
+### 4. Configuración Práctica en Cisco IOS CLI
+
+\`\`\`cisco
+! 1. Habilitar el nuevo modelo AAA
+aaa new-model
+
+! 2. Definir servidores TACACS+ primario y secundario
+tacacs server ISE_PRIMARY
+ address ipv4 10.10.10.50
+ key 6 C1sc0Secr3tK3yP@ss2026
+ timeout 5
+
+tacacs server ISE_SECONDARY
+ address ipv4 10.10.10.51
+ key 6 C1sc0Secr3tK3yP@ss2026
+ timeout 5
+
+! 3. Crear grupos de servidores y listas de metodos
+aaa group server tacacs+ TACACS_CLUSTER
+ server name ISE_PRIMARY
+ server name ISE_SECONDARY
+
+! 4. Listas de Autenticacion, Autorizacion y Contabilidad
+aaa authentication login default group TACACS_CLUSTER local
+aaa authorization exec default group TACACS_CLUSTER local
+aaa authorization commands 15 default group TACACS_CLUSTER local
+aaa accounting commands 15 default start-stop group TACACS_CLUSTER
+\`\`\`
+
+---
+
+### 5. Precauciones y Trampas Operativas
+
+- **Clave Secreta Compartida Débil:** La seguridad del cifrado de TACACS+ y RADIUS depende críticamente de la entropía de la clave compartida (*Shared Secret*). Claves cortas permiten la recuperación de credenciales mediante ataques de diccionario sobre capturas de red.
+- **Configurar Siempre el Fallback Local:** La palabra clave \`local\` al final de la lista de métodos garantiza que, si los servidores TACACS+ no responden por caída de red, el administrador pueda iniciar sesión con la cuenta local de rescate.
 `
       },
       {
         id: "u2-s2",
-        title: "Sesión 2.2: RADIUS vs DIAMETER (Arquitectura y RFCs)",
-        topics: ["Protocolo RADIUS (RFC 2865/2866)", "Protocolo DIAMETER (RFC 6733)", "Cuadro Comparativo Técnico Profundo"],
+        title: "Sesión 2.2: Protocolos RADIUS, DIAMETER y Modelos de Autorización",
+        topics: [
+          "Protocolo RADIUS (RFC 2865 / 2866): UDP 1812/1813, AVPs y Cifrado XOR con MD5",
+          "Protocolo DIAMETER (RFC 6733): Evolución sobre TCP/SCTP con TLS y Soporte Móvil",
+          "Modelos de Control de Acceso: DAC, MAC, RBAC, ABAC y Zero Trust Architecture (NIST SP 800-207)",
+          "Análisis Forense de Paquetes RADIUS en Wireshark",
+          "Implementación con FreeRADIUS en Linux"
+        ],
         content: `
-### 1. Protocolo RADIUS (RFC 2865 / RFC 2866)
+### 1. Protocolo RADIUS (RFC 2865 y RFC 2866)
 
-**RADIUS (Remote Authentication Dial-In User Service)** es el estándar abierto dominante para control de acceso a redes (Wi-Fi corporativo 802.1X, VPNs de acceso remoto, conexiones dial-up y enlaces WAN):
+**RADIUS (Remote Authentication Dial-In User Service)** es el protocolo estándar de autenticación y contabilidad para control de acceso a redes cableadas (802.1X), redes inalámbricas WPA2/WPA3 Enterprise y servidores VPN:
 
-- **Transporte:** Protocolo **UDP**. Utiliza los puertos asignados por la IANA:
-  - **UDP 1812** para Autenticación y Autorización.
-  - **UDP 1813** para Contabilidad (Accounting).
-  *(Históricamente utilizaba los puertos no oficiales 1645 y 1646).*
-- **Arquitectura de Paquete:** Cabecera fija de 20 bytes:
-  \`[Code (1B) | Identifier (1B) | Length (2B) | Authenticator (16B) | Attributes (AVPs variable)]\`
-- **Acoplamiento de Servicios:** RADIUS **combina Autenticación y Autorización** en un único mensaje de respuesta: si el usuario es válido, el servidor responde con un \`Access-Accept\` que incluye simultáneamente los atributos de autorización (VLAN asignada, ACLs, timeout de sesión).
-- **Vulnerabilidad Criptográfica:** RADIUS **solo cifra el campo Password** dentro del atributo \`User-Password\` usando una función MD5 basada en la clave compartida (\`Shared Secret\`). El nombre de usuario y todos los demás atributos viajan en texto plano, lo que facilita el espionaje de red si no se transporta sobre un túnel IPsec o TLS (RadSec - RFC 6614).
+\`\`\`mermaid
+flowchart LR
+    User[Suplicante 802.1X] <--> |EAPoL| NAS[NAS / Switch / AP]
+    NAS <--> |RADIUS UDP 1812/1813| RadiusServer[Servidor RADIUS / FreeRADIUS]
+    RadiusServer <--> |LDAP / Kerberos| DB[(Directorio Corporativo)]
+\`\`\`
 
----
-
-### 2. Protocolo DIAMETER (RFC 6733)
-
-**DIAMETER** fue diseñado por la IETF como la evolución de nueva generación para subsanar todas las limitaciones estructurales de RADIUS en redes móviles LTE/4G, 5G, IMS y acceso a banda ancha:
-
-- **Transporte Fiable:** Utiliza **TCP o SCTP (Stream Control Transmission Protocol) en el puerto 3868**, garantizando control de congestión, entrega ordenada y detección de caídas a nivel de transporte.
-- **Seguridad Obligatoria:** Requiere de forma nativa soporte para cifrado en capa de transporte mediante **TLS** o a nivel de red con **IPsec**.
-- **Espacio de Atributos Extendido:** Utiliza pares atributo-valor (**AVPs**) con identificadores de 32 bits (frente a los 8 bits de RADIUS), soportando atributos propietarios de fabricantes (Vendor-Specific Attributes) sin colisiones.
-- **Gestión Avanzada de Enlaces:** Incluye mensajes integrados de prueba de vida (Device-Watchdog-Request \`DWR\` / Device-Watchdog-Answer \`DWA\`) y negociación dinámica de capacidades (Capabilities-Exchange-Request \`CER\` / \`CEA\`).
-- **Soporte de Roaming y Failover:** Mecanismos deterministas de redirección de mensajes y conmutación por error ante caídas de servidores AAA sin pérdida de sesiones.
+- **Capa de Transporte:** Utiliza **UDP en puertos 1812 (Autenticación/Autorización) y 1813 (Accounting)** (o los puertos heredados 1645/1646).
+- **Estructura de Paquetes:** Compuesto por una cabecera de 20 bytes (Código, Identificador, Longitud, Authenticator) seguida de atributos TLV (**Type-Length-Value / AVPs**).
+- **Debilidad Criptográfica del Cifrado de Contraseña en RADIUS:**
+  - RADIUS **SOLO cifra el atributo User-Password**. Todo el resto del paquete (nombre de usuario, IP asignada, atributos de grupo) viaja en texto claro.
+  - El cifrado del password utiliza una operación XOR con un flujo generado por **MD5(Shared_Secret + Request_Authenticator)**. Dado que MD5 es vulnerable a colisiones, capturas de red prolongadas facilitan ataques de recuperación de contraseña si el secreto compartido es débil.
 
 ---
 
-### 3. Matriz Comparativa Exhaustiva: RADIUS vs TACACS+ vs DIAMETER
+### 2. Comparativa Técnica: RADIUS vs TACACS+ vs DIAMETER
 
 | Criterio Técnico | RADIUS (RFC 2865/2866) | TACACS+ (RFC 8907) | DIAMETER (RFC 6733) |
 | :--- | :--- | :--- | :--- |
-| **Capa de Transporte** | UDP (1812 Auth, 1813 Acct) | TCP (Puerto 49) | TCP / SCTP (Puerto 3868) |
-| **Separación AAA** | Combina Autenticación y Autorización | Separa 100% Auth, Authz y Acct | Separa Auth/Authz y Acct con aplicaciones dedicadas |
-| **Nivel de Cifrado** | Solo cifra la contraseña (MD5) | Cifra el Payload completo del paquete | Cifrado completo del canal con TLS o IPsec |
-| **Granularidad de Comandos** | No permite autorizar comando por comando | Autorización granular de cada comando CLI | Orientado a políticas de sesión y QoS móvil |
-| **Espacio de Atributos (AVP)** | 8 bits (256 valores máximos) | Atributos clave/valor en texto | 32 bits (más de 4 mil millones de valores) |
-| **Detección de Caída de Enlace** | Basado en timeouts de retransmisión de aplicación | A nivel de conexión TCP / RST | Nativo a nivel de protocolo (DWR/DWA) y SCTP |
-| **Caso de Uso Principal** | Acceso de red a usuarios finales (802.1X Wi-Fi, VPN) | Administración de dispositivos de red (Cisco CLI) | Redes de Telecomunicaciones 4G/5G, Roaming, IMS |
+| **Transporte** | UDP 1812/1813 | TCP 49 | TCP / SCTP puerto 3868 |
+| **Servicios AAA** | Combina Autenticación y Autorización | Separa Autenticación, Autorización y Accounting | Desacoplado con arquitectura modular |
+| **Cifrado** | Solo el campo User-Password (MD5/XOR) | Cifra el Payload completo del paquete | Cifrado nativo de capa de transporte (TLS / DTLS / IPsec) |
+| **Autorización Granular** | No (basado en atributos por sesión) | Sí (comando por comando en tiempo real) | Sí (orientado a políticas complejas y telecomunicaciones) |
+| **Casos de Uso** | Redes Wi-Fi 802.1X, VPNs, ISPs | Administración de routers, switches, firewalls | Redes móviles 4G/5G LTE, IMS, Roaming de telecomunicaciones |
+
+---
+
+### 3. Modelos Modernos de Control de Acceso
+
+1. **DAC (Discretionary Access Control):** El propietario del archivo o recurso decide quién tiene acceso. Alto riesgo de fuga de información.
+2. **MAC (Mandatory Access Control):** El sistema impone etiquetas de seguridad (Top Secret, Secret, Confidencial). Común en entornos militares (SELinux).
+3. **RBAC (Role-Based Access Control):** Los permisos se asignan a roles organizacionales (ej. \`Operador_NOC\`, \`Auditor_Seguridad\`).
+4. **ABAC (Attribute-Based Access Control):** Evaluación dinámica de políticas basadas en atributos del sujeto (identidad, rol), recurso (sensibilidad), acción (lectura/escritura) y entorno (**hora, geolocalización, postura del dispositivo**). Base de **Zero Trust (NIST SP 800-207)**.
+
+---
+
+### 4. Implementación y Configuración con FreeRADIUS en Linux
+
+\`\`\`bash
+# 1. Definicion del cliente NAS en /etc/freeradius/3.0/clients.conf
+client switch-core-01 {
+    ipaddr = 192.168.10.2
+    secret = Cl@veUltr@Segur@Empresari@l2026!
+    shortname = core-sw1
+    nas_type = cisco
+}
+
+# 2. Definicion de usuario con atributos de autorizacion en /etc/freeradius/3.0/users
+"jlopez" Cleartext-Password := "PasswordRobusto2026!"
+    Service-Type = Administrative-User,
+    Cisco-AVPair = "shell:priv-lvl=15"
+
+# 3. Ejecucion de FreeRADIUS en modo depuracion para trazabilidad de paquetes
+freeradius -X
+\`\`\`
+
+---
+
+### 5. Precauciones y Trampas Operativas
+
+- **Uso de Claves Compartidas Débiles en WPA2-Enterprise:** Si la clave compartida entre el Access Point y el servidor RADIUS es interceptada, un atacante puede descifrar los atributos de autorización y suplantar al servidor de autenticación.
+- **Migración hacia RadSec (RFC 6614):** Enlaces RADIUS que atraviesen redes no confiables o Internet deben encapsularse obligatoriamente mediante **TLS sobre TCP puerto 2083 (RadSec)** para proteger la confidencialidad de los nombres de usuario y atributos.
 `
       },
       {
         id: "u2-s3",
-        title: "Sesión 2.3: Configuración Práctica de AAA en Cisco IOS",
-        topics: ["Comandos fundamentales Cisco IOS", "Configuración de RADIUS y TACACS+", "Listas de métodos de respaldo (Fallback)", "Verificación y Troubleshooting"],
+        title: "Sesión 2.3: Marco Normativo y Directrices Modernas de Identidad",
+        topics: [
+          "NIST SP 800-63-3: Niveles IAL, AAL y FAL",
+          "Directrices Modernas de Contraseñas (NIST SP 800-63B)",
+          "Resolución SBS N° 504-2021: Normativa Peruana de Seguridad de la Información y Ciberseguridad",
+          "Arquitectura MFA Phishing-Resistant (FIDO2 / WebAuthn)",
+          "Auditoría y Listas de Control de Acceso"
+        ],
         content: `
-### 1. Modelo de Configuración de AAA en Cisco IOS
+### 1. Suite NIST SP 800-63-3: Digital Identity Guidelines
 
-Para habilitar AAA en cualquier switch o router Cisco, se debe activar el nuevo modelo de seguridad mediante el comando global \`aaa new-model\`.
+El marco del **National Institute of Standards and Technology (NIST)** define los estándares mundiales para la gestión moderna de identidades digitales y control de accesos, estructurado en tres dimensiones de aseguramiento (**xAL**):
 
-\`\`\`bash
-! =====================================================
-! PASO 1: Habilitar el modelo AAA y crear usuario local de emergencia
-! =====================================================
-Router# configure terminal
-Router(config)# username admin privilege 15 secret SuperAdminKey2026!
-Router(config)# aaa new-model
-
-! =====================================================
-! PASO 2: Definir el Servidor RADIUS / TACACS+
-! =====================================================
-! Para RADIUS (Sintaxis moderna IOS 15.x+):
-Router(config)# radius server RADIUS_CORP
-Router(config-radius-server)# address ipv4 192.168.10.50 auth-port 1812 acct-port 1813
-Router(config-radius-server)# key RadiusSecretKey2026!
-Router(config-radius-server)# exit
-
-! Agrupar servidores en un grupo de servidores AAA:
-Router(config)# aaa group server radius GRP_RADIUS
-Router(config-sg-radius)# server name RADIUS_CORP
-Router(config-sg-radius)# exit
-
-! Para TACACS+ (Administración de Routers):
-Router(config)# tacacs server TACACS_CORP
-Router(config-server-tacacs)# address ipv4 192.168.10.60
-Router(config-server-tacacs)# key TacacsKeyPass2026!
-Router(config-server-tacacs)# exit
-
-Router(config)# aaa group server tacacs+ GRP_TACACS
-Router(config-sg-tacacs+)# server name TACACS_CORP
-Router(config-sg-tacacs+)# exit
-
-! =====================================================
-! PASO 3: Definir Listas de Métodos (Authentication Lists)
-! =====================================================
-! Autenticación de login: Primero consultar TACACS+, si no responde, caer a base de datos LOCAL
-Router(config)# aaa authentication login default group GRP_TACACS local
-Router(config)# aaa authentication login CONSOLE_AUTH local
-
-! Autorización para el modo EXEC (enable) y comandos:
-Router(config)# aaa authorization exec default group GRP_TACACS local
-Router(config)# aaa authorization commands 15 default group GRP_TACACS local
-
-! Contabilidad de comandos y sesiones:
-Router(config)# aaa accounting exec default start-stop group GRP_TACACS
-Router(config)# aaa accounting commands 15 default start-stop group GRP_TACACS
-
-! =====================================================
-! PASO 4: Aplicar a las líneas VTY (SSH/Telnet) y Consola
-! =====================================================
-Router(config)# line console 0
-Router(config-line)# login authentication CONSOLE_AUTH
-Router(config-line)# exit
-
-Router(config)# line vty 0 4
-Router(config-line)# transport input ssh
-Router(config-line)# login authentication default
-Router(config-line)# authorization exec default
-Router(config-line)# exit
-\`\`\`
+1. **IAL (Identity Assurance Level - Comprobación de Identidad):**
+   - **IAL1:** Auto-afirmación sin verificación formal de documentos (ej. registro en foros).
+   - **IAL2:** Verificación remota o presencial de documentos de identidad oficiales validados contra registros civiles.
+   - **IAL3:** Presencia física obligatoria con verificación biométrica presencial y documentación de seguridad validada por un agente autorizado.
+2. **AAL (Authenticator Assurance Level - Autenticación y MFA):**
+   - **AAL1:** Autenticación de un solo factor (contraseña simple).
+   - **AAL2:** Autenticación multifactor (**MFA**) mediante factores independientes (contraseña + OTP por app o token criptográfico).
+   - **AAL3:** Autenticación multifactor basada en hardware criptográfico resistente a la suplantación (**Phishing-Resistant MFA: tokens FIDO2 / WebAuthn, Smart Cards PIV/CAC**).
+3. **FAL (Federation Assurance Level - Aserciones Federadas SAML/OIDC):**
+   - **FAL1:** Aserción firmada por el Identity Provider (**IdP**).
+   - **FAL2:** Aserción firmada y cifrada con la clave pública del Relying Party (**RP**).
+   - **FAL3:** Aserción vinculada criptográficamente al autenticador del usuario mediante prueba de posesión de clave (**Proof-of-Possession**).
 
 ---
 
-### 2. Comandos de Verificación y Diagnóstico (Troubleshooting)
+### 2. Directrices Modernas de Contraseñas del NIST (SP 800-63B)
 
-- \`show aaa servers\`: Muestra el estado operativo de los servidores AAA configurados, número de paquetes enviados, respuestas recibidas y fallos de timeout.
-- \`show running-config | include aaa\`: Verifica la configuración de listas de métodos AAA.
-- \`test aaa group GRP_TACACS admin SuperAdminKey2026! legacy\`: Envía una prueba de autenticación directa desde el CLI al servidor AAA para validar credenciales y conectividad sin cerrar sesión.
-- \`debug aaa authentication\`: Depuración en tiempo real del proceso de autenticación de usuarios.
-`
-      },
-      {
-        id: "u2-s4",
-        title: "Sesión 2.4: Estándares Oficiales NIST SP 800-63 y SBS Res. 504-2021",
-        topics: ["NIST SP 800-63-3 Framework (IAL, AAL, FAL)", "Directrices modernas de contraseñas NIST 800-63B", "Reglamento SBS 504-2021 de Ciberseguridad"],
-        content: `
-### 1. El Marco NIST SP 800-63-3 (Digital Identity Guidelines)
+El NIST revolucionó las prácticas de contraseñas eliminando mitos obsoletos que perjudicaban la seguridad real:
 
-El Instituto Nacional de Estándares y Tecnología (NIST) redefine la gestión de identidad digital descomponiéndola en tres niveles ortogonales e independientes:
-
-\`\`\`mermaid
-flowchart LR
-    subgraph NIST_800_63_Framework[NIST SP 800-63-3 Suite]
-        IAL[IAL: Identity Assurance Level<br/>NIST SP 800-63A<br/>¿Quién eres en el mundo real?]
-        AAL[AAL: Authenticator Assurance Level<br/>NIST SP 800-63B<br/>¿Cómo demuestras el control de tu credencial?]
-        FAL[FAL: Federation Assurance Level<br/>NIST SP 800-63C<br/>¿Cómo se transmiten las aserciones de identidad?]
-    end
-\`\`\`
-
-#### Resumen de Niveles AAL (NIST SP 800-63B):
-- **AAL1:** Autenticación de un solo factor (contraseña). Resistencia mínima contra atacantes pasivos.
-- **AAL2:** Autenticación Multifactor (MFA) obligatoria con canales separados (ej. Contraseña + Software OTP o Push Token seguro). Protege contra ataques remotos masivos.
-- **AAL3:** Autenticación Multifactor basada en Hardware Criptográfico resistente a Phishing (Hardware Security Key FIDO2/WebAuthn o Smart Card PIV/CAC). Requiere prueba de posesión mediante clave privada asimétrica no exportable y enlace de canal (Channel Binding).
+| Regla Tradicional (Obsoleta) | Postura Oficial NIST SP 800-63B | Justificación Criptográfica y de Usabilidad |
+| :--- | :--- | :--- |
+| **Rotación periódica forzada (cada 30-90 días)** | **Prohibida** salvo ante sospecha fundada de compromiso | La rotación frecuente induce a los usuarios a crear patrones predecibles (ej. \`Enero2026!\` -> \`Febrero2026!\`). |
+| **Reglas de complejidad arbitrarias (1 mayúscula, 1 número, 1 símbolo)** | **Desaconsejadas**; priorizar longitud (mínimo 8-16 caracteres) | La entropía real radica en la longitud, no en sustituciones previsibles (como cambiar 'a' por '@'). |
+| **Bloqueo estricto de caracteres y espacio** | **Permitir todos los caracteres ASCII y espacios** | Facilita el uso de frases de contraseña (*passphrases*) de alta entropía (ej. \`caballo-bateria-grapadora-azul\`). |
+| **Preguntas de seguridad (nombre de primera mascota)** | **Prohibidas** | Las respuestas son fácilmente obtenibles mediante ingeniería social o registros públicos. |
+| **Verificación contra listas negras de contraseñas** | **Mandatoria** | Comparar contraseñas contra bases de datos de credenciales filtradas (ej. HaveIBeenPwned). |
 
 ---
 
-### 2. Normativa SBS Res. N° 504-2021
+### 3. Resolución SBS N° 504-2021 (Regulación Financiera del Perú)
 
-La **Resolución SBS N° 504-2021** establece los requisitos obligatorios para la gestión de seguridad de la información y ciberseguridad en el sector financiero y asegurador:
+La **Superintendencia de Banca, Seguros y AFP (SBS)** del Perú establece exigencias mandatorias de ciberseguridad para entidades financieras y empresas de servicios complementarios:
 
-1. **Gobernanza:** Obligatoriedad de designar un **Oficial de Seguridad de la Información (CISO)** con reporte directo al Directorio o Comité Ejecutivo, con independencia funcional de la Gerencia de TI.
-2. **Defensa Perimetral y Segmentación:** Segmentación de redes mediante zonas de confianza (Trust, Untrust, DMZ) y despliegue de NGFW con inspección de estado y correlación de amenazas.
-3. **Gestión de Accesos Privilegiados (PAM):** Control estricto y trazabilidad de cuentas con privilegios administrativos (credenciales rotativas, MFA obligatorio, auditoría de sesiones).
-4. **Centro de Operaciones de Seguridad (SOC):** Monitoreo continuo 24/7 de eventos e incidentes con plataformas SIEM/SOAR.
-5. **Autenticación Reforzada en Canales Digitales:** Implementación de doble factor dinámico para todas las operaciones monetarias y transferencias en banca digital.
+- **Gobierno y Rol del CISO (Art. 5-7):** Obligatoriedad de designar un Oficial de Seguridad de la Información (**CISO**) con independencia funcional respecto a las áreas de Tecnología/Operaciones.
+- **Centro de Operaciones de Seguridad (SOC 24/7):** Monitoreo continuo de eventos e incidentes de seguridad con capacidades de contención y respuesta en tiempo real.
+- **Gestión de Cuentas Privilegiadas (PAM):** Control estricto, rotación automatizada y grabación de sesiones para todas las credenciales administrativas y de infraestructura crítica.
+- **Segmentación y Protección en Canales Digitales:** Implementación de autenticación reforzada de doble factor para transferencias bancarias y operaciones monetarias en banca móvil y web.
+
+---
+
+### 4. Precauciones y Trampas Operativas
+
+- **Falsa Seguridad de los SMS OTP:** La autenticación mediante códigos enviados por SMS es altamente vulnerable a ataques de **SIM Swapping** e interceptación en redes de señalización SS7. El NIST desaconseja SMS para niveles AAL2/AAL3 en favor de FIDO2 o aplicaciones TOTP.
+- **Auditoría de Cuentas de Servicio Huérfanas:** Cuentas creadas para proyectos temporales que conservan privilegios elevados de administrador de dominio deben ser deshabilitadas y eliminadas mediante revisiones periódicas de acceso (**Access Reviews**).
 `
       }
     ]
@@ -455,134 +604,267 @@ La **Resolución SBS N° 504-2021** establece los requisitos obligatorios para l
   {
     id: "unit-3",
     unitNumber: 3,
-    title: "Unidad 3: Seguridad Perimetral, Firewalls e IDPS",
-    weeks: "Semanas 7, 8, 9, 10 y 11",
-    summary: "Arquitectura y evolución de firewalls (Stateless, Stateful, NGFW), zonificación de seguridad, NAT/PAT, sistemas de detección y prevención de intrusos (NIDS, NIPS, HIDS, HIPS con Snort y Suricata), y tecnologías de decepción (Honeypots y Honeynets).",
+    title: "Unidad 3: Seguridad Perimetral, Firewalls, IDS/IPS y VPNs",
+    weeks: "Semanas 7 y 8",
+    summary: "Arquitectura de seguridad perimetral, evolución de firewalls (Stateless, Stateful, NGFW Capa 7), diseño de zonas DMZ, sistemas de detección y prevención de intrusiones (Snort, Suricata, Zeek), firmas y análisis de anomalías, y túneles VPN IPsec (IKEv1/IKEv2, Fase 1, Fase 2, ESP, AH).",
     sessions: [
       {
+        id: "u1-s1_u3",
         id: "u3-s1",
-        title: "Sesión 3.1: Arquitectura y Evolución de Firewalls",
-        topics: ["Packet Filtering Stateless", "Stateful Inspection Firewall", "Next-Generation Firewalls (NGFW)", "Zonificación y NAT/PAT"],
+        title: "Sesión 3.1: Seguridad Perimetral, Arquitectura de Firewalls y DMZ",
+        topics: [
+          "Evolución de Firewalls (Packet Filtering, Stateful Inspection, Next-Generation Firewalls L7)",
+          "Diseño de Arquitecturas de Red Segura (Zonas de Confianza, DMZ, Microsegmentación)",
+          "Inspección Profunda de Paquetes (DPI) y Desencriptado TLS/SSL Man-in-the-Middle",
+          "Filtrado de Paquetes con iptables / nftables en Linux",
+          "Caso de Estudio: Fuga de Datos de Target a través de Proveedor HVAC"
+        ],
         content: `
-### 1. Evolución de las Tecnologías de Firewall
+### 1. Evolución Tecnológica de los Firewalls
 
-\`\`\`mermaid
-flowchart TD
-    G1[1ª Generación: Filtro de Paquetes Stateless<br/>Capa 3 y 4 - Analiza cabeceras aisladas sin contexto]
-    G2[2ª Generación: Inspección de Estado - Stateful<br/>Capa 4 - Tabla de Estado de Conexiones TCP/UDP]
-    G3[3ª Generación: Application Proxy / Gateway<br/>Capa 7 - Termina la conexión y valida protocolo de aplicación]
-    G4[4ª Generación: Next-Generation Firewall - NGFW<br/>Capa 7 Profunda - DPI, App-ID, User-ID, SSL Decryption, IPS Integrado]
-    
-    G1 --> G2 --> G3 --> G4
-\`\`\`
+El firewall es el elemento central de control de flujo de tráfico en los límites de red corporativos:
 
-1. **Filtro de Paquetes sin Estado (Stateless Packet Filtering - L3/L4):**
-   - Evalúa cada paquete de forma individual basándose exclusivamente en reglas estáticas de ACL (IP origen/destino, puerto origen/destino, protocolo).
-   - *Desventaja:* No sabe si un paquete TCP es parte de una conexión ya establecida o una nueva solicitud; vulnerable a ataques de falsificación de banderas TCP (ACK scans).
-2. **Firewall de Inspección de Estado (Stateful Inspection - L4):**
-   - Mantiene una **Tabla de Estado de Conexiones (State Table)** en memoria RAM. Registra la secuencia de estados del Three-Way Handshake de TCP (SYN, SYN-ACK, ESTABLISHED, FIN/RST) y puertos dinámicos de UDP.
-   - Si un paquete entrante coincide con una conexión saliente registrada en la tabla de estado, se permite automáticamente sin requerir reglas de entrada abiertas.
-3. **Firewalls de Próxima Generación (NGFW - Layer 7):**
-   - **Deep Packet Inspection (DPI):** Analiza el contenido completo de la carga útil del paquete más allá del puerto TCP/UDP estándar.
-   - **App-ID:** Identifica la aplicación real independientemente del puerto utilizado (ej. detecta tráfico de BitTorrent o SSH encapsulado en el puerto TCP 80/443).
-   - **User-ID:** Vincula los eventos de red y reglas de filtrado a identidades de usuarios de Active Directory / LDAP en lugar de direcciones IP dinámicas.
-   - **Inspección SSL/TLS (SSL Decryption):** Descifra e inspecciona el tráfico HTTPS para detectar malware oculto antes de reenviarlo al usuario.
+1. **Firewalls de Filtrado de Paquetes (Stateless - 1ra Generación):**
+   - Inspeccionan cada paquete de forma aislada basándose en las cabeceras de Capa 3 y 4 (IP origen/destino, puerto origen/destino, protocolo).
+   - *Limitación:* No mantienen estado de conexión; permiten ataques de spoofing y requieren abrir rangos masivos de puertos efímeros para el tráfico de retorno.
+2. **Firewalls de Inspección con Estado (Stateful Inspection - 2da Generación):**
+   - Mantienen una tabla de estado dinámica de conexiones activas (**State Table**). Si un paquete entrante corresponde a una sesión TCP/UDP previamente iniciada desde el interior (ej. flag TCP ACK tras SYN-ACK), es permitido automáticamente.
+3. **Firewalls de Próxima Generación (NGFW - Capa 7):**
+   - Integran inspección profunda de aplicaciones (**App-ID**), prevención de intrusiones (**IPS**), antivirus de gateway, filtrado de URLs y descifrado e inspección TLS/SSL activa. Permiten bloquear aplicaciones específicas (ej. BitTorrent, TeamViewer) incluso si operan en el puerto estándar HTTPS 443.
 
 ---
 
-### 2. Zonificación de Seguridad y Conceptos de NAT
+### 2. Diseño de Arquitecturas Seguras: Zonas DMZ
 
-- **Zonas de Red Típicas:**
-  - **Zona Interna (Trust / LAN):** Nivel de seguridad alto (100). Estaciones de trabajo y recursos corporativos internos.
-  - **Zona Externa (Untrust / WAN):** Nivel de seguridad 0 (Internet). Origen no confiable.
-  - **Zona Desmilitarizada (DMZ):** Nivel de seguridad intermedio (ej. 50). Aloja servidores de cara al público (Web, DNS, Correo) aislados de la red LAN corporativa.
-- **Mecanismos de Traducción de Direcciones de Red (NAT):**
-  - **NAT Estático (1:1):** Mapea permanentemente una dirección IP privada a una dirección IP pública fija (utilizado comúnmente para servidores en DMZ).
-  - **NAT Dinámico:** Mapea IPs privadas a un pool de IPs públicas disponibles por orden de llegada.
-  - **PAT (Port Address Translation / NAT Overload):** Mapea miles de direcciones IP privadas a una ÚNICA dirección IP pública utilizando números de puerto de origen aleatorios distintos (1024 a 65535).
+\`\`\`mermaid
+flowchart LR
+    Internet((Internet Pública)) <--> |Untrusted| FW[Firewall Perimetral]
+    FW <--> |DMZ: HTTP / SMTP / DNS| DMZ[Servidores Públicos DMZ]
+    FW <--> |Trusted: LAN Corporativa| LAN[Estaciones y Servidores Internos]
+    DMZ -.-> |Bloqueado por Defecto| LAN
+\`\`\`
+
+- **Principio de Mínimo Privilegio en Zonas:**
+  - *Internet -> DMZ:* Permitir únicamente los puertos de servicio estrictamente públicos (TCP 80/443 para Web, TCP 25 para Correo).
+  - *DMZ -> LAN Interna:* **BLOQUEADO POR DEFECTO**. Ningún servidor de la DMZ puede iniciar conexiones hacia la red interna. Si un servidor web es comprometido, el atacante no puede alcanzar la base de datos interna directamente.
+  - *LAN Interna -> DMZ:* Permitido únicamente para administración mediante protocolos seguros (SSH, HTTPS).
+
+---
+
+### 3. Caso de Estudio: Brecha de Seguridad de Target (2013)
+
+- **Vector Inicial:** Robo de credenciales de acceso remoto VPN de un proveedor externo de mantenimiento de aire acondicionado (HVAC).
+- **Fallo de Arquitectura:** Carencia de segmentación perimetral interna entre la red corporativa general y el entorno de datos de tarjetas de pago (**PCI-DSS**).
+- **Consecuencia:** Los atacantes se movieron lateralmente desde el portal de proveedores hasta las terminales Punto de Venta (**POS**), instalando malware de lectura de memoria RAM y robando más de 40 millones de tarjetas de crédito.
+
+---
+
+### 4. Implementación Práctica de Firewall con iptables / nftables
+
+\`\`\`bash
+# 1. Politicas por defecto: Descartar todo (Default DROP)
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+# 2. Permitir trafico de loopback interno
+iptables -A INPUT -i lo -j ACCEPT
+
+# 3. Inspeccion de estado: Permitir conexiones establecidas y relacionadas
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# 4. Permitir acceso SSH administrativo restringido a una subred de gestion
+iptables -A INPUT -p tcp -s 192.168.50.0/24 --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+
+# 5. Permitir trafico web publico a la DMZ
+iptables -A INPUT -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW -j ACCEPT
+\`\`\`
+
+---
+
+### 5. Precauciones y Trampas Operativas
+
+- **Falsa Seguridad sin Inspección SSL/TLS:** Dado que más del 90% del tráfico web actual viaja cifrado bajo HTTPS/TLS 1.3, un firewall que no realice desencriptado e inspección profunda (SSL Forward Proxy) es ciego ante ataques L7 y malware descargado en túneles web.
+- **Reglas con Destino 'ANY ANY':** Reglas temporales creadas para pruebas con comodines \`any any\` que no son retiradas representan una de las principales brechas en auditorías perimetrales.
 `
       },
       {
         id: "u3-s2",
-        title: "Sesión 3.2: Sistemas de Detección y Prevención de Intrusos (IDPS)",
-        topics: ["NIDS vs NIPS", "HIDS vs HIPS", "Detección por Firmas vs Anomalías", "Reglas y Sintaxis de Snort"],
+        title: "Sesión 3.2: Sistemas de Detección y Prevención de Intrusiones (IDS/IPS)",
+        topics: [
+          "Diferencias Arquitectónicas entre IDS (Pasivo/Promiscuo) e IPS (En Línea/Inline)",
+          "Motores de Inspección: Detección Basada en Firmas vs Análisis de Anomalías de Comportamiento",
+          "Reglas de Detección en Snort 3 y Suricata",
+          "Análisis de Tráfico y Telemetría con Zeek (Bro)",
+          "Evasión de NIDS: Fragmentación IP, Evasión TCP y Ofuscación"
+        ],
         content: `
-### 1. Clasificación de Sistemas IDPS
+### 1. IDS vs IPS: Diferencias Arquitectónicas
 
-| Criterio | NIDS (Network IDS) | NIPS (Network IPS) | HIDS / HIPS (Host-Based) |
-| :--- | :--- | :--- | :--- |
-| **Ubicación** | Conectado a puerto SPAN o TAP pasivo | En línea (**Inline**) en el flujo de tráfico | Instalado como agente en el Endpoint / Servidor |
-| **Acción ante Amenaza** | Pasiva: Genera alertas y logs | Activa: Descarta paquetes (**Drop**), resetea conexiones TCP (**TCP Reset**) | Activa/Pasiva: Bloquea procesos, aísla host o revierte cambios en disco |
-| **Impacto en Rendimiento** | Cero latencia en el tráfico de producción | Introduce micro-latencia si el motor de inspección se satura | Consume CPU y memoria local del host |
-| **Visibilidad de Tráfico Cifrado** | Nula (salvo que el tráfico se descifre antes) | Nula sin SSL Offloading | **Total** (inspecciona la memoria y llamadas al SO antes del cifrado) |
+Los sistemas de detección y prevención de intrusiones analizan el tráfico en tiempo real en busca de actividades maliciosas o violaciones de políticas:
+
+\`\`\`mermaid
+flowchart TD
+    subgraph Modo_IDS_Pasivo
+    R1[Router] --> SW1[Switch con SPAN Port]
+    SW1 --> HostA[Servidor]
+    SW1 -.-> |Copia de Trafico SPAN| IDS[Sensor IDS Pasivo]
+    IDS -.-> |Alerta / Syslog| SIEM[SIEM / SOC]
+    end
+
+    subgraph Modo_IPS_En_Linea
+    R2[Router] --> IPS_Inline[Sensor IPS Inline]
+    IPS_Inline --> SW2[Switch]
+    SW2 --> HostB[Servidor]
+    IPS_Inline --x |Descarta Paquete Malicioso en Vuelo| Drop[Drop / TCP Reset]
+    end
+\`\`\`
+
+- **NIDS (Network IDS - Modo Pasivo):** Conectado a un puerto espejo (**SPAN**) o Network TAP. No afecta la latencia de la red, pero solo puede alertar de forma reactiva una vez que el paquete ya llegó a la víctima.
+- **NIPS (Network IPS - Modo Inline):** Intercalado físicamente en la ruta del tráfico de red. Analiza cada paquete en tránsito y puede descartarlo (*Drop*), terminar la sesión TCP (*TCP Reset*) o reconfigurar dinámicamente el firewall perimetral antes de que el ataque alcance al objetivo.
 
 ---
 
-### 2. Motores y Métodos de Detección
+### 2. Sintaxis y Creación de Reglas en Snort / Suricata
 
-1. **Detección Basada en Firmas (Signature-Based):**
-   - Compara patrones de bytes conocidos y expresiones regulares en el tráfico contra una base de reglas (ej. reglas de Snort o Emerging Threats).
-   - *Ventaja:* Tasa de falsos positivos extremadamente baja para amenazas conocidas.
-   - *Limitación:* Ciega ante ataques de Día Cero (Zero-Day) y tráfico ofuscado.
-2. **Detección Basada en Anomalías (Anomaly-Based / Heurística):**
-   - Establece una línea base de comportamiento normal de la red y genera alertas cuando el tráfico estadístico se desvía del perfil (ej. un servidor web enviando repentinamente peticiones DNS a 500 req/s).
-   - *Ventaja:* Capacidad de detectar nuevas técnicas de ataque no catalogadas.
-   - *Desafío:* Alta tasa de falsos positivos durante variaciones normales de carga de trabajo.
-
----
-
-### 3. Estructura y Sintaxis de Reglas en Snort
-
-Una regla de Snort se compone del **Encabezado de la Regla (Rule Header)** y las **Opciones de la Regla (Rule Options)**:
+Una regla de Snort se compone de una **Cabecera** (Acción, Protocolo, IP Origen, Puerto Origen, Dirección, IP Destino, Puerto Destino) y **Opciones** (Mensaje, Contenido, Referencias, Clasificación, SID):
 
 \`\`\`snort
-# Regla para detectar un ataque de inyección SQL (SQLi) en peticiones HTTP
-alert tcp any any -> 192.168.1.100 80 (
-    msg:"ALERTA DE SEGURIDAD - Posible Intento de SQL Injection detectado";
-    content:"UNION SELECT";
-    nocase;
-    http_uri;
-    classtype:web-application-attack;
-    sid:1000001;
-    rev:1;
-)
+# Regla 1: Deteccion de escaneo Nmap NULL Scan
+alert tcp any any -> $HOME_NET any (msg:"SCAN Nmap NULL Scan Detectado"; flags:0; classtype:attempted-recon; sid:1000001; rev:1;)
 
-# Regla para detectar un escaneo de puertos Nmap Xmas Scan
-alert tcp any any -> any any (
-    msg:"ESCÁNEO DETECTADO - Nmap TCP Xmas Tree Scan";
-    flags:FPU;
-    classtype:attempted-recon;
-    sid:1000002;
-    rev:1;
-)
+# Regla 2: Deteccion de intento de explotacion EternalBlue (SMB MS17-010)
+drop tcp any any -> $HOME_NET 445 (msg:"EXPLOIT-KIT Microsoft Windows SMBv1 EternalBlue Attempt"; flow:to_server,established; content:"|ff|SMB|32|"; offset:4; depth:5; content:"|00 00 00 00|"; distance:29; sid:1000002; rev:3;)
+
+# Regla 3: Deteccion de comando malicioso de inyeccion SQL en peticion HTTP GET
+drop http any any -> $HOME_NET any (msg:"WEB-ATTACKS SQL Injection UNION SELECT"; http_uri; content:"UNION"; nocase; content:"SELECT"; nocase; distance:1; sid:1000003; rev:1;)
 \`\`\`
+
+---
+
+### 3. Técnicas de Evasión de NIDS/NIPS y Contramedidas
+
+1. **Fragmentación IP:** El atacante divide el payload malicioso en microfragmentos IP diminutos. Si el sensor no reensambla los paquetes en memoria exactamente igual que el sistema operativo destino, el ataque pasa desapercibido.
+   - *Contramedida:* Motor de preprocesador de desfragmentación IP con coincidencia de política de SO (**Frag3 en Snort**).
+2. **Evasión de Superposición TCP (TCP Overlapping):** Envío de segmentos TCP con números de secuencia superpuestos y datos contradictorios, aprovechando que Linux y Windows resuelven las colisiones de paquetes de forma distinta.
+   - *Contramedida:* Normalización de flujos TCP mediante el preprocesador **Stream5 / Stream6**.
+3. **Ofuscación de Cadenas URL:** Codificación múltiple en Hexadecimal, Unicode o URL encoding (\`%252e%252e%252f\`).
+   - *Contramedida:* Preprocesador de normalización HTTP (**HttpInspect**).
+
+---
+
+### 4. Implementación y Pruebas con Snort en Linux
+
+\`\`\`bash
+# 1. Validacion de la sintaxis del archivo de configuracion
+snort -c /etc/snort/snort.conf -T
+
+# 2. Ejecucion en modo NIDS en la interfaz eth0 con registro en consola
+snort -A console -q -u snort -g snort -c /etc/snort/snort.conf -i eth0
+\`\`\`
+
+---
+
+### 5. Precauciones y Trampas Operativas
+
+- **Sobrecarga de Falsos Positivos:** Un sensor IPS con firmas mal calibradas puede bloquear tráfico comercial legítimo, causando denegaciones de servicio autoinducidas. Las reglas deben probarse primero en modo alerta (*Alert-Only*) antes de pasar a modo bloqueo (*Drop*).
+- **Agotamiento de Recursos de CPU y Memoria:** Motores de inspección con expresiones regulares (**PCRE**) complejas sin anclas de longitud pueden sufrir ataques de ReDoS (Denegación de Servicio por Expresiones Regulares), congelando el tráfico en el sensor.
 `
       },
       {
         id: "u3-s3",
-        title: "Sesión 3.3: Tecnologías de Decepción y Honeypots",
-        topics: ["Honeypots de Baja vs Alta Interacción", "Honeynets y Honeytokens", "Ciberinteligencia Defensiva"],
+        title: "Sesión 3.3: Redes Privadas Virtuales (VPN) y Protocolo IPSec",
+        topics: [
+          "Arquitectura del Framework IPSec (RFC 4301): Protocolos AH (RFC 4302) y ESP (RFC 4303)",
+          "Modos de Operación IPSec: Modo Transporte vs Modo Túnel",
+          "Intercambio de Claves IKE (Internet Key Exchange): Comparativa IKEv1 vs IKEv2",
+          "Fases de Negociación: Fase 1 (IKE SA / ISAKMP) y Fase 2 (IPSec SA / Quick Mode)",
+          "Configuración Práctica de Túnel IPsec Site-to-Site en Cisco IOS CLI"
+        ],
         content: `
-### 1. Concepto de Honeypot
+### 1. Framework IPSec (RFC 4301) y Protocolos de Seguridad
 
-Un **Honeypot** (tarro de miel) es un recurso informático intencionalmente señuelo desplegado en la red cuyo único valor es ser sondeado, atacado o comprometido. Debido a que un honeypot no tiene propósitos legítimos de producción, **cualquier tráfico dirigido hacia él es considerado sospechoso o malicioso por defecto**.
+**IPSec (Internet Protocol Security)** es un conjunto de estándares de la IETF que opera en la **Capa 3 (Capa de Red)** para proporcionar autenticación, integridad y confidencialidad en comunicaciones a través de redes IP no confiables:
 
-#### Tipos de Honeypots por Nivel de Interacción:
-- **Baja Interacción (Low-Interaction Honeypots):**
-  - Emulan únicamente respuestas de red y banners de servicios comunes (ej. emula un servidor SSH que responde a comandos básicos pero no tiene un SO real detrás).
-  - *Herramientas:* Honeyd, Cowrie (modo básico).
-  - *Ventaja:* Fácil despliegue, consumo mínimo de recursos y riesgo casi nulo de ser usado como plataforma de salto para atacar la red real.
-- **Alta Interacción (High-Interaction Honeypots):**
-  - Despliegan un sistema operativo y aplicaciones completamente reales dentro de un entorno virtual estrictamente aislado y monitoreado.
-  - *Herramientas:* Dionaea, Conpot (SCADA/ICS), T-Pot.
-  - *Ventaja:* Permite capturar exploits Zero-Day completos, observar las tácticas, técnicas y procedimientos (TTPs) del atacante en tiempo real y recolectar muestras de malware.
+\`\`\`mermaid
+flowchart TD
+    subgraph Modos_IPSec
+    direction TB
+    M1[Modo Transporte: Cifra solo el Payload / Cabecera IP original visible]
+    M2[Modo Tunel: Cifra todo el paquete original / Agrega Nueva Cabecera IP externa]
+    end
+
+    subgraph Protocolos_Base
+    P1[AH - Authentication Header: Autenticacion e Integridad / SIN Cifrado]
+    P2[ESP - Encapsulating Security Payload: Autenticacion + Integridad + CIFRADO]
+    end
+\`\`\`
+
+1. **Protocolo AH (Authentication Header - RFC 4302 / IP Protocol 51):**
+   - Garantiza autenticidad e integridad mediante HMAC. **NO PROPORCIONA CONFIDENCIALIDAD (No cifra los datos)**.
+   - *Incompatibilidad:* Rompe las traducciones **NAT (Network Address Translation)** porque incluye la cabecera IP externa en el cálculo del hash.
+2. **Protocolo ESP (Encapsulating Security Payload - RFC 4303 / IP Protocol 50):**
+   - Proporciona **Confidencialidad (Cifrado AES), Autenticidad, Integridad y Protección Anti-Replay**. Es el protocolo estándar en la industria.
 
 ---
 
-### 2. Honeynets y Honeytokens
+### 2. Negociación IKEv1 vs IKEv2 y Fases del Túnel
 
-- **Honeynet:** Una red completa de señuelos interconectados compuesta por múltiples honeypots, servidores simulados, routers ficticios y firewalls para estudiar ataques coordinados a nivel de infraestructura.
-- **Honeytoken / Canary Token:** Dato o credencial señuelo ficticia (ej. un archivo \`passwords.xlsx\` con credenciales falsas o una clave de API falsa) colocada estratégicamente en un repositorio. Si alguien intenta utilizar esa clave o abrir el documento, se dispara una alerta inmediata indicando una brecha de datos interna.
+| Fase de Negociación | IKEv1 (RFC 2409) | IKEv2 (RFC 7296) | Propósito Criptográfico |
+| :--- | :--- | :--- | :--- |
+| **Fase 1 (IKE SA)** | 6 paquetes (Main Mode) o 3 paquetes (Aggressive Mode) | 4 paquetes (IKE_SA_INIT / IKE_AUTH) | Autenticación mutua de los peers y creación de un canal seguro protegido por Diffie-Hellman |
+| **Fase 2 (IPSec SA)** | 3 paquetes (Quick Mode) | 2 paquetes (CREATE_CHILD_SA) | Negociación del Transform-Set (algoritmo de cifrado y hash), lifetimes y selectores de tráfico |
+| **Soporte NAT-T** | Requiere extensión RFC 3947 (UDP 4500) | Integrado de forma nativa en el estándar | Encapsula paquetes ESP en UDP 4500 para atravesar routers NAT |
+| **Movilidad (MOBIKE)** | No soportado | Soportado nativamente | Permite a clientes VPN cambiar de IP (ej. Wi-Fi a 4G) sin renegociar el túnel |
+
+---
+
+### 3. Configuración de Túnel IPsec Site-to-Site en Cisco IOS CLI
+
+\`\`\`cisco
+! =========================================================================
+! PASO 1: Configuracion IKE Fase 1 (ISAKMP Policy)
+! =========================================================================
+crypto isakmp policy 10
+ encr aes 256
+ hash sha256
+ authentication pre-share
+ group 14
+ lifetime 86400
+
+crypto isakmp key Cl@veUltr@Segur@VPN2026! address 200.100.50.2
+
+! =========================================================================
+! PASO 2: Configuracion IKE Fase 2 (Transform-Set)
+! =========================================================================
+crypto ipsec transform-set TSET_AES256_SHA256 esp-aes 256 esp-sha256-hmac
+ mode tunnel
+
+! =========================================================================
+! PASO 3: Definicion de Trafico Interesante (Access-List)
+! =========================================================================
+ip access-list extended ACL_VPN_TRAFFIC
+ permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
+
+! =========================================================================
+! PASO 4: Creacion y Aplicacion del Crypto Map
+! =========================================================================
+crypto map CMAP_SITEDEFAULT 10 ipsec-isakmp
+ set peer 200.100.50.2
+ set transform-set TSET_AES256_SHA256
+ match address ACL_VPN_TRAFFIC
+
+interface GigabitEthernet0/0
+ description WAN_OUTSIDE_INTERFACE
+ crypto map CMAP_SITEDEFAULT
+\`\`\`
+
+---
+
+### 4. Precauciones y Trampas Operativas
+
+- **Diffie-Hellman Groups Débiles:** Grupos DH 1 (768-bit), DH 2 (1024-bit) y DH 5 (1536-bit) son computacionalmente vulnerables y están obsoletos. Se debe configurar como mínimo **DH Group 14 (2048-bit), DH Group 19 (ECDH 256-bit) o DH Group 20 (ECDH 384-bit)**.
+- **Riesgo de MTU / Fragmentación:** El encapsulamiento ESP y las cabeceras IPsec añaden entre 50 y 73 bytes a cada paquete. Si no se ajusta el **TCP MSS Clamping** (\`ip tcp adjust-mss 1360\`), los paquetes de 1500 bytes se fragmentarán, degradando severamente el rendimiento de la VPN.
 `
       }
     ]
@@ -591,197 +873,245 @@ Un **Honeypot** (tarro de miel) es un recurso informático intencionalmente señ
   {
     id: "unit-4",
     unitNumber: 4,
-    title: "Unidad 4: Redes Privadas Virtuales (VPNs) y Criptografía Aplicada",
-    weeks: "Semanas 12 a 16",
-    summary: "Criptografía moderna aplicada a redes, arquitectura IPSec (AH, ESP, Modo Transporte, Modo Túnel), protocolo de intercambio de claves IKEv1 e IKEv2, túneles VPN Sitio a Sitio y Acceso Remoto, y VPNs SSL/TLS.",
+    title: "Unidad 4: Marcos Normativos, Auditoría, Criptoanálisis y Hardening Empresarial",
+    weeks: "Semanas 9 y 10",
+    summary: "Criptoanálisis formal, entropía de claves, gestión de certificados PKI, hardening de infraestructura de red y servidores (CIS Benchmarks), marcos de cumplimiento (ISO 27001, PCI-DSS, NIST CSF), auditoría técnica, respuesta ante incidentes (CSIRT/SOC), y threat hunting con MITRE ATT&CK.",
     sessions: [
       {
         id: "u4-s1",
-        title: "Sesión 4.1: Criptografía Aplicada a Redes y Fundamentos VPN",
-        topics: ["Cifrado Simétrico vs Asimétrico", "Funciones Hash y HMAC", "Infraestructura de Clave Pública (PKI)", "Clasificación de VPNs"],
+        title: "Sesión 4.1: Criptoanálisis, Gestión de Claves y Modelos de Entropía",
+        topics: [
+          "Fundamentos de Criptoanálisis (Ataques de Texto Claro Conocido, Cumpleaños, Canal Lateral)",
+          "Modelos Matemáticos de Entropía de Shannon en Generadores de Números Pseudoaleatorios (CSPRNG)",
+          "Infraestructura de Clave Pública (PKI): Jerarquía de CAs, CRLs, OCSP y OCSP Stapling",
+          "Gestión del Ciclo de Vida de Claves Criptográficas (NIST SP 800-57)",
+          "Criptografía Post-Cuántica (PQC): Algoritmos Estandarizados por el NIST (ML-KEM, ML-DSA)"
+        ],
         content: `
-### 1. Criptografía Moderna en Comunicaciones de Red
+### 1. Modelos de Entropía y Fundamentos de Criptoanálisis
 
-La seguridad en redes se basa en la combinación eficiente de primitivas criptográficas:
+La fortaleza de cualquier algoritmo criptográfico moderno reside en la aleatoriedad y entropía de sus claves.
 
-1. **Cifrado Simétrico (Cifrado de Datos Masivo):**
-   - Utiliza una **única clave secreta compartida** para cifrar y descifrar.
-   - *Algoritmos estándar:* **AES-GCM (Galois/Counter Mode)** de 256 bits (que proporciona cifrado autenticado y confidencialidad en una sola operación) y **ChaCha20-Poly1305**.
-2. **Cifrado Asimétrico / Clave Pública (Intercambio de Claves y Firmas):**
-   - Utiliza un par de claves matemáticamente vinculadas: una **Clave Pública** (distribuible) y una **Clave Privada** (secreta).
-   - *Algoritmos:* **RSA** (mínimo 2048 o 4096 bits) y Criptografía de Curvas Elípticas (**ECC / ECDSA / Ed25519**).
-3. **Funciones Hash y HMAC (Integridad y Autenticación de Mensajes):**
-   - Una función hash produce un resumen de longitud fija unidireccional (ej. **SHA-256**, **SHA-3**).
-   - Un **HMAC (Hash-based Message Authentication Code)** combina el contenido del mensaje con una clave secreta para garantizar que el paquete no ha sido alterado y proviene de un emisor auténtico.
+#### Entropía de la Información (Shannon):
+$$H(X) = -\\sum_{i=1}^{n} P(x_i) \\log_2 P(x_i)$$
+
+- Una fuente criptográficamente segura debe aproximarse a una **entropía de 1 bit por bit**, lo que significa que cada valor tiene una probabilidad uniforme e impredecible.
+- Los sistemas operativos modernos obtienen entropía de fuentes físicas de hardware (interrupciones de disco, fluctuaciones térmicas, temporizadores de CPU) mediante **CSPRNGs** (\`/dev/urandom\`, Windows CNG \`BCryptGenRandom\`).
 
 ---
 
-### 2. Clasificación de Redes Privadas Virtuales (VPN)
+### 2. Tipos Fundamentales de Ataques Criptoanalíticos
+
+1. **Ataque de Texto Cifrado Únicamente (Ciphertext-Only):** El atacante solo tiene acceso a mensajes cifrados e intenta deducir la clave mediante análisis estadístico de frecuencias.
+2. **Ataque de Texto Claro Conocido (Known-Plaintext):** El atacante posee muestras de texto claro y sus correspondientes textos cifrados.
+3. **Ataques de Canal Lateral (Side-Channel Attacks):** Explotación de emanaciones físicas del hardware durante el descifrado: variaciones en el consumo de energía (DPA), radiación electromagnética o tiempos de ejecución de instrucciones (**Timing Attacks**).
+4. **Paradoja del Cumpleaños (Birthday Attack):** Explota la probabilidad de colisión en funciones hash. Para un hash de $n$ bits, se requieren solo $2^{n/2}$ operaciones para encontrar una colisión (ej. MD5 con 128 bits se rompe con $2^{64}$ operaciones).
+
+---
+
+### 3. Infraestructura de Clave Pública (PKI) y Validación de Certificados
 
 \`\`\`mermaid
 flowchart TD
-    VPN[Tipos de Redes Privadas Virtuales]
-    VPN --> S2S[VPN Sitio a Sitio - Site-to-Site<br/>Conecta dos sedes/sucursales a través de gateways IPSec dedicados]
-    VPN --> RA[VPN de Acceso Remoto - Remote Access<br/>Conecta usuarios móviles/teletrabajadores a la red corporativa]
-    
-    S2S --> IPSec_Tunnel[Túnel IPSec Permanente]
-    RA --> ClientBased[VPN Basada en Cliente<br/>IPSec IKEv2 / OpenVPN / WireGuard]
-    RA --> Clientless[VPN Sin Cliente - Web Portal<br/>SSL/TLS Browser-Based]
+    RootCA[Root CA Offline - Certificado Raiz Autofirmado] --> SubCA1[Intermediate CA de Emision]
+    SubCA1 --> EndCert1[Certificado de Servidor Web TLS]
+    SubCA1 --> EndCert2[Certificado VPN IPsec / 802.1X]
+    SubCA1 --> EndCert3[Certificado de Firma de Codigo]
 \`\`\`
+
+- **Validación de Revocación:**
+  - **CRLs (Certificate Revocation Lists):** Listas estáticas firmadas periódicamente por la CA con números de serie revocados. Son lentas y consumen ancho de banda.
+  - **OCSP (Online Certificate Status Protocol - RFC 6960):** Consulta en tiempo real al servidor de la CA sobre el estado de un certificado específico.
+  - **OCSP Stapling (RFC 6066):** El propio servidor web obtiene la respuesta firmada del OCSP periódicamente y la adjunta al handshake TLS, eliminando la latencia y protegiendo la privacidad del cliente.
+
+---
+
+### 4. Criptografía Post-Cuántica (PQC)
+
+Con el advenimiento de las computadoras cuánticas a gran escala, el **Algoritmo de Shor** romperá la criptografía asimétrica actual basada en factorización de enteros y logaritmos discretos (**RSA, ECC, Diffie-Hellman**). El NIST ha estandarizado los algoritmos resistentes a ataques cuánticos:
+
+- **ML-KEM (FIPS 203 / Kyber):** Algoritmo de encapsulamiento de claves basado en retículos (*Module Lattice*).
+- **ML-DSA (FIPS 204 / Dilithium):** Algoritmo de firma digital post-cuántica.
+- **SLH-DSA (FIPS 205 / SPHINCS+):** Firmas basadas en árboles de Merkle sin estructura de retículos.
+
+---
+
+### 5. Precauciones y Trampas Operativas
+
+- **Uso de Generadores de Números Aleatorios no Seguros:** Utilizar funciones estándar como \`Math.random()\` en JavaScript o \`rand()\` en C para generar tokens de sesión, nonces o claves criptográficas permite predecir los valores y comprometer la seguridad. Debe utilizarse siempre \`crypto.getRandomValues()\`.
+- **Ignorar el Anclaje de Certificados Raíz (Root CA):** Mantener la CA Raíz de la empresa conectada a la red en lugar de conservarla **offline** en una bóveda segura expone a toda la organización a que un atacante emita certificados válidos para cualquier dominio.
 `
       },
       {
         id: "u4-s2",
-        title: "Sesión 4.2: Arquitectura y Operaciones de IPSec (RFC 4301)",
-        topics: ["Protocolos AH (51) vs ESP (50)", "Modo Transporte vs Modo Túnel", "Protocolo IKE (IKEv1 vs IKEv2)", "Intercambio Diffie-Hellman"],
+        title: "Sesión 4.2: Hardening Empresarial de Infraestructura de Red y Servidores",
+        topics: [
+          "Metodología de Hardening basada en Guías CIS Benchmarks y DISA STIGs",
+          "Hardening de Plano de Control, Gestión y Datos en Equipos de Red (CoPP, SSHv2, AAA)",
+          "Hardening de Servidores Linux y Windows (Kernel Sysctl, SELinux, Directivas GPO)",
+          "Gestión de Vulnerabilidades y Ciclos de Parcheo Automatizado",
+          "Auditoría Automatizada de Seguridad con Lynis y OpenSCAP"
+        ],
         content: `
-### 1. Arquitectura IPSec: Protocolos de Seguridad
+### 1. Metodología de Hardening de Infraestructura
 
-IPSec opera en la **Capa de Red (Capa 3 del modelo OSI)**, proporcionando protección transparente a todos los protocolos de capas superiores (TCP, UDP, ICMP):
+El **Hardening (Endurecimiento)** es el proceso sistemático de reducción de la superficie de ataque de un dispositivo o sistema operativo, deshabilitando servicios innecesarios, aplicando configuraciones seguras por defecto y restringiendo privilegios según los estándares **CIS Benchmarks** y **DISA STIGs**.
+
+---
+
+### 2. Hardening en Dispositivos de Red: Los Tres Planos
 
 \`\`\`mermaid
-classDiagram
-    class IPSec_Protocols {
-        +AH (Protocolo IP 51)
-        +ESP (Protocolo IP 50)
-    }
-    class AH_Features {
-        +Integridad de Datos
-        +Autenticación de Origen
-        +Protección contra Replay
-        -SIN Confidencialidad (No Cifra)
-        -Incompatible con NAT (Modifica Cabecera IP)
-    }
-    class ESP_Features {
-        +Confidencialidad (Cifrado AES)
-        +Integridad de Datos (HMAC)
-        +Autenticación de Origen
-        +Protección contra Replay
-        +Compatible con NAT-Traversal (UDP 4500)
-    }
-    IPSec_Protocols <|-- AH_Features
-    IPSec_Protocols <|-- ESP_Features
+flowchart TD
+    subgraph Planos_de_Seguridad_Cisco
+    CP[Plano de Control: Protocolos de Enrutamiento BGP/OSPF, ARP, ICMP]
+    MP[Plano de Gestion: SSHv2, SNMPv3, Syslog, HTTPS, TACACS+]
+    DP[Plano de Datos: Conmutacion y Enrutamiento de Paquetes de Usuario]
+    end
+\`\`\`
+
+1. **Plano de Gestión (Management Plane):**
+   - Deshabilitar Telnet y HTTP no seguro; exigir **SSHv2 con cifrado AES-GCM y clave RSA-4096 o Ed25519**.
+   - Restringir el acceso a la interfaz de gestión exclusivamente a subredes autorizadas mediante ACLs.
+   - Configurar timeouts de sesión de consola inactiva (máximo 5 minutos).
+2. **Plano de Control (Control Plane Protection - CoPP):**
+   - Limitar la tasa de paquetes procesados por la CPU del router mediante **CoPP (Control Plane Policing)** para evitar ataques DoS contra OSPF, BGP o ICMP.
+3. **Plano de Datos (Data Plane):**
+   - Habilitar **uRPF (Unicast Reverse Path Forwarding)** para mitigar ataques de suplantación de IP (IP Spoofing).
+   - Bloquear fragmentos IP anómalos y paquetes con opciones IP (*IP Source Routing*).
+
+---
+
+### 3. Hardening Práctico en Servidores Linux (Kernel y Red)
+
+\`\`\`ini
+# Configuraciones de Hardening en /etc/sysctl.d/99-security.conf
+
+# 1. Deshabilitar el reenvio de paquetes si el servidor no es un router
+net.ipv4.ip_forward = 0
+
+# 2. Proteccion contra ataques de suplantacion de IP (uRPF)
+net.ipv4.conf.all.rp_filter = 1
+net.ipv4.conf.default.rp_filter = 1
+
+# 3. Mitigacion de ataques de Denegacion de Servicio TCP SYN Flood
+net.ipv4.tcp_syncookies = 1
+
+# 4. Ignorar paquetes de broadcast ICMP (Mitigacion de ataques Smurf)
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+
+# 5. Deshabilitar aceptacion de paquetes con enrutamiento en origen (Source Routing)
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv6.conf.all.accept_source_route = 0
+
+# 6. Restriccion de acceso a punteros del kernel (KASLR)
+kernel.kptr_restrict = 2
+kernel.dmesg_restrict = 1
 \`\`\`
 
 ---
 
-### 2. Modos de Operación de IPSec
+### 4. Herramientas de Auditoría Automatizada de Hardening
 
+- **Lynis:** Herramienta de auditoría de seguridad para sistemas Linux y Unix.
+\`\`\`bash
+# Ejecucion de auditoria completa del sistema y generacion de indice de hardening
+lynis audit system --quick
 \`\`\`
-===================================================================
-1. MODO TRANSPORTE (Transport Mode - Host a Host):
-   [ Cabecera IP Original ] [ Cabecera ESP ] [ Carga Útil TCP/UDP CIFRADA ] [ ESP Trailer ] [ ESP Auth ]
-   - Solo cifra el Payload; la cabecera IP original queda visible.
-   - Usado principalmente para comunicación directa entre 2 servidores.
 
-2. MODO TÚNEL (Tunnel Mode - Gateway a Gateway / VPN):
-   [ NUEVA Cabecera IP Gateway ] [ Cabecera ESP ] [ Cabecera IP Original CIFRADA ] [ Carga Útil CIFRADA ] [ ESP Trailer ] [ ESP Auth ]
-   - Cifra el PAQUETE IP COMPLETO (cabecera original + datos) y le añade una nueva cabecera IP de enrutamiento público.
-   - Estándar obligatorio para túneles VPN Sitio a Sitio.
-===================================================================
+- **OpenSCAP:** Verificación automatizada de conformidad contra perfiles oficiales de seguridad del NIST y DISA STIGs.
+\`\`\`bash
+# Evaluacion de conformidad del sistema frente al perfil CIS Benchmark
+oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis --report informe_hardening.html /usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml
 \`\`\`
 
 ---
 
-### 3. El Protocolo IKE (Internet Key Exchange)
+### 5. Precauciones y Trampas Operativas
 
-IKE negocia dinámicamente las Asociaciones de Seguridad (**Security Associations - SAs**) y las claves criptográficas:
-
-#### Diferencias entre IKEv1 e IKEv2 (RFC 7296):
-- **IKEv1:** Requiere dos fases separadas. La Fase 1 (establece el túnel de gestión ISAKMP) requiere **6 paquetes en Main Mode** o **3 en Aggressive Mode**. La Fase 2 (Quick Mode) requiere **3 paquetes adicionales**. Total: hasta 9 paquetes.
-- **IKEv2:** Altamente optimizado y seguro. Establece la conexión completa en solo **4 paquetes** en dos intercambios:
-  1. \`IKE_SA_INIT\` (2 paquetes): Negocia algoritmos criptográficos y realiza el intercambio Diffie-Hellman.
-  2. \`IKE_AUTH\` (2 paquetes): Autentica a los pares y crea la primera SA hija de IPSec.
-- **Soporte Nativo de NAT-Traversal (NAT-T):** Si detecta un dispositivo NAT intermedio, encapsula automáticamente los paquetes ESP (IP 50) dentro de datagramas **UDP en el puerto 4500**.
-- **Soporte MOBIKE:** Permite a clientes móviles cambiar de dirección IP (ej. pasar de Wi-Fi a red celular 5G) sin desconectar el túnel VPN.
+- **Falta de Pruebas en Entornos de Staging:** Aplicar directivas de hardening restrictivas (como deshabilitar módulos del kernel o bloquear puertos) directamente en servidores de producción puede provocar la caída inesperada de aplicaciones empresariales.
+- **Ignorar las Cuentas de Servicio en Directivas de Contraseñas:** Imponer políticas de expiración automática de contraseñas a cuentas de servicio de bases de datos sin mecanismos de rotación PAM provocará la detención abrupta de sistemas de producción.
 `
       },
       {
         id: "u4-s3",
-        title: "Sesión 4.3: VPNs SSL/TLS vs IPSec y Configuración Avanzada",
-        topics: ["Arquitectura SSL VPN (Clientless vs Full Tunnel)", "Comparativa IPSec vs SSL/TLS", "Configuración de Túnel IPSec Site-to-Site"],
+        title: "Sesión 4.3: Respuesta ante Incidentes, Análisis Forense y Ciberinteligencia (CTI)",
+        topics: [
+          "Fases del Ciclo de Vida de Respuesta ante Incidentes (NIST SP 800-61 Rev. 2 e ISO/IEC 27035)",
+          "Framework MITRE ATT&CK: Tácticas, Técnicas y Procedimientos (TTPs)",
+          "Ciberinteligencia de Amenazas (CTI) y Modelos de Compartición (STIX/TAXII, MISP)",
+          "Cadena de Custodia y Preservación de Evidencia Digital Forense",
+          "Caso de Estudio: El Ciberataque a SolarWinds Orion (2020) y Respuesta CSIRT"
+        ],
         content: `
-### 1. Arquitectura de VPNs SSL/TLS
+### 1. Ciclo de Vida de Respuesta ante Incidentes (NIST SP 800-61 Rev. 2)
 
-Las VPNs basadas en SSL/TLS operan en las capas superiores (Capa de Transporte y Aplicación):
+El estándar del NIST define un proceso cíclico estructurado para gestionar brechas de seguridad y contener amenazas en redes corporativas:
 
-1. **VPN SSL Sin Cliente (Clientless / Web Portal):**
-   - El usuario solo necesita un navegador web estándar compatible con TLS 1.3.
-   - El gateway VPN actúa como un Proxy Inverso que traduce peticiones HTTPS del navegador hacia servicios internos (HTTP, RDP web, SSH web).
-   - *Ventaja:* No requiere privilegios de administrador ni instalación de software en el equipo cliente.
-   - *Limitación:* Solo soporta aplicaciones web o protocolos traducibles por proxy.
-2. **VPN SSL Basada en Cliente (Client-Based / Full Tunnel):**
-   - Instala un adaptador de red virtual (TAP/TUN) en el sistema operativo cliente (ej. Cisco AnyConnect, OpenVPN, WireGuard).
-   - *Ventaja:* Acceso completo a nivel de Capa 3 para cualquier aplicación y protocolo de red corporativo.
-
----
-
-### 2. Comparativa Integral: IPSec vs SSL/TLS VPNs
-
-| Dimensión | IPSec VPN (Capa 3) | SSL/TLS VPN (Capa 4 / Capa 7) |
-| :--- | :--- | :--- |
-| **Capa del Modelo OSI** | Capa 3 (Red) | Capa 4 a 7 (Transporte / Aplicación) |
-| **Compatibilidad con Firewalls/NAT** | Requiere NAT-Traversal (UDP 4500) o reglas IP 50 | Atraviesa casi cualquier firewall sin configuración (TCP 443 estándar) |
-| **Despliegue en Clientes** | Requiere configuración de cliente IPsec | Sin cliente (navegador) o cliente liviano |
-| **Granularidad de Control de Acceso** | Acceso a nivel de red completa o subred | Permite restringir acceso a aplicaciones web específicas por usuario |
-| **Caso de Uso Óptimo** | Enlaces Site-to-Site entre sucursales y Data Centers | Teletrabajadores, accesos remotos y dispositivos no corporativos (BYOD) |
-
----
-
-### 3. Plantilla de Configuración IPSec Site-to-Site en Cisco IOS (IKEv2)
-
-\`\`\`bash
-! =====================================================
-! PASO 1: Configurar la Propuesta IKEv2 (Fase 1)
-! =====================================================
-Router(config)# crypto ikev2 proposal PROP_IKEV2
-Router(config-ikev2-proposal)# encryption aes-gcm-256
-Router(config-ikev2-proposal)# prf sha384
-Router(config-ikev2-proposal)# group 19 20
-Router(config-ikev2-proposal)# exit
-
-Router(config)# crypto ikev2 policy POL_IKEV2
-Router(config-ikev2-policy)# proposal PROP_IKEV2
-Router(config-ikev2-policy)# exit
-
-! =====================================================
-! PASO 2: Configurar el Keyring y Perfil IKEv2
-! =====================================================
-Router(config)# crypto ikev2 keyring KR_VPN
-Router(config-ikev2-keyring)# peer SUCURSAL_B
-Router(config-ikev2-keyring-peer)# address 200.100.50.2
-Router(config-ikev2-keyring-peer)# pre-shared-key local PresharedKeyIKEv2Secret2026!
-Router(config-ikev2-keyring-peer)# pre-shared-key remote PresharedKeyIKEv2Secret2026!
-Router(config-ikev2-keyring-peer)# exit
-
-Router(config)# crypto ikev2 profile PROF_IKEV2
-Router(config-ikev2-profile)# match identity remote address 200.100.50.2 255.255.255.255
-Router(config-ikev2-profile)# identity local address 190.200.10.1
-Router(config-ikev2-profile)# authentication remote pre-share
-Router(config-ikev2-profile)# authentication local pre-share
-Router(config-ikev2-profile)# keyring local KR_VPN
-Router(config-ikev2-profile)# exit
-
-! =====================================================
-! PASO 3: Configurar el Transform Set y Crypto Map (Fase 2)
-! =====================================================
-Router(config)# crypto ipsec transform-set TS_ESP esp-gcm 256
-Router(config)# ip access-list extended ACL_VPN_INTERESTING_TRAFFIC
-Router(config-ext-nacl)# permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
-Router(config-ext-nacl)# exit
-
-Router(config)# crypto map CMAP_IPSEC 10 ipsec-isakmp
-Router(config-crypto-map)# set peer 200.100.50.2
-Router(config-crypto-map)# set transform-set TS_ESP
-Router(config-crypto-map)# set ikev2-profile PROF_IKEV2
-Router(config-crypto-map)# match address ACL_VPN_INTERESTING_TRAFFIC
-Router(config-crypto-map)# exit
-
-! Aplicar el crypto map en la interfaz externa WAN:
-Router(config)# interface GigabitEthernet0/0
-Router(config-if)# crypto map CMAP_IPSEC
-Router(config-if)# exit
+\`\`\`mermaid
+flowchart LR
+    P[1. Preparación] --> D[2. Detección y Análisis]
+    D --> C[3. Contención, Erradicación y Recuperación]
+    C --> L[4. Actividad Post-Incidente / Lecciones Aprendidas]
+    L --> P
 \`\`\`
+
+1. **Preparación:** Creación de playbooks de respuesta, inventario de activos, políticas de respaldo inmutable y conformación del equipo **CSIRT / SOC**.
+2. **Detección y Análisis:** Correlación de alertas en el SIEM, validación de falsos positivos y determinación del alcance, severidad y vector de entrada del incidente.
+3. **Contención, Erradicación y Recuperación:**
+   - *Contención a Corto Plazo:* Aislamiento de la VLAN infectada o bloqueo de IPs en el firewall perimetral.
+   - *Erradicación:* Eliminación de artefactos de malware, persistencias en el registro y revocación de cuentas comprometidas.
+   - *Recuperación:* Restauración de sistemas desde copias de seguridad verificadas e incremento del monitoreo de red.
+4. **Actividad Post-Incidente (Lecciones Aprendidas):** Documentación formal de la causa raíz (*Root Cause Analysis*), revisión de brechas de control y actualización de políticas defensivas.
+
+---
+
+### 2. Marco MITRE ATT&CK para Ciberinteligencia y Threat Hunting
+
+El marco **MITRE ATT&CK** categoriza el comportamiento de los adversarios en una matriz de **Tácticas** (el objetivo del atacante) y **Técnicas** (cómo lo logra):
+
+| Táctica MITRE ATT&CK | Objetivo del Atacante | Técnicas Comunes en Redes |
+| :--- | :--- | :--- |
+| **Initial Access (Acceso Inicial)** | Obtener un punto de entrada en la red | Phishing (T1566), Explotación de Aplicaciones Expuestas (T1190) |
+| **Execution (Ejecución)** | Ejecutar código malicioso | PowerShell (T1059.001), Windows Command Shell (T1059.003) |
+| **Persistence (Persistencia)** | Mantener el acceso ante reinicios | Tareas Programadas (T1053), Modificación de Registro (T1547) |
+| **Privilege Escalation** | Elevar privilegios a SYSTEM/root | Abuso de Privilegios de Token (T1134), Kerberoasting (T1558) |
+| **Lateral Movement** | Moverse a otros equipos de la red | Protocolo RDP (T1021.001), SMB / PsExec (T1021.002) |
+| **Exfiltration (Exfiltración)** | Extraer datos confidenciales | Exfiltración sobre Protocolo C2 (T1041), Cloud Storage (T1567) |
+
+---
+
+### 3. Caso de Estudio: El Ataque a la Cadena de Suministro de SolarWinds (2020)
+
+- **Vector de Ataque:** Inserción de un backdoor sofisticado (**SUNBURST**) en las actualizaciones de software legítimas de la plataforma de monitoreo SolarWinds Orion.
+- **Evasión Avanzada:** El malware permanecía en reposo durante dos semanas antes de contactar a su C2 mediante dominios que simulaban ser tráfico legítimo de Amazon Web Services.
+- **Impacto:** Compromiso de múltiples agencias gubernamentales de EE.UU., empresas de ciberseguridad y corporaciones multinacionales.
+- **Respuesta de la Industria:** Revisión integral de la seguridad en la cadena de suministro de software (**SBOM - Software Bill of Materials**) y adopción acelerada del modelo Zero Trust.
+
+---
+
+### 4. Preservación de Evidencia Digital Forense y Cadena de Custodia
+
+Para que la evidencia digital sea admisible en procesos judiciales, se debe garantizar el principio de **Orden de Volatilidad (RFC 3227)**:
+
+1. **Registros y Caché de CPU, Registros de Memoria.**
+2. **Memoria Principal (RAM):** Volcado de memoria en vivo con herramientas forenses (**LiME en Linux, WinPmem en Windows**) antes de apagar o reiniciar el host.
+3. **Estado de Conexiones de Red y Procesos en Ejecución.**
+4. **Almacenamiento Secundario (Discos Duros, SSDs):** Creación de una imagen forense bit a bit (*E01 o RAW/DD*) con verificación de hash SHA-256 antes y después de la copia.
+5. **Medios de Respaldo y Registros de Auditoría Remotos (SIEM).**
+
+---
+
+### 5. Herramientas Prácticas de Análisis Forense
+
+- **Volatility 3:** Framework de análisis forense de volcados de memoria RAM.
+\`\`\`bash
+# Extraccion del listado de procesos ocultos en el volcado de memoria
+vol -f memoria_infectada.raw windows.pslist
+vol -f memoria_infectada.raw windows.malfind
+\`\`\`
+
+- **Autopsy / The Sleuth Kit:** Plataforma forense de análisis de imágenes de disco y recuperación de artefactos eliminados.
 `
       }
     ]
