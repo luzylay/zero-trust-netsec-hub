@@ -85,6 +85,6 @@ Para publicar este proyecto en tu GitHub y visualizarlo en vivo en GitHub Pages:
    ```
 3. Sube a tu repositorio remoto:
    ```bash
-   git remote add origin https://github.com/TU_USUARIO/zero-trust-netsec-hub.git
+   git remote add origin https://github.com/luzylay/zero-trust-netsec-hub.git
    git push -u origin main
    ```

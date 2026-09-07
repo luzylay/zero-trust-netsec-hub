@@ -42,11 +42,9 @@ git commit -m "feat: initial commit - NetSec Enterprise Hub with Polyglot Suite 
 
 ## 📤 PASO 3: Vincular y Subir el Código a GitHub
 
-Copia la URL de tu nuevo repositorio (reemplazando `TU_USUARIO` por tu nombre de usuario de GitHub) y ejecuta:
-
 ```bash
 # 1. Vincular el repositorio remoto de GitHub
-git remote add origin https://github.com/TU_USUARIO/network-security.git
+git remote add origin https://github.com/luzylay/zero-trust-netsec-hub.git
 
 # 2. Subir todo el código a la rama main
 git push -u origin main
